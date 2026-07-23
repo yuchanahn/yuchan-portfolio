@@ -187,36 +187,27 @@ input {
 }
 
 .theme-icon {
-  position: relative;
   display: block;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
+  background: currentColor;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
 }
 
 .sun-icon {
   display: none;
-  border: 2px solid currentColor;
-  border-radius: 50%;
-  box-shadow:
-    0 -7px 0 -6px currentColor,
-    0 7px 0 -6px currentColor,
-    7px 0 0 -6px currentColor,
-    -7px 0 0 -6px currentColor,
-    5px 5px 0 -6px currentColor,
-    -5px -5px 0 -6px currentColor,
-    5px -5px 0 -6px currentColor,
-    -5px 5px 0 -6px currentColor;
+  -webkit-mask-image: url("./icons/lucide/sun.svg");
+  mask-image: url("./icons/lucide/sun.svg");
 }
 
-.moon-icon::before {
-  position: absolute;
-  inset: 1px;
-  border: 2px solid currentColor;
-  border-top-color: transparent;
-  border-right-color: transparent;
-  border-radius: 50%;
-  content: "";
-  transform: rotate(18deg);
+.moon-icon {
+  -webkit-mask-image: url("./icons/lucide/moon.svg");
+  mask-image: url("./icons/lucide/moon.svg");
 }
 
 :root[data-theme="dark"] .sun-icon {
