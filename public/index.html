@@ -5,23 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="기획부터 개발, 배포와 운영까지 진행한 풀스택 개발 포트폴리오입니다."
+      content="Full-stack development portfolio PDF."
     />
-    <meta name="theme-color" content="#f4f6f6" />
-    <title>Full-Stack Developer Portfolio</title>
+    <meta name="theme-color" content="#f4f5f5" />
+    <title>Full-Stack Portfolio</title>
     <script>
       (() => {
+        let savedTheme = null;
         try {
-          const saved = localStorage.getItem("portfolio-theme");
-          const theme =
-            saved ||
-            (matchMedia("(prefers-color-scheme: dark)").matches
-              ? "dark"
-              : "light");
-          document.documentElement.dataset.theme = theme;
-        } catch {
-          document.documentElement.dataset.theme = "light";
-        }
+          savedTheme = localStorage.getItem("portfolio-theme");
+        } catch {}
+
+        const systemTheme = window.matchMedia?.(
+          "(prefers-color-scheme: dark)",
+        ).matches
+          ? "dark"
+          : "light";
+
+        document.documentElement.dataset.theme = savedTheme || systemTheme;
       })();
     </script>
     <link rel="stylesheet" href="./styles.css" />
@@ -29,11 +30,15 @@
   </head>
   <body>
     <main class="page">
-      <header class="topbar">
-        <a class="brand" href="./" aria-label="Portfolio home">
-          <span class="brand-mark" aria-hidden="true"></span>
-          <span>FULL-STACK PORTFOLIO</span>
-        </a>
+      <header class="toolbar">
+        <nav class="external-links" aria-label="External links">
+          <a href="https://github.com/yuchanahn" target="_blank" rel="noreferrer">
+            GitHub
+          </a>
+          <a href="https://personaxi.com" target="_blank" rel="noreferrer">
+            PeroChat
+          </a>
+        </nav>
 
         <div class="preferences">
           <div class="segmented" role="group" aria-label="Language">
@@ -47,16 +52,8 @@
         </div>
       </header>
 
-      <section class="hero">
-        <p class="eyebrow" data-i18n="heroEyebrow">FULL-STACK · AI SERVICE</p>
-        <h1 data-i18n="heroTitle">아이디어를 실제 서비스로 만든 과정</h1>
-        <p class="summary" data-i18n="heroSummary">
-          웹 기반 AI 캐릭터 채팅 서비스 PeroChat을 기획부터 개발, 배포와
-          운영까지 진행했습니다. 포트폴리오에서 기술 선택과 문제 해결 과정을
-          확인할 수 있습니다.
-        </p>
-
-        <div class="primary-actions">
+      <section class="center" aria-label="Portfolio actions">
+        <div class="document-actions">
           <a
             class="button button-primary"
             href="./assets/portfolio.pdf"
@@ -64,7 +61,7 @@
             rel="noreferrer"
             data-i18n="openPdf"
           >
-            PDF 전체 보기
+            PDF 보기
           </a>
           <a
             class="button"
@@ -72,83 +69,68 @@
             download="full-stack-portfolio.pdf"
             data-i18n="downloadPdf"
           >
-            PDF 다운로드
+            다운로드
           </a>
+          <button
+            id="search-toggle"
+            class="search-trigger"
+            type="button"
+            aria-controls="search-panel"
+            aria-expanded="false"
+            aria-label="포트폴리오 검색"
+            title="포트폴리오 검색"
+          >
+            <span class="magnifier" aria-hidden="true"></span>
+          </button>
         </div>
-      </section>
 
-      <nav class="external-links" aria-label="External links">
-        <a href="https://github.com/yuchanahn" target="_blank" rel="noreferrer">
-          GitHub <span aria-hidden="true">↗</span>
-        </a>
-        <a href="https://personaxi.com" target="_blank" rel="noreferrer">
-          PeroChat <span aria-hidden="true">↗</span>
-        </a>
-      </nav>
-
-      <section class="search-section" aria-labelledby="search-title">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow" data-i18n="searchEyebrow">DOCUMENT INDEX</p>
-            <h2 id="search-title" data-i18n="searchTitle">
-              포트폴리오에서 찾기
-            </h2>
+        <div id="search-panel" class="search-panel" hidden>
+          <div class="search-bar">
+            <span class="magnifier magnifier-small" aria-hidden="true"></span>
+            <label class="sr-only" for="search-input" data-i18n="searchLabel">
+              포트폴리오 검색
+            </label>
+            <input
+              id="search-input"
+              type="search"
+              autocomplete="off"
+              spellcheck="false"
+              data-i18n-placeholder="searchPlaceholder"
+              placeholder="기술 또는 문제 검색"
+            />
+            <button
+              id="search-close"
+              class="close-button"
+              type="button"
+              aria-label="검색 닫기"
+              title="검색 닫기"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
           </div>
-          <p class="result-count" id="result-count" aria-live="polite"></p>
+
+          <div id="search-results" class="results" aria-live="polite"></div>
+
+          <p id="empty-state" class="empty-state" hidden data-i18n="empty">
+            검색 결과가 없습니다.
+          </p>
         </div>
-
-        <label class="search-box">
-          <span class="sr-only" data-i18n="searchLabel">
-            포트폴리오 검색
-          </span>
-          <span class="search-icon" aria-hidden="true"></span>
-          <input
-            id="search-input"
-            type="search"
-            autocomplete="off"
-            spellcheck="false"
-            data-i18n-placeholder="searchPlaceholder"
-            placeholder="Redis, Svelte, Live2D, 결제..."
-          />
-          <kbd>⌘ K</kbd>
-        </label>
-
-        <p class="search-help" data-i18n="searchHelp">
-          기술명이나 문제를 검색하면 관련 페이지를 바로 열 수 있습니다.
-        </p>
-
-        <div id="search-results" class="results" aria-live="polite"></div>
 
         <template id="result-template">
-          <article class="result-card">
-            <div class="result-page"></div>
-            <div class="result-content">
-              <h3></h3>
-              <p></p>
-              <div class="tags"></div>
-            </div>
-            <a
-              class="result-link"
-              href="./assets/portfolio.pdf"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <span data-result-link-text></span>
-              <span aria-hidden="true">↗</span>
-            </a>
-          </article>
+          <a
+            class="result"
+            href="./assets/portfolio.pdf"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span class="result-text">
+              <strong></strong>
+              <span></span>
+            </span>
+            <span class="result-arrow" aria-hidden="true">↗</span>
+          </a>
         </template>
-
-        <div id="empty-state" class="empty-state" hidden>
-          <p data-i18n="emptyTitle">검색 결과가 없습니다.</p>
-          <span data-i18n="emptyHelp">다른 기술명이나 키워드로 검색해보세요.</span>
-        </div>
       </section>
-
-      <footer>
-        <span>FULL-STACK PORTFOLIO</span>
-        <span data-i18n="updated">Updated 2026.07</span>
-      </footer>
     </main>
   </body>
 </html>

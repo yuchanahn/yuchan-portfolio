@@ -1,222 +1,226 @@
 const translations = {
   ko: {
-    heroEyebrow: "FULL-STACK · AI SERVICE",
-    heroTitle: "아이디어를 실제 서비스로 만든 과정",
-    heroSummary:
-      "웹 기반 AI 캐릭터 채팅 서비스 PeroChat을 기획부터 개발, 배포와 운영까지 진행했습니다. 포트폴리오에서 기술 선택과 문제 해결 과정을 확인할 수 있습니다.",
-    openPdf: "PDF 전체 보기",
-    downloadPdf: "PDF 다운로드",
-    searchEyebrow: "DOCUMENT INDEX",
-    searchTitle: "포트폴리오에서 찾기",
+    openPdf: "PDF 보기",
+    downloadPdf: "다운로드",
     searchLabel: "포트폴리오 검색",
-    searchPlaceholder: "Redis, Svelte, Live2D, 결제...",
-    searchHelp:
-      "기술명이나 문제를 검색하면 관련 페이지를 바로 열 수 있습니다.",
-    emptyTitle: "검색 결과가 없습니다.",
-    emptyHelp: "다른 기술명이나 키워드로 검색해보세요.",
-    resultLink: "페이지 열기",
-    page: "페이지",
-    resultCount: (count) => `${count}개 페이지`,
-    updated: "최종 업데이트 2026.07",
+    searchPlaceholder: "기술 또는 문제 검색",
+    searchOpen: "포트폴리오 검색",
+    searchClose: "검색 닫기",
+    empty: "검색 결과가 없습니다.",
   },
   en: {
-    heroEyebrow: "FULL-STACK · AI SERVICE",
-    heroTitle: "From an idea to a running service",
-    heroSummary:
-      "PeroChat is a web-based AI character chat service built from planning through development, deployment, and operation. Explore the portfolio to see the decisions and problems behind it.",
-    openPdf: "View full PDF",
-    downloadPdf: "Download PDF",
-    searchEyebrow: "DOCUMENT INDEX",
-    searchTitle: "Search the portfolio",
+    openPdf: "View PDF",
+    downloadPdf: "Download",
     searchLabel: "Search portfolio",
-    searchPlaceholder: "Redis, Svelte, Live2D, payments...",
-    searchHelp:
-      "Search a technology or problem and open the relevant PDF page directly.",
-    emptyTitle: "No results found.",
-    emptyHelp: "Try another technology or keyword.",
-    resultLink: "Open page",
-    page: "Page",
-    resultCount: (count) => `${count} ${count === 1 ? "page" : "pages"}`,
-    updated: "Updated 2026.07",
+    searchPlaceholder: "Search a technology or problem",
+    searchOpen: "Search portfolio",
+    searchClose: "Close search",
+    empty: "No results found.",
   },
 };
 
 const pages = [
   {
     page: 1,
-    ko: {
-      title: "표지 · 프로젝트 요약",
-      summary:
-        "PeroChat의 현재 상태, 개인 프로젝트 범위, 담당 직무와 핵심 소개.",
-      tags: ["PeroChat", "Full-Stack", "서비스 운영"],
-    },
-    en: {
-      title: "Cover · Project overview",
-      summary:
-        "Current status, personal ownership, target role, and a concise overview of PeroChat.",
-      tags: ["PeroChat", "Full-Stack", "Operation"],
-    },
+    ko: ["프로젝트 요약", "PeroChat의 현재 상태와 풀스택 개발 범위."],
+    en: ["Project overview", "Current status and full-stack scope of PeroChat."],
+    keywords: ["perochat", "full-stack", "풀스택", "서비스", "operation"],
   },
   {
     page: 2,
-    ko: {
-      title: "프로필과 프로젝트의 시작",
-      summary:
-        "VRM과 LLM 연구과제에서 실제 서비스로 확장한 과정과 담당 범위.",
-      tags: ["VRM", "LLM", "PersonaXi", "PXI"],
-    },
-    en: {
-      title: "Profile and project origin",
-      summary:
-        "How a VRM and LLM research project grew into a running service and the scope of ownership.",
-      tags: ["VRM", "LLM", "PersonaXi", "PXI"],
-    },
+    ko: [
+      "프로젝트의 시작",
+      "VRM과 LLM 연구과제에서 실제 서비스로 확장한 과정.",
+    ],
+    en: [
+      "Project origin",
+      "How a VRM and LLM research project grew into a running service.",
+    ],
+    keywords: ["vrm", "llm", "personaxi", "pxi", "연구과제"],
   },
   {
     page: 3,
-    ko: {
-      title: "제품과 현재 구현 범위",
-      summary:
-        "캐릭터 제작, 2D·Live2D·VRM 채팅, 결제, 앱 테스트와 실제 사용자 현황.",
-      tags: ["Live2D", "VRM", "결제", "사용자"],
-    },
-    en: {
-      title: "Product and current scope",
-      summary:
-        "Character creation, 2D, Live2D and VRM chat, payments, app testing, and real users.",
-      tags: ["Live2D", "VRM", "Payments", "Users"],
-    },
+    ko: [
+      "제품과 구현 범위",
+      "캐릭터 제작, Live2D·VRM 채팅, 결제와 앱 테스트.",
+    ],
+    en: [
+      "Product scope",
+      "Character creation, Live2D and VRM chat, payments, and app testing.",
+    ],
+    keywords: ["live2d", "vrm", "결제", "payments", "사용자", "users"],
   },
   {
     page: 4,
-    ko: {
-      title: "전체 아키텍처",
-      summary:
-        "정적 프론트엔드, Go API, LLM Gateway, 데이터 계층과 인프라의 경계.",
-      tags: ["Architecture", "Go", "PostgreSQL", "Redis"],
-    },
-    en: {
-      title: "System architecture",
-      summary:
-        "Boundaries between the static frontend, Go API, LLM Gateway, data layer, and infrastructure.",
-      tags: ["Architecture", "Go", "PostgreSQL", "Redis"],
-    },
+    ko: [
+      "전체 아키텍처",
+      "정적 프론트엔드, Go API, LLM Gateway와 데이터 계층.",
+    ],
+    en: [
+      "System architecture",
+      "Static frontend, Go API, LLM Gateway, and data layer.",
+    ],
+    keywords: [
+      "architecture",
+      "아키텍처",
+      "go",
+      "postgresql",
+      "redis",
+      "gateway",
+    ],
   },
   {
     page: 5,
-    ko: {
-      title: "Svelte 프론트엔드",
-      summary:
-        "Svelte와 CSR을 선택한 이유, GitHub Pages 배포, iPhone 키보드와 뷰포트 문제.",
-      tags: ["SvelteKit", "CSR", "PWA", "iPhone"],
-    },
-    en: {
-      title: "Svelte frontend",
-      summary:
-        "Why Svelte and CSR were chosen, GitHub Pages deployment, and the iPhone keyboard viewport issue.",
-      tags: ["SvelteKit", "CSR", "PWA", "iPhone"],
-    },
+    ko: [
+      "Svelte 프론트엔드",
+      "CSR, GitHub Pages, PWA와 iPhone 키보드 문제 해결.",
+    ],
+    en: [
+      "Svelte frontend",
+      "CSR, GitHub Pages, PWA, and the iPhone keyboard issue.",
+    ],
+    keywords: ["svelte", "sveltekit", "csr", "pwa", "iphone", "frontend"],
   },
   {
     page: 6,
-    ko: {
-      title: "캐릭터 런타임",
-      summary:
-        "감정 분석, VRM 표정 파라미터 튜닝, Live2D 라이선스 확인과 파일 보호.",
-      tags: ["GoEmotions", "Live2D", "VRM", "라이선스"],
-    },
-    en: {
-      title: "Character runtime",
-      summary:
-        "Emotion analysis, VRM expression tuning, Live2D licensing, and model file protection.",
-      tags: ["GoEmotions", "Live2D", "VRM", "Licensing"],
-    },
+    ko: [
+      "캐릭터 런타임",
+      "감정 분석, VRM 표정 튜닝과 Live2D 라이선스.",
+    ],
+    en: [
+      "Character runtime",
+      "Emotion analysis, VRM expression tuning, and Live2D licensing.",
+    ],
+    keywords: [
+      "goemotions",
+      "emotion",
+      "감정",
+      "live2d",
+      "vrm",
+      "라이선스",
+      "license",
+    ],
   },
   {
     page: 7,
-    ko: {
-      title: "Go 백엔드와 Redis",
-      summary:
-        "Go를 선택한 이유, 2,000명 동시 시나리오에서 확인한 DB 병목과 Redis 캐시.",
-      tags: ["Go", "Redis", "부하 테스트", "PostgreSQL"],
-    },
-    en: {
-      title: "Go backend and Redis",
-      summary:
-        "Why Go was chosen and how Redis caching addressed a database bottleneck found under concurrent load.",
-      tags: ["Go", "Redis", "Load test", "PostgreSQL"],
-    },
+    ko: [
+      "Go 백엔드와 Redis",
+      "동시 요청에서 확인한 DB 병목과 Redis 캐시 적용.",
+    ],
+    en: [
+      "Go backend and Redis",
+      "Database bottlenecks under concurrent load and Redis caching.",
+    ],
+    keywords: [
+      "go",
+      "backend",
+      "백엔드",
+      "redis",
+      "postgresql",
+      "부하 테스트",
+      "load test",
+      "cache",
+    ],
   },
   {
     page: 8,
-    ko: {
-      title: "LLM Gateway와 실시간 통신",
-      summary:
-        "여러 LLM 공급자 라우팅과 fallback, SSE·WebSocket 분리, 감정 모델 배포.",
-      tags: ["LLM Gateway", "Fallback", "SSE", "WebSocket"],
-    },
-    en: {
-      title: "LLM Gateway and real-time communication",
-      summary:
-        "Multi-provider routing and fallback, SSE and WebSocket boundaries, and emotion model deployment.",
-      tags: ["LLM Gateway", "Fallback", "SSE", "WebSocket"],
-    },
+    ko: [
+      "LLM Gateway와 실시간 통신",
+      "공급자 fallback, SSE·WebSocket과 감정 모델 배포.",
+    ],
+    en: [
+      "LLM Gateway and real-time communication",
+      "Provider fallback, SSE, WebSocket, and emotion model deployment.",
+    ],
+    keywords: [
+      "llm",
+      "gateway",
+      "fallback",
+      "sse",
+      "websocket",
+      "hugging face",
+    ],
   },
   {
     page: 9,
-    ko: {
-      title: "배포와 운영",
-      summary:
-        "Oracle Cloud, Coolify, Supabase CDN, 실제 결제 검증과 출시 이후 운영 경험.",
-      tags: ["Oracle Cloud", "Coolify", "Supabase", "PayPal"],
-    },
-    en: {
-      title: "Deployment and operation",
-      summary:
-        "Oracle Cloud, Coolify, Supabase CDN, real payment validation, and post-launch operation.",
-      tags: ["Oracle Cloud", "Coolify", "Supabase", "PayPal"],
-    },
+    ko: [
+      "배포와 운영",
+      "Oracle Cloud, Coolify, Supabase와 실제 결제 검증.",
+    ],
+    en: [
+      "Deployment and operation",
+      "Oracle Cloud, Coolify, Supabase, and real payment validation.",
+    ],
+    keywords: [
+      "oracle cloud",
+      "coolify",
+      "supabase",
+      "paypal",
+      "portone",
+      "배포",
+      "deployment",
+      "결제",
+    ],
   },
   {
     page: 10,
-    ko: {
-      title: "게임 개발 기반과 개발 방식",
-      summary:
-        "Unreal·Unity·네트워크 개발 경험, AI 도구 활용 원칙과 다음 개선 계획.",
-      tags: ["Unreal", "Unity", "Networking", "AI Agent"],
-    },
-    en: {
-      title: "Engineering foundation",
-      summary:
-        "Unreal, Unity, and networking experience, principles for AI-assisted development, and next steps.",
-      tags: ["Unreal", "Unity", "Networking", "AI Agent"],
-    },
+    ko: [
+      "개발 기반과 방식",
+      "Unreal·Unity·네트워크 경험과 AI 도구 활용 원칙.",
+    ],
+    en: [
+      "Engineering foundation",
+      "Unreal, Unity, networking experience, and AI-assisted development.",
+    ],
+    keywords: [
+      "unreal",
+      "unity",
+      "networking",
+      "게임",
+      "game",
+      "ai agent",
+    ],
   },
 ];
 
+const storage = {
+  get(key) {
+    try {
+      return localStorage.getItem(key);
+    } catch {
+      return null;
+    }
+  },
+  set(key, value) {
+    try {
+      localStorage.setItem(key, value);
+    } catch {}
+  },
+};
+
 const root = document.documentElement;
-const searchInput = document.querySelector("#search-input");
-const results = document.querySelector("#search-results");
-const resultCount = document.querySelector("#result-count");
-const emptyState = document.querySelector("#empty-state");
-const template = document.querySelector("#result-template");
+const themeColor = document.querySelector('meta[name="theme-color"]');
 const languageButtons = document.querySelectorAll("[data-language]");
 const themeButtons = document.querySelectorAll("[data-theme-choice]");
-const systemTheme = matchMedia("(prefers-color-scheme: dark)");
+const searchToggle = document.querySelector("#search-toggle");
+const searchPanel = document.querySelector("#search-panel");
+const searchInput = document.querySelector("#search-input");
+const searchClose = document.querySelector("#search-close");
+const searchResults = document.querySelector("#search-results");
+const emptyState = document.querySelector("#empty-state");
+const resultTemplate = document.querySelector("#result-template");
+const systemTheme = window.matchMedia?.("(prefers-color-scheme: dark)");
 
-let language = (() => {
-  const saved = localStorage.getItem("portfolio-language");
-  if (saved === "ko" || saved === "en") return saved;
-  return navigator.language.toLowerCase().startsWith("ko") ? "ko" : "en";
-})();
+let language =
+  storage.get("portfolio-language") ||
+  (navigator.language.toLowerCase().startsWith("ko") ? "ko" : "en");
+let themeOverride = storage.get("portfolio-theme");
 
-let themeOverride = localStorage.getItem("portfolio-theme");
+if (language !== "ko" && language !== "en") language = "ko";
 
 function applyTheme(theme, persist = true) {
   root.dataset.theme = theme;
-  document
-    .querySelector('meta[name="theme-color"]')
-    .setAttribute("content", theme === "dark" ? "#10191c" : "#f4f6f6");
+  themeColor.content = theme === "dark" ? "#101719" : "#f4f5f5";
 
   themeButtons.forEach((button) => {
     button.setAttribute(
@@ -227,18 +231,17 @@ function applyTheme(theme, persist = true) {
 
   if (persist) {
     themeOverride = theme;
-    localStorage.setItem("portfolio-theme", theme);
+    storage.set("portfolio-theme", theme);
   }
 }
 
 function applyLanguage(nextLanguage) {
   language = nextLanguage;
   root.lang = language;
-  localStorage.setItem("portfolio-language", language);
+  storage.set("portfolio-language", language);
 
   document.querySelectorAll("[data-i18n]").forEach((element) => {
-    const value = translations[language][element.dataset.i18n];
-    if (typeof value === "string") element.textContent = value;
+    element.textContent = translations[language][element.dataset.i18n];
   });
 
   document.querySelectorAll("[data-i18n-placeholder]").forEach((element) => {
@@ -253,59 +256,71 @@ function applyLanguage(nextLanguage) {
     );
   });
 
+  searchToggle.setAttribute("aria-label", translations[language].searchOpen);
+  searchToggle.title = translations[language].searchOpen;
+  searchClose.setAttribute("aria-label", translations[language].searchClose);
+  searchClose.title = translations[language].searchClose;
+
   renderResults(searchInput.value);
 }
 
-function searchableText(page) {
-  const content = page[language];
-  const alternate = page[language === "ko" ? "en" : "ko"];
+function searchableText(item) {
   return [
-    content.title,
-    content.summary,
-    ...content.tags,
-    alternate.title,
-    alternate.summary,
-    ...alternate.tags,
+    ...item.ko,
+    ...item.en,
+    ...item.keywords,
   ]
     .join(" ")
     .toLowerCase();
 }
 
-function renderResults(query = "") {
-  const normalized = query.trim().toLowerCase();
-  const filtered = pages.filter((page) =>
-    normalized ? searchableText(page).includes(normalized) : true,
-  );
+function renderResults(query) {
+  const terms = query
+    .trim()
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(Boolean);
 
-  results.replaceChildren();
-  emptyState.hidden = filtered.length !== 0;
-  resultCount.textContent = translations[language].resultCount(filtered.length);
+  searchResults.replaceChildren();
 
-  filtered.forEach((page) => {
-    const content = page[language];
-    const fragment = template.content.cloneNode(true);
-    const card = fragment.querySelector(".result-card");
+  if (terms.length === 0) {
+    searchResults.hidden = true;
+    emptyState.hidden = true;
+    return;
+  }
 
-    card.querySelector(".result-page").textContent =
-      `${translations[language].page} ${page.page}`;
-    card.querySelector("h3").textContent = content.title;
-    card.querySelector(".result-content p").textContent = content.summary;
-
-    const tags = card.querySelector(".tags");
-    content.tags.forEach((tagText) => {
-      const tag = document.createElement("span");
-      tag.className = "tag";
-      tag.textContent = tagText;
-      tags.append(tag);
-    });
-
-    const link = card.querySelector(".result-link");
-    link.href = `./assets/portfolio.pdf#page=${page.page}`;
-    link.querySelector("[data-result-link-text]").textContent =
-      translations[language].resultLink;
-
-    results.append(fragment);
+  const matches = pages.filter((item) => {
+    const haystack = searchableText(item);
+    return terms.every((term) => haystack.includes(term));
   });
+
+  searchResults.hidden = matches.length === 0;
+  emptyState.hidden = matches.length !== 0;
+
+  matches.forEach((item) => {
+    const [title, summary] = item[language];
+    const fragment = resultTemplate.content.cloneNode(true);
+    const link = fragment.querySelector(".result");
+
+    link.href = `./assets/portfolio.pdf#page=${item.page}`;
+    link.querySelector("strong").textContent = title;
+    link.querySelector(".result-text > span").textContent = summary;
+    searchResults.append(fragment);
+  });
+}
+
+function openSearch() {
+  searchPanel.hidden = false;
+  searchToggle.setAttribute("aria-expanded", "true");
+  requestAnimationFrame(() => searchInput.focus());
+}
+
+function closeSearch() {
+  searchPanel.hidden = true;
+  searchToggle.setAttribute("aria-expanded", "false");
+  searchInput.value = "";
+  renderResults("");
+  searchToggle.focus();
 }
 
 languageButtons.forEach((button) => {
@@ -318,21 +333,31 @@ themeButtons.forEach((button) => {
   );
 });
 
-systemTheme.addEventListener("change", (event) => {
-  if (!themeOverride) applyTheme(event.matches ? "dark" : "light", false);
-});
-
+searchToggle.addEventListener("click", openSearch);
+searchClose.addEventListener("click", closeSearch);
 searchInput.addEventListener("input", () => renderResults(searchInput.value));
 
 document.addEventListener("keydown", (event) => {
   if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
     event.preventDefault();
-    searchInput.focus();
+    openSearch();
+  }
+
+  if (event.key === "Escape" && !searchPanel.hidden) {
+    closeSearch();
   }
 });
 
+if (systemTheme?.addEventListener) {
+  systemTheme.addEventListener("change", (event) => {
+    if (!themeOverride) {
+      applyTheme(event.matches ? "dark" : "light", false);
+    }
+  });
+}
+
 applyTheme(
-  themeOverride || (systemTheme.matches ? "dark" : "light"),
+  themeOverride || (systemTheme?.matches ? "dark" : "light"),
   Boolean(themeOverride),
 );
 applyLanguage(language);
