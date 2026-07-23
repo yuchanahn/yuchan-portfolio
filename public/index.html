@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="풀스택 개발자 안유찬의 포트폴리오 PDF를 확인하고 다운로드할 수 있습니다."
+    />
+    <meta name="theme-color" content="#f5f7f7" />
+    <title>안유찬 · Full-Stack Developer</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="intro">
+        <div>
+          <p class="eyebrow">FULL-STACK DEVELOPER</p>
+          <h1>안유찬</h1>
+          <p class="summary">
+            웹 기반 AI 캐릭터 채팅 서비스 PeroChat을 기획부터 개발,
+            배포와 운영까지 진행했습니다.
+          </p>
+        </div>
+
+        <nav class="links" aria-label="외부 링크">
+          <a href="https://github.com/yuchanahn" target="_blank" rel="noreferrer">
+            GitHub
+          </a>
+          <!-- 공개할 주소를 받으면 아래 형식으로 추가합니다.
+          <a href="https://example.com" target="_blank" rel="noreferrer">PeroChat</a>
+          <a href="mailto:name@example.com">Email</a>
+          -->
+        </nav>
+      </header>
+
+      <section class="portfolio" aria-labelledby="portfolio-title">
+        <div class="portfolio-heading">
+          <div>
+            <p class="eyebrow">PORTFOLIO · 2026.07</p>
+            <h2 id="portfolio-title">풀스택 개발 포트폴리오</h2>
+          </div>
+
+          <div class="actions">
+            <a
+              class="button button-primary"
+              href="./assets/portfolio.pdf"
+              target="_blank"
+              rel="noreferrer"
+            >
+              새 탭에서 보기
+            </a>
+            <a
+              class="button"
+              href="./assets/portfolio.pdf"
+              download="안유찬_풀스택_개발_포트폴리오.pdf"
+            >
+              PDF 다운로드
+            </a>
+          </div>
+        </div>
+
+        <div class="viewer">
+          <object
+            data="./assets/portfolio.pdf#view=FitH"
+            type="application/pdf"
+            aria-label="안유찬 풀스택 개발 포트폴리오 PDF"
+          >
+            <div class="viewer-fallback">
+              <p>이 브라우저에서는 PDF 미리보기를 표시할 수 없습니다.</p>
+              <a href="./assets/portfolio.pdf" target="_blank" rel="noreferrer">
+                PDF 열기
+              </a>
+            </div>
+          </object>
+        </div>
+      </section>
+
+      <footer>
+        <span>안유찬 · Full-Stack Developer</span>
+        <span>최종 업데이트 2026.07</span>
+      </footer>
+    </main>
+  </body>
+</html>

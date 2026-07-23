@@ -1,0 +1,256 @@
+:root {
+  color-scheme: light;
+  font-family:
+    Pretendard, "Noto Sans KR", "Malgun Gothic", system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #18313a;
+  background: #f5f7f7;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+a {
+  color: inherit;
+}
+
+.page {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 64px 0 32px;
+}
+
+.intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 0 4px 40px;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: #1f6575;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 14px;
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  line-height: 0.95;
+  letter-spacing: -0.055em;
+}
+
+.summary {
+  max-width: 650px;
+  margin-bottom: 0;
+  color: #586f77;
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  line-height: 1.75;
+  text-wrap: balance;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  padding-bottom: 4px;
+}
+
+.links a {
+  color: #1f6575;
+  font-size: 0.92rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.links a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.portfolio {
+  overflow: hidden;
+  border: 1px solid #c8d8dc;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 22px 70px rgb(25 50 60 / 7%);
+}
+
+.portfolio-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 24px 28px;
+  border-bottom: 1px solid #d8e3e6;
+}
+
+.portfolio-heading .eyebrow {
+  margin-bottom: 7px;
+}
+
+h2 {
+  margin-bottom: 0;
+  font-size: clamp(1.25rem, 3vw, 1.65rem);
+  letter-spacing: -0.025em;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.button {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  border: 1px solid #b9ccd1;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #25444e;
+  font-size: 0.88rem;
+  font-weight: 750;
+  text-decoration: none;
+  transition:
+    transform 140ms ease,
+    border-color 140ms ease,
+    background-color 140ms ease;
+}
+
+.button:hover {
+  border-color: #1f6575;
+  background: #f3f8f9;
+  transform: translateY(-1px);
+}
+
+.button:focus-visible,
+.links a:focus-visible {
+  outline: 3px solid rgb(31 101 117 / 24%);
+  outline-offset: 3px;
+}
+
+.button-primary {
+  border-color: #1f6575;
+  background: #1f6575;
+  color: #ffffff;
+}
+
+.button-primary:hover {
+  background: #174f5c;
+  color: #ffffff;
+}
+
+.viewer {
+  height: min(76vh, 900px);
+  min-height: 580px;
+  background: #e9edef;
+}
+
+.viewer object {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.viewer-fallback {
+  display: grid;
+  height: 100%;
+  place-content: center;
+  gap: 12px;
+  padding: 28px;
+  text-align: center;
+}
+
+.viewer-fallback p {
+  margin-bottom: 0;
+  color: #586f77;
+}
+
+.viewer-fallback a {
+  color: #1f6575;
+  font-weight: 750;
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px 4px 0;
+  color: #71848a;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 760px) {
+  .page {
+    width: min(100% - 24px, 1180px);
+    padding-top: 36px;
+  }
+
+  .intro,
+  .portfolio-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .intro {
+    gap: 24px;
+    padding-bottom: 28px;
+  }
+
+  .portfolio-heading {
+    gap: 20px;
+    padding: 22px 20px;
+  }
+
+  .actions,
+  .button {
+    width: 100%;
+  }
+
+  .viewer {
+    height: 70vh;
+    min-height: 520px;
+  }
+
+  footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .button {
+    transition: none;
+  }
+}
