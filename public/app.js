@@ -5,14 +5,26 @@ const PDFJS_WORKER_URL =
 
 const portfolioDefinitions = {
   web: {
-    pdf: "./assets/web-portfolio.pdf?v=3",
+    pdfByTheme: {
+      light: "./assets/web-portfolio-light.pdf?v=4",
+      dark: "./assets/web-portfolio-dark.pdf?v=4",
+    },
     titleKey: "webPortfolio",
-    downloadName: "web-development-portfolio.pdf",
+    downloadNameByTheme: {
+      light: "web-development-portfolio-light.pdf",
+      dark: "web-development-portfolio-dark.pdf",
+    },
   },
   game: {
-    pdf: "./assets/game-portfolio.pdf",
+    pdfByTheme: {
+      light: "./assets/game-portfolio.pdf",
+      dark: "./assets/game-portfolio.pdf",
+    },
     titleKey: "gamePortfolio",
-    downloadName: "game-development-portfolio.pdf",
+    downloadNameByTheme: {
+      light: "game-development-portfolio.pdf",
+      dark: "game-development-portfolio.pdf",
+    },
   },
 };
 
@@ -226,6 +238,31 @@ const pages = [
   {
     page: 10,
     ko: [
+      "QuickBite 실전 운영 프로젝트",
+      "교내 디저트 판매를 위해 주문·관리·알림·배포까지 구현한 웹사이트.",
+    ],
+    en: [
+      "QuickBite real-world project",
+      "A dessert ordering site covering customer orders, seller operations, notifications, and deployment.",
+    ],
+    keywords: [
+      "quickbite",
+      "디저트",
+      "dessert",
+      "주문",
+      "order",
+      "sveltekit",
+      "sqlite",
+      "google sheets",
+      "discord",
+      "ubuntu",
+      "도메인",
+      "domain",
+    ],
+  },
+  {
+    page: 11,
+    ko: [
       "개발 기반과 방식",
       "Unreal·Unity·네트워크 경험과 AI 도구 활용 원칙.",
     ],
@@ -305,12 +342,41 @@ let themeOverride = storage.get("portfolio-theme");
 let pdfDocument = null;
 let renderTask = null;
 let renderRequest = 0;
+let loadRequest = 0;
+let pdfjsModule = null;
 let currentPage = 1;
 let resizeTimer = null;
 
 if (language !== "ko" && language !== "en") language = "ko";
 
+function getActiveTheme() {
+  return root.dataset.theme === "dark" ? "dark" : "light";
+}
+
+function getPortfolioPdf() {
+  if (!portfolio) return "";
+  return portfolio.pdfByTheme[getActiveTheme()];
+}
+
+function getPortfolioDownloadName() {
+  if (!portfolio) return "";
+  return portfolio.downloadNameByTheme[getActiveTheme()];
+}
+
+function updatePortfolioLinks() {
+  if (!portfolio) return;
+
+  const pdfUrl = getPortfolioPdf();
+  const downloadName = getPortfolioDownloadName();
+  openPdfLink.href = pdfUrl;
+  downloadLink.href = pdfUrl;
+  downloadLink.download = downloadName;
+  errorDownloadLink.href = pdfUrl;
+  errorDownloadLink.download = downloadName;
+}
+
 function applyTheme(theme, persist = true) {
+  const previousTheme = root.dataset.theme;
   root.dataset.theme = theme;
   themeColor.content = theme === "dark" ? "#111416" : "#f4f6f7";
   const toggleLabel =
@@ -322,6 +388,11 @@ function applyTheme(theme, persist = true) {
   if (persist) {
     themeOverride = theme;
     storage.set("portfolio-theme", theme);
+  }
+
+  updatePortfolioLinks();
+  if (previousTheme && previousTheme !== theme && pdfDocument) {
+    loadPortfolio({ preservePage: true });
   }
 }
 
@@ -547,18 +618,37 @@ function showViewerError() {
   viewerStage.classList.remove("is-rendering");
 }
 
-async function loadPortfolio() {
+async function loadPortfolio({ preservePage = false } = {}) {
   if (!portfolio) return;
 
-  try {
-    const pdfjs = await import(PDFJS_URL);
-    pdfjs.GlobalWorkerOptions.workerSrc = PDFJS_WORKER_URL;
-    const loadingTask = pdfjs.getDocument({ url: portfolio.pdf });
-    pdfDocument = await loadingTask.promise;
+  const request = ++loadRequest;
+  const pageToKeep = preservePage ? currentPage : Number(routeParams.get("page"));
+  renderRequest += 1;
+  if (renderTask) {
+    renderTask.cancel();
+    renderTask = null;
+  }
+  viewerLoading.hidden = false;
+  viewerError.hidden = true;
 
-    const requestedPage = Number(routeParams.get("page"));
-    currentPage = Number.isInteger(requestedPage)
-      ? Math.min(Math.max(requestedPage, 1), pdfDocument.numPages)
+  try {
+    pdfjsModule ??= await import(PDFJS_URL);
+    pdfjsModule.GlobalWorkerOptions.workerSrc = PDFJS_WORKER_URL;
+    const loadingTask = pdfjsModule.getDocument({ url: getPortfolioPdf() });
+    const nextDocument = await loadingTask.promise;
+    if (request !== loadRequest) {
+      await nextDocument.destroy();
+      return;
+    }
+
+    const previousDocument = pdfDocument;
+    pdfDocument = nextDocument;
+    if (previousDocument) {
+      await previousDocument.destroy();
+    }
+
+    currentPage = Number.isInteger(pageToKeep)
+      ? Math.min(Math.max(pageToKeep, 1), pdfDocument.numPages)
       : 1;
 
     updateViewerControls();
@@ -580,11 +670,7 @@ function initializeRoute() {
   homeScreen.hidden = true;
   viewerScreen.hidden = false;
   searchPanel.hidden = portfolioKey !== "web";
-  openPdfLink.href = portfolio.pdf;
-  downloadLink.href = portfolio.pdf;
-  downloadLink.download = portfolio.downloadName;
-  errorDownloadLink.href = portfolio.pdf;
-  errorDownloadLink.download = portfolio.downloadName;
+  updatePortfolioLinks();
   loadPortfolio();
 }
 
