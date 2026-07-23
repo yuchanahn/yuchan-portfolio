@@ -5,7 +5,7 @@ const PDFJS_WORKER_URL =
 
 const portfolioDefinitions = {
   web: {
-    pdf: "./assets/web-portfolio.pdf",
+    pdf: "./assets/web-portfolio.pdf?v=2",
     titleKey: "webPortfolio",
     downloadName: "web-development-portfolio.pdf",
   },
@@ -114,14 +114,31 @@ const pages = [
   {
     page: 5,
     ko: [
-      "Svelte 프론트엔드",
-      "CSR, GitHub Pages, PWA와 iPhone 키보드 문제 해결.",
+      "Svelte 프론트엔드와 다국어 설계",
+      "CSR·PWA, 한·영·일 UI, locale 기반 콘텐츠와 LLM 응답 언어 제어.",
     ],
     en: [
-      "Svelte frontend",
-      "CSR, GitHub Pages, PWA, and the iPhone keyboard issue.",
+      "Svelte frontend and localization",
+      "CSR, PWA, Korean/English/Japanese UI, localized content, and LLM response language.",
     ],
-    keywords: ["svelte", "sveltekit", "csr", "pwa", "iphone", "frontend"],
+    keywords: [
+      "svelte",
+      "sveltekit",
+      "svelte-i18n",
+      "csr",
+      "pwa",
+      "iphone",
+      "frontend",
+      "다국어",
+      "언어",
+      "영어",
+      "일본어",
+      "번역",
+      "translation",
+      "localization",
+      "locale",
+      "i18n",
+    ],
   },
   {
     page: 6,
@@ -221,6 +238,8 @@ const pages = [
       "게임",
       "game",
       "ai agent",
+      "번역",
+      "translation",
     ],
   },
 ];
