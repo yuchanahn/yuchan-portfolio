@@ -5,7 +5,7 @@ const PDFJS_WORKER_URL =
 
 const portfolioDefinitions = {
   web: {
-    pdf: "./assets/web-portfolio.pdf?v=2",
+    pdf: "./assets/web-portfolio.pdf?v=3",
     titleKey: "webPortfolio",
     downloadName: "web-development-portfolio.pdf",
   },
@@ -115,11 +115,11 @@ const pages = [
     page: 5,
     ko: [
       "Svelte 프론트엔드와 다국어 설계",
-      "CSR·PWA, 한·영·일 UI, locale 기반 콘텐츠와 LLM 응답 언어 제어.",
+      "한·영·일 UI, locale 콘텐츠, 누락 번역의 비동기 생성과 LLM 응답 언어 제어.",
     ],
     en: [
       "Svelte frontend and localization",
-      "CSR, PWA, Korean/English/Japanese UI, localized content, and LLM response language.",
+      "Korean/English/Japanese UI, localized content, asynchronous translation, and LLM response language.",
     ],
     keywords: [
       "svelte",
@@ -135,6 +135,8 @@ const pages = [
       "일본어",
       "번역",
       "translation",
+      "비동기 번역",
+      "background translation",
       "localization",
       "locale",
       "i18n",
