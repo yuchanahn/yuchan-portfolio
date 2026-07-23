@@ -25,8 +25,8 @@
         document.documentElement.dataset.theme = savedTheme || systemTheme;
       })();
     </script>
-    <link rel="stylesheet" href="./styles.css?v=4" />
-    <script src="./app.js?v=4" defer></script>
+    <link rel="stylesheet" href="./styles.css?v=5" />
+    <script src="./app.js?v=5" defer></script>
   </head>
   <body>
     <main class="page">
@@ -116,68 +116,59 @@
             <span data-i18n="back">선택 화면</span>
           </a>
 
-          <strong id="viewer-document-title" class="viewer-document-title">
-            웹 개발 포트폴리오
-          </strong>
+          <div class="viewer-document">
+            <strong id="viewer-document-title" class="viewer-document-title">
+              웹 개발 포트폴리오
+            </strong>
 
-          <a
-            id="download-link"
-            class="viewer-download"
-            href="./assets/web-portfolio.pdf"
-            download
-            data-i18n="downloadPdf"
-          >
-            PDF 다운로드
-          </a>
-        </div>
-
-        <div class="viewer-controls" aria-label="PDF controls">
-          <div class="control-group">
-            <button
-              id="previous-page"
-              class="icon-control"
-              type="button"
-              aria-label="이전 페이지"
-              title="이전 페이지"
-            >
-              ‹
-            </button>
-            <span class="page-status">
-              <span id="current-page">1</span>
-              <span aria-hidden="true">/</span>
-              <span id="total-pages">—</span>
-            </span>
-            <button
-              id="next-page"
-              class="icon-control"
-              type="button"
-              aria-label="다음 페이지"
-              title="다음 페이지"
-            >
-              ›
-            </button>
+            <div class="page-navigation" aria-label="PDF controls">
+              <button
+                id="previous-page"
+                class="page-control"
+                type="button"
+                aria-label="이전 페이지"
+                title="이전 페이지"
+              >
+                ‹
+              </button>
+              <span class="page-status">
+                <span id="current-page">1</span>
+                <span aria-hidden="true">/</span>
+                <span id="total-pages">—</span>
+              </span>
+              <button
+                id="next-page"
+                class="page-control"
+                type="button"
+                aria-label="다음 페이지"
+                title="다음 페이지"
+              >
+                ›
+              </button>
+            </div>
           </div>
 
-          <div class="control-group">
-            <button
-              id="zoom-out"
-              class="icon-control"
-              type="button"
-              aria-label="축소"
-              title="축소"
+          <div class="viewer-actions">
+            <a
+              id="open-pdf-link"
+              class="viewer-open"
+              href="./assets/web-portfolio.pdf"
+              target="_blank"
+              rel="noreferrer"
             >
-              −
-            </button>
-            <span id="zoom-level" class="zoom-level">100%</span>
-            <button
-              id="zoom-in"
-              class="icon-control"
-              type="button"
-              aria-label="확대"
-              title="확대"
+              <span data-i18n="openNewTab">뷰어로 보기</span>
+              <span class="external-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a
+              id="download-link"
+              class="viewer-icon-action"
+              href="./assets/web-portfolio.pdf"
+              download
+              aria-label="PDF 다운로드"
+              title="PDF 다운로드"
             >
-              +
-            </button>
+              <span class="download-icon" aria-hidden="true"></span>
+            </a>
           </div>
         </div>
 
@@ -190,11 +181,13 @@
             <p data-i18n="loadError">PDF를 불러오지 못했습니다.</p>
             <a
               id="error-download-link"
+              class="viewer-icon-action"
               href="./assets/web-portfolio.pdf"
               download
-              data-i18n="downloadPdf"
+              aria-label="PDF 다운로드"
+              title="PDF 다운로드"
             >
-              PDF 다운로드
+              <span class="download-icon" aria-hidden="true"></span>
             </a>
           </div>
         </div>

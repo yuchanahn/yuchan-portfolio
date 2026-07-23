@@ -26,11 +26,11 @@ const translations = {
     searchPlaceholder: "기술 또는 문제 검색",
     empty: "검색 결과가 없습니다.",
     back: "선택 화면",
+    openNewTab: "뷰어로 보기",
+    openNewTabLabel: "새 탭에서 PDF 뷰어로 보기",
     downloadPdf: "PDF 다운로드",
     previousPage: "이전 페이지",
     nextPage: "다음 페이지",
-    zoomOut: "축소",
-    zoomIn: "확대",
     loading: "포트폴리오를 불러오는 중입니다.",
     loadError: "PDF를 불러오지 못했습니다.",
     canvasLabel: "포트폴리오 PDF 페이지",
@@ -44,11 +44,11 @@ const translations = {
     searchPlaceholder: "Search a technology or problem",
     empty: "No results found.",
     back: "Portfolio selection",
+    openNewTab: "Open viewer",
+    openNewTabLabel: "Open PDF viewer in a new tab",
     downloadPdf: "Download PDF",
     previousPage: "Previous page",
     nextPage: "Next page",
-    zoomOut: "Zoom out",
-    zoomIn: "Zoom in",
     loading: "Loading portfolio.",
     loadError: "Unable to load this PDF.",
     canvasLabel: "Portfolio PDF page",
@@ -246,15 +246,13 @@ const searchResults = document.querySelector("#search-results");
 const emptyState = document.querySelector("#empty-state");
 const resultTemplate = document.querySelector("#result-template");
 const viewerTitle = document.querySelector("#viewer-document-title");
+const openPdfLink = document.querySelector("#open-pdf-link");
 const downloadLink = document.querySelector("#download-link");
 const errorDownloadLink = document.querySelector("#error-download-link");
 const previousPageButton = document.querySelector("#previous-page");
 const nextPageButton = document.querySelector("#next-page");
-const zoomOutButton = document.querySelector("#zoom-out");
-const zoomInButton = document.querySelector("#zoom-in");
 const currentPageElement = document.querySelector("#current-page");
 const totalPagesElement = document.querySelector("#total-pages");
-const zoomLevelElement = document.querySelector("#zoom-level");
 const viewerStage = document.querySelector("#viewer-stage");
 const viewerLoading = document.querySelector("#viewer-loading");
 const viewerError = document.querySelector("#viewer-error");
@@ -279,7 +277,6 @@ let pdfDocument = null;
 let renderTask = null;
 let renderRequest = 0;
 let currentPage = 1;
-let zoomFactor = 1;
 let resizeTimer = null;
 
 if (language !== "ko" && language !== "en") language = "ko";
@@ -332,8 +329,9 @@ function applyLanguage(nextLanguage) {
     translations[language].previousPage,
   );
   setControlLabel(nextPageButton, translations[language].nextPage);
-  setControlLabel(zoomOutButton, translations[language].zoomOut);
-  setControlLabel(zoomInButton, translations[language].zoomIn);
+  setControlLabel(openPdfLink, translations[language].openNewTabLabel);
+  setControlLabel(downloadLink, translations[language].downloadPdf);
+  setControlLabel(errorDownloadLink, translations[language].downloadPdf);
   canvas.setAttribute("aria-label", translations[language].canvasLabel);
 
   if (portfolio) {
@@ -400,12 +398,9 @@ function updateViewerControls() {
   totalPagesElement.textContent = pdfDocument
     ? String(pdfDocument.numPages)
     : "—";
-  zoomLevelElement.textContent = `${Math.round(zoomFactor * 100)}%`;
   previousPageButton.disabled = !pdfDocument || currentPage <= 1;
   nextPageButton.disabled =
     !pdfDocument || currentPage >= pdfDocument.numPages;
-  zoomOutButton.disabled = zoomFactor <= 0.6;
-  zoomInButton.disabled = zoomFactor >= 2.4;
 }
 
 function updatePageRoute() {
@@ -437,7 +432,7 @@ async function renderCurrentPage() {
       Math.max(availableWidth / baseViewport.width, 0.45),
       1.5,
     );
-    const viewport = page.getViewport({ scale: fitScale * zoomFactor });
+    const viewport = page.getViewport({ scale: fitScale });
     const outputScale = Math.min(window.devicePixelRatio || 1, 2);
     const context = canvas.getContext("2d", { alpha: false });
 
@@ -492,20 +487,6 @@ async function goToPage(pageNumber) {
   }
 }
 
-async function changeZoom(amount) {
-  zoomFactor = Math.min(
-    Math.max(Math.round((zoomFactor + amount) * 10) / 10, 0.6),
-    2.4,
-  );
-  updateViewerControls();
-
-  try {
-    await renderCurrentPage();
-  } catch {
-    showViewerError();
-  }
-}
-
 function showViewerError() {
   viewerLoading.hidden = true;
   canvas.hidden = true;
@@ -546,6 +527,7 @@ function initializeRoute() {
   homeScreen.hidden = true;
   viewerScreen.hidden = false;
   searchPanel.hidden = portfolioKey !== "web";
+  openPdfLink.href = portfolio.pdf;
   downloadLink.href = portfolio.pdf;
   downloadLink.download = portfolio.downloadName;
   errorDownloadLink.href = portfolio.pdf;
@@ -566,8 +548,6 @@ themeButtons.forEach((button) => {
 searchInput.addEventListener("input", () => renderResults(searchInput.value));
 previousPageButton.addEventListener("click", () => goToPage(currentPage - 1));
 nextPageButton.addEventListener("click", () => goToPage(currentPage + 1));
-zoomOutButton.addEventListener("click", () => changeZoom(-0.2));
-zoomInButton.addEventListener("click", () => changeZoom(0.2));
 
 document.addEventListener("keydown", (event) => {
   if (
