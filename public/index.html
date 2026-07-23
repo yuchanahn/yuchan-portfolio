@@ -7,7 +7,7 @@
       name="description"
       content="Full-stack development portfolio PDF."
     />
-    <meta name="theme-color" content="#efede8" />
+    <meta name="theme-color" content="#f4f6f7" />
     <title>Full-Stack Portfolio</title>
     <script>
       (() => {
@@ -25,8 +25,8 @@
         document.documentElement.dataset.theme = savedTheme || systemTheme;
       })();
     </script>
-    <link rel="stylesheet" href="./styles.css?v=7" />
-    <script src="./app.js?v=7" defer></script>
+    <link rel="stylesheet" href="./styles.css?v=8" />
+    <script src="./app.js?v=8" defer></script>
   </head>
   <body>
     <main class="page">
@@ -39,12 +39,15 @@
             PeroChat
           </a>
           <a
+            id="nirvana-video-link"
             href="https://www.youtube.com/watch?v=IK2acnw1DHY"
             target="_blank"
             rel="noreferrer"
+            aria-label="Nirvana 플레이 영상"
+            title="Nirvana 플레이 영상"
           >
-            <span data-i18n="gameplay">게임 플레이</span>
-            <span class="link-arrow" aria-hidden="true">↗</span>
+            <span class="video-icon" aria-hidden="true"></span>
+            <span>Nirvana</span>
           </a>
         </nav>
 
@@ -68,7 +71,16 @@
 
           <div id="search-panel" class="search-panel" role="search" hidden>
             <div class="search-bar">
-              <span class="magnifier" aria-hidden="true"></span>
+              <button
+                id="search-trigger"
+                class="search-trigger"
+                type="button"
+                aria-label="웹 포트폴리오 검색"
+                aria-expanded="false"
+                title="웹 포트폴리오 검색"
+              >
+                <span class="magnifier" aria-hidden="true"></span>
+              </button>
               <label class="sr-only" for="search-input" data-i18n="searchLabel">
                 웹 포트폴리오 검색
               </label>

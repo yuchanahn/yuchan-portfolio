@@ -22,7 +22,7 @@ const translations = {
     gamePortfolio: "게임 개발 포트폴리오",
     webSummary: "Full-stack · PeroChat",
     gameSummary: "Unreal · Unity",
-    gameplay: "게임 플레이",
+    nirvanaVideo: "Nirvana 플레이 영상",
     searchLabel: "웹 포트폴리오 검색",
     searchPlaceholder: "기술 또는 문제 검색",
     empty: "검색 결과가 없습니다.",
@@ -43,7 +43,7 @@ const translations = {
     gamePortfolio: "Game Development Portfolio",
     webSummary: "Full-stack · PeroChat",
     gameSummary: "Unreal · Unity",
-    gameplay: "Gameplay",
+    nirvanaVideo: "Nirvana gameplay video",
     searchLabel: "Search web portfolio",
     searchPlaceholder: "Search a technology or problem",
     empty: "No results found.",
@@ -244,9 +244,11 @@ const root = document.documentElement;
 const themeColor = document.querySelector('meta[name="theme-color"]');
 const languageButtons = document.querySelectorAll("[data-language]");
 const themeToggle = document.querySelector("#theme-toggle");
+const nirvanaVideoLink = document.querySelector("#nirvana-video-link");
 const homeScreen = document.querySelector("#home-screen");
 const viewerScreen = document.querySelector("#viewer-screen");
 const searchPanel = document.querySelector("#search-panel");
+const searchTrigger = document.querySelector("#search-trigger");
 const searchInput = document.querySelector("#search-input");
 const searchResults = document.querySelector("#search-results");
 const emptyState = document.querySelector("#empty-state");
@@ -289,7 +291,7 @@ if (language !== "ko" && language !== "en") language = "ko";
 
 function applyTheme(theme, persist = true) {
   root.dataset.theme = theme;
-  themeColor.content = theme === "dark" ? "#111214" : "#efede8";
+  themeColor.content = theme === "dark" ? "#111416" : "#f4f6f7";
   const toggleLabel =
     theme === "dark"
       ? translations[language].switchLight
@@ -333,6 +335,8 @@ function applyLanguage(nextLanguage) {
     translations[language].previousPage,
   );
   setControlLabel(nextPageButton, translations[language].nextPage);
+  setControlLabel(nirvanaVideoLink, translations[language].nirvanaVideo);
+  setControlLabel(searchTrigger, translations[language].searchLabel);
   setControlLabel(openPdfLink, translations[language].openNewTabLabel);
   setControlLabel(downloadLink, translations[language].downloadPdf);
   setControlLabel(errorDownloadLink, translations[language].downloadPdf);
@@ -395,12 +399,30 @@ function renderResults(query) {
       if (portfolioKey !== "web" || !pdfDocument) return;
 
       event.preventDefault();
-      searchInput.value = "";
-      renderResults("");
+      closeSearch();
       goToPage(item.page);
     });
     searchResults.append(fragment);
   });
+}
+
+function openSearch(focusInput = true) {
+  searchPanel.classList.add("is-open");
+  searchTrigger.setAttribute("aria-expanded", "true");
+
+  if (focusInput) {
+    window.requestAnimationFrame(() => searchInput.focus());
+  }
+}
+
+function closeSearch(returnFocus = false) {
+  searchPanel.classList.remove("is-open");
+  searchTrigger.setAttribute("aria-expanded", "false");
+  searchInput.value = "";
+  renderResults("");
+  searchInput.blur();
+
+  if (returnFocus) searchTrigger.focus();
 }
 
 function updateViewerControls() {
@@ -553,9 +575,26 @@ themeToggle.addEventListener("click", () => {
   applyTheme(root.dataset.theme === "dark" ? "light" : "dark", true);
 });
 
+searchTrigger.addEventListener("click", () => {
+  if (searchPanel.classList.contains("is-open")) {
+    closeSearch(true);
+  } else {
+    openSearch();
+  }
+});
+searchInput.addEventListener("focus", () => openSearch(false));
 searchInput.addEventListener("input", () => renderResults(searchInput.value));
 previousPageButton.addEventListener("click", () => goToPage(currentPage - 1));
 nextPageButton.addEventListener("click", () => goToPage(currentPage + 1));
+
+document.addEventListener("click", (event) => {
+  if (
+    searchPanel.classList.contains("is-open") &&
+    !searchPanel.contains(event.target)
+  ) {
+    closeSearch();
+  }
+});
 
 document.addEventListener("keydown", (event) => {
   if (
@@ -564,13 +603,15 @@ document.addEventListener("keydown", (event) => {
     portfolioKey === "web"
   ) {
     event.preventDefault();
-    searchInput.focus();
+    openSearch();
   }
 
-  if (event.key === "Escape" && document.activeElement === searchInput) {
-    searchInput.value = "";
-    renderResults("");
-    searchInput.blur();
+  if (
+    event.key === "Escape" &&
+    (searchPanel.classList.contains("is-open") ||
+      document.activeElement === searchInput)
+  ) {
+    closeSearch(true);
   }
 
   if (

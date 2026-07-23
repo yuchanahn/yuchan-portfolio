@@ -1,19 +1,18 @@
 :root {
   color-scheme: light;
-  --bg: #efede8;
-  --surface: #f9f8f5;
-  --surface-raised: #fffdfa;
-  --surface-hover: #ebe7df;
-  --text: #1b1d1d;
-  --muted: #706f69;
-  --accent: #76603b;
-  --accent-hover: #5f4b2d;
-  --on-accent: #fbf8f1;
-  --border: #d5d0c6;
-  --soft-border: #e4e0d8;
-  --focus: #9c865d;
-  --glow: rgb(167 143 101 / 15%);
-  --shadow: 0 26px 70px rgb(54 45 29 / 11%);
+  --bg: #f4f6f7;
+  --surface: #fbfcfc;
+  --surface-raised: #ffffff;
+  --surface-hover: #e9edf0;
+  --text: #1d2328;
+  --muted: #707981;
+  --accent: #356278;
+  --accent-hover: #274c5e;
+  --on-accent: #ffffff;
+  --border: #d5dade;
+  --soft-border: #e6eaec;
+  --focus: #567f92;
+  --shadow: 0 26px 70px rgb(24 35 42 / 11%);
   font-family:
     Pretendard, "Noto Sans KR", "Malgun Gothic", system-ui, -apple-system,
     BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -23,19 +22,18 @@
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #111214;
-  --surface: #1a1b1d;
-  --surface-raised: #202124;
-  --surface-hover: #292a2d;
-  --text: #f1eee7;
-  --muted: #a4a098;
-  --accent: #cfb37a;
-  --accent-hover: #dec58f;
-  --on-accent: #17130c;
-  --border: #343438;
-  --soft-border: #292a2d;
-  --focus: #cfb37a;
-  --glow: rgb(208 178 117 / 8%);
+  --bg: #111416;
+  --surface: #191d20;
+  --surface-raised: #202529;
+  --surface-hover: #272d31;
+  --text: #edf1f3;
+  --muted: #9fa8ae;
+  --accent: #8db8ca;
+  --accent-hover: #acd0df;
+  --on-accent: #101619;
+  --border: #343b40;
+  --soft-border: #293035;
+  --focus: #8db8ca;
   --shadow: 0 30px 90px rgb(0 0 0 / 34%);
 }
 
@@ -56,9 +54,7 @@ body {
 
 body {
   color: var(--text);
-  background:
-    radial-gradient(circle at 82% -18%, var(--glow), transparent 34rem),
-    var(--bg);
+  background: var(--bg);
   transition:
     color 160ms ease,
     background-color 160ms ease;
@@ -111,9 +107,12 @@ input {
   text-decoration: underline;
 }
 
-.link-arrow {
-  color: var(--accent);
-  font-size: 0.78rem;
+.video-icon {
+  width: 14px;
+  height: 14px;
+  background: currentColor;
+  -webkit-mask: url("./icons/lucide/circle-play.svg") center / contain no-repeat;
+  mask: url("./icons/lucide/circle-play.svg") center / contain no-repeat;
 }
 
 .header-tools {
@@ -220,50 +219,82 @@ input {
 
 .search-panel {
   position: relative;
-  width: 100%;
-  border-bottom: 1px solid var(--border);
+  width: 40px;
+  max-width: 100%;
+  justify-self: end;
+  border-bottom: 1px solid transparent;
   background: transparent;
+  transition:
+    width 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 180ms ease;
+}
+
+.search-panel:hover,
+.search-panel.is-open {
+  width: 100%;
+  border-color: var(--border);
 }
 
 .search-bar {
   display: grid;
   min-height: 44px;
   align-items: center;
-  grid-template-columns: auto 1fr;
-  gap: 12px;
-  padding: 0 15px;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.search-trigger {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  color: var(--muted);
+  background: transparent;
+  cursor: pointer;
+}
+
+.search-trigger:hover {
+  color: var(--accent);
+  background: var(--surface-hover);
 }
 
 .magnifier {
-  position: relative;
-  width: 14px;
-  height: 14px;
-  border: 2px solid currentColor;
-  border-radius: 50%;
-  color: var(--accent);
-}
-
-.magnifier::after {
-  position: absolute;
-  right: -5px;
-  bottom: -3px;
-  width: 7px;
-  height: 2px;
-  border-radius: 2px;
+  width: 17px;
+  height: 17px;
   background: currentColor;
-  content: "";
-  transform: rotate(45deg);
+  -webkit-mask: url("./icons/lucide/search.svg") center / contain no-repeat;
+  mask: url("./icons/lucide/search.svg") center / contain no-repeat;
 }
 
 .search-bar input {
   appearance: none;
+  width: 0;
   min-width: 0;
   height: 100%;
   border: 0;
   outline: 0;
+  opacity: 0;
   color: var(--text);
   background: transparent;
   font-size: 0.86rem;
+  pointer-events: none;
+  transform: translateX(7px);
+  transition:
+    opacity 160ms ease 50ms,
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.search-panel:hover .search-bar input,
+.search-panel.is-open .search-bar input {
+  width: 100%;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
 }
 
 .search-bar input::placeholder {
@@ -367,7 +398,7 @@ input {
   border-radius: 18px;
   color: var(--text);
   background: var(--surface);
-  box-shadow: 0 18px 55px rgb(48 40 26 / 7%);
+  box-shadow: 0 18px 55px rgb(24 35 42 / 7%);
   text-decoration: none;
   transition:
     border-color 150ms ease,
@@ -389,7 +420,7 @@ input {
 
 .portfolio-choice:hover {
   border-color: var(--accent);
-  box-shadow: 0 26px 70px rgb(48 40 26 / 12%);
+  box-shadow: 0 26px 70px rgb(24 35 42 / 12%);
   transform: translateY(-3px);
 }
 
@@ -576,33 +607,11 @@ input {
 }
 
 .download-icon {
-  position: relative;
-  width: 15px;
-  height: 16px;
-  border-bottom: 2px solid currentColor;
-}
-
-.download-icon::before {
-  position: absolute;
-  top: 0;
-  left: 6px;
-  width: 2px;
-  height: 10px;
-  border-radius: 2px;
+  width: 18px;
+  height: 18px;
   background: currentColor;
-  content: "";
-}
-
-.download-icon::after {
-  position: absolute;
-  top: 5px;
-  left: 4px;
-  width: 5px;
-  height: 5px;
-  border-right: 2px solid currentColor;
-  border-bottom: 2px solid currentColor;
-  content: "";
-  transform: rotate(45deg);
+  -webkit-mask: url("./icons/lucide/download.svg") center / contain no-repeat;
+  mask: url("./icons/lucide/download.svg") center / contain no-repeat;
 }
 
 .viewer-stage {
@@ -620,8 +629,8 @@ input {
   max-width: none;
   background: #ffffff;
   box-shadow:
-    0 1px 2px rgb(24 20 14 / 10%),
-    0 28px 80px rgb(24 20 14 / 16%);
+    0 1px 2px rgb(15 24 30 / 10%),
+    0 28px 80px rgb(15 24 30 / 16%);
   transition: opacity 100ms ease;
 }
 
