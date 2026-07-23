@@ -4,8 +4,6 @@ const translations = {
     downloadPdf: "다운로드",
     searchLabel: "포트폴리오 검색",
     searchPlaceholder: "기술 또는 문제 검색",
-    searchOpen: "포트폴리오 검색",
-    searchClose: "검색 닫기",
     empty: "검색 결과가 없습니다.",
   },
   en: {
@@ -13,8 +11,6 @@ const translations = {
     downloadPdf: "Download",
     searchLabel: "Search portfolio",
     searchPlaceholder: "Search a technology or problem",
-    searchOpen: "Search portfolio",
-    searchClose: "Close search",
     empty: "No results found.",
   },
 };
@@ -202,10 +198,7 @@ const root = document.documentElement;
 const themeColor = document.querySelector('meta[name="theme-color"]');
 const languageButtons = document.querySelectorAll("[data-language]");
 const themeButtons = document.querySelectorAll("[data-theme-choice]");
-const searchToggle = document.querySelector("#search-toggle");
-const searchPanel = document.querySelector("#search-panel");
 const searchInput = document.querySelector("#search-input");
-const searchClose = document.querySelector("#search-close");
 const searchResults = document.querySelector("#search-results");
 const emptyState = document.querySelector("#empty-state");
 const resultTemplate = document.querySelector("#result-template");
@@ -220,7 +213,7 @@ if (language !== "ko" && language !== "en") language = "ko";
 
 function applyTheme(theme, persist = true) {
   root.dataset.theme = theme;
-  themeColor.content = theme === "dark" ? "#101719" : "#f4f5f5";
+  themeColor.content = theme === "dark" ? "#111214" : "#efede8";
 
   themeButtons.forEach((button) => {
     button.setAttribute(
@@ -255,11 +248,6 @@ function applyLanguage(nextLanguage) {
       String(button.dataset.language === language),
     );
   });
-
-  searchToggle.setAttribute("aria-label", translations[language].searchOpen);
-  searchToggle.title = translations[language].searchOpen;
-  searchClose.setAttribute("aria-label", translations[language].searchClose);
-  searchClose.title = translations[language].searchClose;
 
   renderResults(searchInput.value);
 }
@@ -309,20 +297,6 @@ function renderResults(query) {
   });
 }
 
-function openSearch() {
-  searchPanel.hidden = false;
-  searchToggle.setAttribute("aria-expanded", "true");
-  requestAnimationFrame(() => searchInput.focus());
-}
-
-function closeSearch() {
-  searchPanel.hidden = true;
-  searchToggle.setAttribute("aria-expanded", "false");
-  searchInput.value = "";
-  renderResults("");
-  searchToggle.focus();
-}
-
 languageButtons.forEach((button) => {
   button.addEventListener("click", () => applyLanguage(button.dataset.language));
 });
@@ -333,18 +307,18 @@ themeButtons.forEach((button) => {
   );
 });
 
-searchToggle.addEventListener("click", openSearch);
-searchClose.addEventListener("click", closeSearch);
 searchInput.addEventListener("input", () => renderResults(searchInput.value));
 
 document.addEventListener("keydown", (event) => {
   if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
     event.preventDefault();
-    openSearch();
+    searchInput.focus();
   }
 
-  if (event.key === "Escape" && !searchPanel.hidden) {
-    closeSearch();
+  if (event.key === "Escape" && document.activeElement === searchInput) {
+    searchInput.value = "";
+    renderResults("");
+    searchInput.blur();
   }
 });
 
