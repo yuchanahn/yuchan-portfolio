@@ -1,17 +1,57 @@
+const PDFJS_URL =
+  "https://cdn.jsdelivr.net/npm/pdfjs-dist@5.7.284/build/pdf.min.mjs";
+const PDFJS_WORKER_URL =
+  "https://cdn.jsdelivr.net/npm/pdfjs-dist@5.7.284/build/pdf.worker.min.mjs";
+
+const portfolioDefinitions = {
+  web: {
+    pdf: "./assets/web-portfolio.pdf",
+    titleKey: "webPortfolio",
+    downloadName: "web-development-portfolio.pdf",
+  },
+  game: {
+    pdf: "./assets/game-portfolio.pdf",
+    titleKey: "gamePortfolio",
+    downloadName: "game-development-portfolio.pdf",
+  },
+};
+
 const translations = {
   ko: {
-    openPdf: "PDF 보기",
-    downloadPdf: "다운로드",
-    searchLabel: "포트폴리오 검색",
+    webPortfolio: "웹 개발 포트폴리오",
+    gamePortfolio: "게임 개발 포트폴리오",
+    webSummary: "Full-stack · PeroChat",
+    gameSummary: "Unreal · Unity",
+    searchLabel: "웹 포트폴리오 검색",
     searchPlaceholder: "기술 또는 문제 검색",
     empty: "검색 결과가 없습니다.",
+    back: "선택 화면",
+    downloadPdf: "PDF 다운로드",
+    previousPage: "이전 페이지",
+    nextPage: "다음 페이지",
+    zoomOut: "축소",
+    zoomIn: "확대",
+    loading: "포트폴리오를 불러오는 중입니다.",
+    loadError: "PDF를 불러오지 못했습니다.",
+    canvasLabel: "포트폴리오 PDF 페이지",
   },
   en: {
-    openPdf: "View PDF",
-    downloadPdf: "Download",
-    searchLabel: "Search portfolio",
+    webPortfolio: "Web Development Portfolio",
+    gamePortfolio: "Game Development Portfolio",
+    webSummary: "Full-stack · PeroChat",
+    gameSummary: "Unreal · Unity",
+    searchLabel: "Search web portfolio",
     searchPlaceholder: "Search a technology or problem",
     empty: "No results found.",
+    back: "Portfolio selection",
+    downloadPdf: "Download PDF",
+    previousPage: "Previous page",
+    nextPage: "Next page",
+    zoomOut: "Zoom out",
+    zoomIn: "Zoom in",
+    loading: "Loading portfolio.",
+    loadError: "Unable to load this PDF.",
+    canvasLabel: "Portfolio PDF page",
   },
 };
 
@@ -198,16 +238,49 @@ const root = document.documentElement;
 const themeColor = document.querySelector('meta[name="theme-color"]');
 const languageButtons = document.querySelectorAll("[data-language]");
 const themeButtons = document.querySelectorAll("[data-theme-choice]");
+const homeScreen = document.querySelector("#home-screen");
+const viewerScreen = document.querySelector("#viewer-screen");
+const searchPanel = document.querySelector("#search-panel");
 const searchInput = document.querySelector("#search-input");
 const searchResults = document.querySelector("#search-results");
 const emptyState = document.querySelector("#empty-state");
 const resultTemplate = document.querySelector("#result-template");
+const viewerTitle = document.querySelector("#viewer-document-title");
+const downloadLink = document.querySelector("#download-link");
+const errorDownloadLink = document.querySelector("#error-download-link");
+const previousPageButton = document.querySelector("#previous-page");
+const nextPageButton = document.querySelector("#next-page");
+const zoomOutButton = document.querySelector("#zoom-out");
+const zoomInButton = document.querySelector("#zoom-in");
+const currentPageElement = document.querySelector("#current-page");
+const totalPagesElement = document.querySelector("#total-pages");
+const zoomLevelElement = document.querySelector("#zoom-level");
+const viewerStage = document.querySelector("#viewer-stage");
+const viewerLoading = document.querySelector("#viewer-loading");
+const viewerError = document.querySelector("#viewer-error");
+const canvas = document.querySelector("#pdf-canvas");
 const systemTheme = window.matchMedia?.("(prefers-color-scheme: dark)");
+
+const routeParams = new URLSearchParams(window.location.search);
+const requestedPortfolio = routeParams.get("c");
+const portfolioKey = Object.hasOwn(
+  portfolioDefinitions,
+  requestedPortfolio ?? "",
+)
+  ? requestedPortfolio
+  : null;
+const portfolio = portfolioKey ? portfolioDefinitions[portfolioKey] : null;
 
 let language =
   storage.get("portfolio-language") ||
   (navigator.language.toLowerCase().startsWith("ko") ? "ko" : "en");
 let themeOverride = storage.get("portfolio-theme");
+let pdfDocument = null;
+let renderTask = null;
+let renderRequest = 0;
+let currentPage = 1;
+let zoomFactor = 1;
+let resizeTimer = null;
 
 if (language !== "ko" && language !== "en") language = "ko";
 
@@ -226,6 +299,11 @@ function applyTheme(theme, persist = true) {
     themeOverride = theme;
     storage.set("portfolio-theme", theme);
   }
+}
+
+function setControlLabel(element, label) {
+  element.setAttribute("aria-label", label);
+  element.title = label;
 }
 
 function applyLanguage(nextLanguage) {
@@ -249,17 +327,29 @@ function applyLanguage(nextLanguage) {
     );
   });
 
+  setControlLabel(
+    previousPageButton,
+    translations[language].previousPage,
+  );
+  setControlLabel(nextPageButton, translations[language].nextPage);
+  setControlLabel(zoomOutButton, translations[language].zoomOut);
+  setControlLabel(zoomInButton, translations[language].zoomIn);
+  canvas.setAttribute("aria-label", translations[language].canvasLabel);
+
+  if (portfolio) {
+    const title = translations[language][portfolio.titleKey];
+    viewerTitle.textContent = title;
+    document.title = `${title} · Portfolio`;
+  } else {
+    document.title =
+      language === "ko" ? "개발 포트폴리오" : "Development Portfolio";
+  }
+
   renderResults(searchInput.value);
 }
 
 function searchableText(item) {
-  return [
-    ...item.ko,
-    ...item.en,
-    ...item.keywords,
-  ]
-    .join(" ")
-    .toLowerCase();
+  return [...item.ko, ...item.en, ...item.keywords].join(" ").toLowerCase();
 }
 
 function renderResults(query) {
@@ -290,11 +380,177 @@ function renderResults(query) {
     const fragment = resultTemplate.content.cloneNode(true);
     const link = fragment.querySelector(".result");
 
-    link.href = `./assets/portfolio.pdf#page=${item.page}`;
+    link.href = `./?c=web&page=${item.page}`;
     link.querySelector("strong").textContent = title;
     link.querySelector(".result-text > span").textContent = summary;
+    link.addEventListener("click", (event) => {
+      if (portfolioKey !== "web" || !pdfDocument) return;
+
+      event.preventDefault();
+      searchInput.value = "";
+      renderResults("");
+      goToPage(item.page);
+    });
     searchResults.append(fragment);
   });
+}
+
+function updateViewerControls() {
+  currentPageElement.textContent = String(currentPage);
+  totalPagesElement.textContent = pdfDocument
+    ? String(pdfDocument.numPages)
+    : "—";
+  zoomLevelElement.textContent = `${Math.round(zoomFactor * 100)}%`;
+  previousPageButton.disabled = !pdfDocument || currentPage <= 1;
+  nextPageButton.disabled =
+    !pdfDocument || currentPage >= pdfDocument.numPages;
+  zoomOutButton.disabled = zoomFactor <= 0.6;
+  zoomInButton.disabled = zoomFactor >= 2.4;
+}
+
+function updatePageRoute() {
+  const url = new URL(window.location.href);
+  url.searchParams.set("c", portfolioKey);
+  if (currentPage === 1) {
+    url.searchParams.delete("page");
+  } else {
+    url.searchParams.set("page", String(currentPage));
+  }
+  window.history.replaceState(null, "", url);
+}
+
+async function renderCurrentPage() {
+  if (!pdfDocument) return;
+
+  const request = ++renderRequest;
+  if (renderTask) renderTask.cancel();
+
+  viewerStage.classList.add("is-rendering");
+
+  try {
+    const page = await pdfDocument.getPage(currentPage);
+    if (request !== renderRequest) return;
+
+    const baseViewport = page.getViewport({ scale: 1 });
+    const availableWidth = Math.max(viewerStage.clientWidth - 64, 280);
+    const fitScale = Math.min(
+      Math.max(availableWidth / baseViewport.width, 0.45),
+      1.5,
+    );
+    const viewport = page.getViewport({ scale: fitScale * zoomFactor });
+    const outputScale = Math.min(window.devicePixelRatio || 1, 2);
+    const context = canvas.getContext("2d", { alpha: false });
+
+    canvas.width = Math.floor(viewport.width * outputScale);
+    canvas.height = Math.floor(viewport.height * outputScale);
+    canvas.style.width = `${Math.floor(viewport.width)}px`;
+    canvas.style.height = `${Math.floor(viewport.height)}px`;
+    canvas.hidden = false;
+    viewerLoading.hidden = true;
+    viewerError.hidden = true;
+
+    const task = page.render({
+      canvasContext: context,
+      viewport,
+      transform:
+        outputScale === 1
+          ? null
+          : [outputScale, 0, 0, outputScale, 0, 0],
+    });
+
+    renderTask = task;
+    await task.promise;
+    if (renderTask === task) renderTask = null;
+  } catch (error) {
+    if (error?.name !== "RenderingCancelledException") {
+      throw error;
+    }
+  } finally {
+    if (request === renderRequest) {
+      viewerStage.classList.remove("is-rendering");
+    }
+  }
+}
+
+async function goToPage(pageNumber) {
+  if (!pdfDocument) return;
+
+  const nextPage = Math.min(
+    Math.max(Number(pageNumber) || 1, 1),
+    pdfDocument.numPages,
+  );
+  currentPage = nextPage;
+  updateViewerControls();
+  updatePageRoute();
+  viewerStage.scrollTop = 0;
+  viewerStage.scrollLeft = 0;
+
+  try {
+    await renderCurrentPage();
+  } catch {
+    showViewerError();
+  }
+}
+
+async function changeZoom(amount) {
+  zoomFactor = Math.min(
+    Math.max(Math.round((zoomFactor + amount) * 10) / 10, 0.6),
+    2.4,
+  );
+  updateViewerControls();
+
+  try {
+    await renderCurrentPage();
+  } catch {
+    showViewerError();
+  }
+}
+
+function showViewerError() {
+  viewerLoading.hidden = true;
+  canvas.hidden = true;
+  viewerError.hidden = false;
+  viewerStage.classList.remove("is-rendering");
+}
+
+async function loadPortfolio() {
+  if (!portfolio) return;
+
+  try {
+    const pdfjs = await import(PDFJS_URL);
+    pdfjs.GlobalWorkerOptions.workerSrc = PDFJS_WORKER_URL;
+    const loadingTask = pdfjs.getDocument({ url: portfolio.pdf });
+    pdfDocument = await loadingTask.promise;
+
+    const requestedPage = Number(routeParams.get("page"));
+    currentPage = Number.isInteger(requestedPage)
+      ? Math.min(Math.max(requestedPage, 1), pdfDocument.numPages)
+      : 1;
+
+    updateViewerControls();
+    updatePageRoute();
+    await renderCurrentPage();
+  } catch {
+    showViewerError();
+  }
+}
+
+function initializeRoute() {
+  if (!portfolio) {
+    homeScreen.hidden = false;
+    viewerScreen.hidden = true;
+    searchPanel.hidden = true;
+    return;
+  }
+
+  homeScreen.hidden = true;
+  viewerScreen.hidden = false;
+  searchPanel.hidden = portfolioKey !== "web";
+  downloadLink.href = portfolio.pdf;
+  downloadLink.download = portfolio.downloadName;
+  errorDownloadLink.href = portfolio.pdf;
+  errorDownloadLink.download = portfolio.downloadName;
+  loadPortfolio();
 }
 
 languageButtons.forEach((button) => {
@@ -308,9 +564,17 @@ themeButtons.forEach((button) => {
 });
 
 searchInput.addEventListener("input", () => renderResults(searchInput.value));
+previousPageButton.addEventListener("click", () => goToPage(currentPage - 1));
+nextPageButton.addEventListener("click", () => goToPage(currentPage + 1));
+zoomOutButton.addEventListener("click", () => changeZoom(-0.2));
+zoomInButton.addEventListener("click", () => changeZoom(0.2));
 
 document.addEventListener("keydown", (event) => {
-  if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+  if (
+    (event.metaKey || event.ctrlKey) &&
+    event.key.toLowerCase() === "k" &&
+    portfolioKey === "web"
+  ) {
     event.preventDefault();
     searchInput.focus();
   }
@@ -320,6 +584,31 @@ document.addEventListener("keydown", (event) => {
     renderResults("");
     searchInput.blur();
   }
+
+  if (
+    pdfDocument &&
+    document.activeElement !== searchInput &&
+    event.key === "ArrowLeft"
+  ) {
+    goToPage(currentPage - 1);
+  }
+
+  if (
+    pdfDocument &&
+    document.activeElement !== searchInput &&
+    event.key === "ArrowRight"
+  ) {
+    goToPage(currentPage + 1);
+  }
+});
+
+window.addEventListener("resize", () => {
+  if (!pdfDocument) return;
+
+  window.clearTimeout(resizeTimer);
+  resizeTimer = window.setTimeout(() => {
+    renderCurrentPage().catch(showViewerError);
+  }, 160);
 });
 
 if (systemTheme?.addEventListener) {
@@ -335,3 +624,5 @@ applyTheme(
   Boolean(themeOverride),
 );
 applyLanguage(language);
+initializeRoute();
+updateViewerControls();

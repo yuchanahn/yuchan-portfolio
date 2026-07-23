@@ -25,12 +25,12 @@
         document.documentElement.dataset.theme = savedTheme || systemTheme;
       })();
     </script>
-    <link rel="stylesheet" href="./styles.css?v=3" />
-    <script src="./app.js?v=3" defer></script>
+    <link rel="stylesheet" href="./styles.css?v=4" />
+    <script src="./app.js?v=4" defer></script>
   </head>
   <body>
     <main class="page">
-      <header class="toolbar">
+      <header class="site-header">
         <nav class="external-links" aria-label="External links">
           <a href="https://github.com/yuchanahn" target="_blank" rel="noreferrer">
             GitHub
@@ -52,11 +52,11 @@
             </div>
           </div>
 
-          <div id="search-panel" class="search-panel" role="search">
+          <div id="search-panel" class="search-panel" role="search" hidden>
             <div class="search-bar">
-              <span class="magnifier magnifier-small" aria-hidden="true"></span>
+              <span class="magnifier" aria-hidden="true"></span>
               <label class="sr-only" for="search-input" data-i18n="searchLabel">
-                포트폴리오 검색
+                웹 포트폴리오 검색
               </label>
               <input
                 id="search-input"
@@ -79,42 +79,124 @@
             </p>
 
             <template id="result-template">
-              <a
-                class="result"
-                href="./assets/portfolio.pdf"
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a class="result" href="./?c=web">
                 <span class="result-text">
                   <strong></strong>
                   <span></span>
                 </span>
-                <span class="result-arrow" aria-hidden="true">↗</span>
+                <span class="result-arrow" aria-hidden="true">→</span>
               </a>
             </template>
           </div>
         </div>
       </header>
 
-      <section class="center" aria-label="Portfolio actions">
-        <div class="document-actions">
-          <a
-            class="button button-primary"
-            href="./assets/portfolio.pdf"
-            target="_blank"
-            rel="noreferrer"
-            data-i18n="openPdf"
-          >
-            PDF 보기
+      <section id="home-screen" class="home-screen">
+        <div class="portfolio-chooser" aria-label="Portfolio selection">
+          <a class="portfolio-choice" href="./?c=web">
+            <span class="choice-kind">WEB</span>
+            <strong data-i18n="webPortfolio">웹 개발 포트폴리오</strong>
+            <span data-i18n="webSummary">Full-stack · PeroChat</span>
+            <span class="choice-arrow" aria-hidden="true">→</span>
           </a>
+
+          <a class="portfolio-choice" href="./?c=game">
+            <span class="choice-kind">GAME</span>
+            <strong data-i18n="gamePortfolio">게임 개발 포트폴리오</strong>
+            <span data-i18n="gameSummary">Unreal · Unity</span>
+            <span class="choice-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </section>
+
+      <section id="viewer-screen" class="viewer-screen" hidden>
+        <div class="viewer-toolbar">
+          <a class="back-link" href="./">
+            <span aria-hidden="true">←</span>
+            <span data-i18n="back">선택 화면</span>
+          </a>
+
+          <strong id="viewer-document-title" class="viewer-document-title">
+            웹 개발 포트폴리오
+          </strong>
+
           <a
-            class="button"
-            href="./assets/portfolio.pdf"
-            download="full-stack-portfolio.pdf"
+            id="download-link"
+            class="viewer-download"
+            href="./assets/web-portfolio.pdf"
+            download
             data-i18n="downloadPdf"
           >
-            다운로드
+            PDF 다운로드
           </a>
+        </div>
+
+        <div class="viewer-controls" aria-label="PDF controls">
+          <div class="control-group">
+            <button
+              id="previous-page"
+              class="icon-control"
+              type="button"
+              aria-label="이전 페이지"
+              title="이전 페이지"
+            >
+              ‹
+            </button>
+            <span class="page-status">
+              <span id="current-page">1</span>
+              <span aria-hidden="true">/</span>
+              <span id="total-pages">—</span>
+            </span>
+            <button
+              id="next-page"
+              class="icon-control"
+              type="button"
+              aria-label="다음 페이지"
+              title="다음 페이지"
+            >
+              ›
+            </button>
+          </div>
+
+          <div class="control-group">
+            <button
+              id="zoom-out"
+              class="icon-control"
+              type="button"
+              aria-label="축소"
+              title="축소"
+            >
+              −
+            </button>
+            <span id="zoom-level" class="zoom-level">100%</span>
+            <button
+              id="zoom-in"
+              class="icon-control"
+              type="button"
+              aria-label="확대"
+              title="확대"
+            >
+              +
+            </button>
+          </div>
+        </div>
+
+        <div id="viewer-stage" class="viewer-stage">
+          <p id="viewer-loading" class="viewer-message" data-i18n="loading">
+            포트폴리오를 불러오는 중입니다.
+          </p>
+          <canvas id="pdf-canvas" role="img" hidden></canvas>
+          <div id="viewer-error" class="viewer-message" hidden>
+            <p data-i18n="loadError">PDF를 불러오지 못했습니다.</p>
+            <a
+              id="error-download-link"
+              href="./assets/web-portfolio.pdf"
+              download
+              data-i18n="downloadPdf"
+            >
+              PDF 다운로드
+            </a>
+          </div>
         </div>
       </section>
     </main>
