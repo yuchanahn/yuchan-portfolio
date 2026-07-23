@@ -6,8 +6,8 @@ const PDFJS_WORKER_URL =
 const portfolioDefinitions = {
   web: {
     pdfByTheme: {
-      light: "./assets/web-portfolio-light.pdf?v=6",
-      dark: "./assets/web-portfolio-dark.pdf?v=6",
+      light: "./assets/web-portfolio-light.pdf?v=7",
+      dark: "./assets/web-portfolio-dark.pdf?v=7",
     },
     titleKey: "webPortfolio",
     downloadNameByTheme: {
