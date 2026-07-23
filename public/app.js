@@ -22,6 +22,7 @@ const translations = {
     gamePortfolio: "게임 개발 포트폴리오",
     webSummary: "Full-stack · PeroChat",
     gameSummary: "Unreal · Unity",
+    gameplay: "게임 플레이",
     searchLabel: "웹 포트폴리오 검색",
     searchPlaceholder: "기술 또는 문제 검색",
     empty: "검색 결과가 없습니다.",
@@ -29,6 +30,8 @@ const translations = {
     openNewTab: "뷰어로 보기",
     openNewTabLabel: "새 탭에서 PDF 뷰어로 보기",
     downloadPdf: "PDF 다운로드",
+    switchDark: "다크 모드로 전환",
+    switchLight: "라이트 모드로 전환",
     previousPage: "이전 페이지",
     nextPage: "다음 페이지",
     loading: "포트폴리오를 불러오는 중입니다.",
@@ -40,6 +43,7 @@ const translations = {
     gamePortfolio: "Game Development Portfolio",
     webSummary: "Full-stack · PeroChat",
     gameSummary: "Unreal · Unity",
+    gameplay: "Gameplay",
     searchLabel: "Search web portfolio",
     searchPlaceholder: "Search a technology or problem",
     empty: "No results found.",
@@ -47,6 +51,8 @@ const translations = {
     openNewTab: "Open viewer",
     openNewTabLabel: "Open PDF viewer in a new tab",
     downloadPdf: "Download PDF",
+    switchDark: "Switch to dark mode",
+    switchLight: "Switch to light mode",
     previousPage: "Previous page",
     nextPage: "Next page",
     loading: "Loading portfolio.",
@@ -237,7 +243,7 @@ const storage = {
 const root = document.documentElement;
 const themeColor = document.querySelector('meta[name="theme-color"]');
 const languageButtons = document.querySelectorAll("[data-language]");
-const themeButtons = document.querySelectorAll("[data-theme-choice]");
+const themeToggle = document.querySelector("#theme-toggle");
 const homeScreen = document.querySelector("#home-screen");
 const viewerScreen = document.querySelector("#viewer-screen");
 const searchPanel = document.querySelector("#search-panel");
@@ -284,13 +290,11 @@ if (language !== "ko" && language !== "en") language = "ko";
 function applyTheme(theme, persist = true) {
   root.dataset.theme = theme;
   themeColor.content = theme === "dark" ? "#111214" : "#efede8";
-
-  themeButtons.forEach((button) => {
-    button.setAttribute(
-      "aria-pressed",
-      String(button.dataset.themeChoice === theme),
-    );
-  });
+  const toggleLabel =
+    theme === "dark"
+      ? translations[language].switchLight
+      : translations[language].switchDark;
+  setControlLabel(themeToggle, toggleLabel);
 
   if (persist) {
     themeOverride = theme;
@@ -332,6 +336,12 @@ function applyLanguage(nextLanguage) {
   setControlLabel(openPdfLink, translations[language].openNewTabLabel);
   setControlLabel(downloadLink, translations[language].downloadPdf);
   setControlLabel(errorDownloadLink, translations[language].downloadPdf);
+  setControlLabel(
+    themeToggle,
+    root.dataset.theme === "dark"
+      ? translations[language].switchLight
+      : translations[language].switchDark,
+  );
   canvas.setAttribute("aria-label", translations[language].canvasLabel);
 
   if (portfolio) {
@@ -427,7 +437,7 @@ async function renderCurrentPage() {
     if (request !== renderRequest) return;
 
     const baseViewport = page.getViewport({ scale: 1 });
-    const availableWidth = Math.max(viewerStage.clientWidth - 64, 280);
+    const availableWidth = Math.max(viewerStage.clientWidth - 4, 280);
     const fitScale = Math.min(
       Math.max(availableWidth / baseViewport.width, 0.45),
       1.5,
@@ -539,10 +549,8 @@ languageButtons.forEach((button) => {
   button.addEventListener("click", () => applyLanguage(button.dataset.language));
 });
 
-themeButtons.forEach((button) => {
-  button.addEventListener("click", () =>
-    applyTheme(button.dataset.themeChoice, true),
-  );
+themeToggle.addEventListener("click", () => {
+  applyTheme(root.dataset.theme === "dark" ? "light" : "dark", true);
 });
 
 searchInput.addEventListener("input", () => renderResults(searchInput.value));

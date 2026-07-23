@@ -25,8 +25,8 @@
         document.documentElement.dataset.theme = savedTheme || systemTheme;
       })();
     </script>
-    <link rel="stylesheet" href="./styles.css?v=5" />
-    <script src="./app.js?v=5" defer></script>
+    <link rel="stylesheet" href="./styles.css?v=6" />
+    <script src="./app.js?v=6" defer></script>
   </head>
   <body>
     <main class="page">
@@ -38,18 +38,32 @@
           <a href="https://personaxi.com" target="_blank" rel="noreferrer">
             PeroChat
           </a>
+          <a
+            href="https://www.youtube.com/watch?v=IK2acnw1DHY"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span data-i18n="gameplay">게임 플레이</span>
+            <span class="link-arrow" aria-hidden="true">↗</span>
+          </a>
         </nav>
 
         <div class="header-tools">
           <div class="preferences">
-            <div class="segmented" role="group" aria-label="Language">
+            <div class="language-switch" role="group" aria-label="Language">
               <button type="button" data-language="ko">한국어</button>
               <button type="button" data-language="en">English</button>
             </div>
-            <div class="segmented" role="group" aria-label="Theme">
-              <button type="button" data-theme-choice="light">Light</button>
-              <button type="button" data-theme-choice="dark">Dark</button>
-            </div>
+            <button
+              id="theme-toggle"
+              class="theme-toggle"
+              type="button"
+              aria-label="다크 모드로 전환"
+              title="다크 모드로 전환"
+            >
+              <span class="theme-icon sun-icon" aria-hidden="true"></span>
+              <span class="theme-icon moon-icon" aria-hidden="true"></span>
+            </button>
           </div>
 
           <div id="search-panel" class="search-panel" role="search" hidden>
