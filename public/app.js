@@ -6,8 +6,8 @@ const PDFJS_WORKER_URL =
 const portfolioDefinitions = {
   web: {
     pdfByTheme: {
-      light: "./assets/web-portfolio-light.pdf?v=11",
-      dark: "./assets/web-portfolio-dark.pdf?v=11",
+      light: "./assets/web-portfolio-light.pdf?v=12",
+      dark: "./assets/web-portfolio-dark.pdf?v=12",
     },
     titleKey: "webPortfolio",
     downloadNameByTheme: {
@@ -118,20 +118,24 @@ const pages = [
   {
     page: 4,
     ko: [
-      "LLM 공급자 장애와 quota 소진 처리",
-      "Gateway 요청 변환, SSE 정규화와 출력 전 fallback 규칙.",
+      "Gemini 모델별 전역 레이트리미터",
+      "공유 API 키를 보호하기 위한 모델별 token bucket과 HTTP 429 처리.",
     ],
     en: [
-      "LLM provider failure and quota handling",
-      "Gateway transformation, SSE normalization, and pre-output fallback.",
+      "Global rate limiting by Gemini model",
+      "Per-model token buckets and HTTP 429 handling for a shared API key.",
     ],
     keywords: [
-      "llm",
-      "gateway",
-      "fallback",
-      "sse",
-      "quota",
       "gemini",
+      "rate limiter",
+      "rate limit",
+      "레이트리미터",
+      "token bucket",
+      "429",
+      "flash-lite",
+      "flash",
+      "pro",
+      "api key",
     ],
   },
   {
@@ -225,12 +229,12 @@ const pages = [
   {
     page: 9,
     ko: [
-      "개발 경험과 다음 검증 항목",
-      "게임·네트워크 경험, AI 도구 활용과 후속 성능·결제 테스트.",
+      "기술 경험과 개발 방식",
+      "게임·네트워크 경험과 AI 도구 활용 원칙.",
     ],
     en: [
-      "Engineering experience and next validation",
-      "Game and network experience, AI-assisted work, and follow-up performance and payment tests.",
+      "Engineering experience and development approach",
+      "Game and network experience with principles for AI-assisted work.",
     ],
     keywords: [
       "unreal",
@@ -239,9 +243,6 @@ const pages = [
       "게임",
       "game",
       "ai agent",
-      "soak",
-      "integration test",
-      "context cancellation",
     ],
   },
 ];
