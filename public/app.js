@@ -275,14 +275,6 @@ const githubProjects = [
     en: "A static GitHub Pages site for browsing, searching, and downloading themed portfolio PDFs.",
   },
   {
-    name: "TCP Game Client",
-    url: "https://github.com/yuchanahn/TCP_Game_Client",
-    category: "CLIENT",
-    tech: "Game client · TCP",
-    ko: "TCP 게임 서버의 접속과 패킷 처리를 확인하기 위해 함께 만든 테스트용 게임 클라이언트입니다.",
-    en: "A test game client built alongside the TCP server to verify connections and packet handling.",
-  },
-  {
     name: "Auto Battler Game Server",
     url: "https://github.com/yuchanahn/autobattlergame_server",
     category: "SERVER",
@@ -297,14 +289,6 @@ const githubProjects = [
     tech: "Rust · P2P",
     ko: "Rust로 P2P 액션 게임의 통신 구조를 시도해 본 작은 네트워크 실험 프로젝트입니다.",
     en: "A small Rust networking experiment for a peer-to-peer action game.",
-  },
-  {
-    name: "Fan-made Game",
-    url: "https://github.com/yuchanahn/fan_made_game_yuchan",
-    category: "GAME",
-    tech: "Unity · ShaderLab",
-    ko: "Unity와 ShaderLab을 사용해 제작한 팬메이드 게임 프로젝트입니다.",
-    en: "A fan-made game project built with Unity and ShaderLab.",
   },
   {
     name: "Tower of Ukani",
