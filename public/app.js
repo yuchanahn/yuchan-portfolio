@@ -6,8 +6,8 @@ const PDFJS_WORKER_URL =
 const portfolioDefinitions = {
   web: {
     pdfByTheme: {
-      light: "./assets/web-portfolio-light.pdf?v=12",
-      dark: "./assets/web-portfolio-dark.pdf?v=12",
+      light: "./assets/web-portfolio-light.pdf?v=13",
+      dark: "./assets/web-portfolio-dark.pdf?v=13",
     },
     titleKey: "webPortfolio",
     downloadNameByTheme: {
@@ -34,6 +34,10 @@ const translations = {
     gamePortfolio: "게임 개발 포트폴리오",
     webSummary: "Full-stack · PeroChat",
     gameSummary: "Unreal · Unity",
+    projectsKicker: "GITHUB PROJECTS",
+    projectsTitle: "공개 프로젝트",
+    projectsDescription: "지금 설명할 수 있는 작업을 중심으로 정리했습니다.",
+    allRepositories: "전체 저장소",
     nirvanaVideo: "Nirvana 플레이 영상",
     searchLabel: "웹 포트폴리오 검색",
     searchPlaceholder: "기술 또는 문제 검색",
@@ -55,6 +59,10 @@ const translations = {
     gamePortfolio: "Game Development Portfolio",
     webSummary: "Full-stack · PeroChat",
     gameSummary: "Unreal · Unity",
+    projectsKicker: "GITHUB PROJECTS",
+    projectsTitle: "Public projects",
+    projectsDescription: "Selected projects that I can explain clearly today.",
+    allRepositories: "All repositories",
     nirvanaVideo: "Nirvana gameplay video",
     searchLabel: "Search web portfolio",
     searchPlaceholder: "Search a technology or problem",
@@ -95,12 +103,12 @@ const pages = [
   {
     page: 3,
     ko: [
-      "k6 운영 부하 테스트",
-      "Redis 조회, 현실 혼합 CCU와 채팅 저장 구조 A/B 결과.",
+      "부하 테스트로 찾은 채팅 저장 병목",
+      "Redis 조회 효과와 PostgreSQL 저장 구조 변경 전후를 k6로 확인했습니다.",
     ],
     en: [
-      "k6 production load testing",
-      "Redis reads, realistic mixed CCU, and chat persistence A/B results.",
+      "Finding a chat persistence bottleneck with k6",
+      "Measured Redis read performance and PostgreSQL persistence changes.",
     ],
     keywords: [
       "k6",
@@ -113,6 +121,8 @@ const pages = [
       "performance",
       "db ping",
       "credit ledger",
+      "저장 병목",
+      "db 연결",
     ],
   },
   {
@@ -247,6 +257,137 @@ const pages = [
   },
 ];
 
+const githubProjects = [
+  {
+    name: "PeroChat Frontend",
+    url: "https://github.com/yuchanahn/personaxi-front",
+    category: "WEB",
+    tech: "SvelteKit · TypeScript",
+    ko: "PeroChat의 공개 프런트엔드입니다. 캐릭터 탐색·제작과 2D·Live2D·VRM 채팅, 다국어 화면을 담고 있습니다.",
+    en: "The public PeroChat frontend, covering character discovery and creation, multilingual UI, and 2D, Live2D, and VRM chat.",
+  },
+  {
+    name: "Portfolio Viewer",
+    url: "https://github.com/yuchanahn/yuchan-portfolio",
+    category: "WEB",
+    tech: "JavaScript · GitHub Pages",
+    ko: "PDF 포트폴리오를 테마별로 열람·검색·다운로드할 수 있도록 만든 정적 사이트입니다.",
+    en: "A static GitHub Pages site for browsing, searching, and downloading themed portfolio PDFs.",
+  },
+  {
+    name: "YCNW",
+    url: "https://github.com/yuchanahn/YCNW",
+    category: "NETWORK",
+    tech: "C++",
+    ko: "서버 설정과 실행 코드를 간단히 구성할 수 있도록 만든 헤더 중심의 C++ 네트워크 라이브러리입니다.",
+    en: "A header-oriented C++ networking library for configuring and starting a server with a compact interface.",
+  },
+  {
+    name: "TCP Game Server",
+    url: "https://github.com/yuchanahn/TCP_Game_Server",
+    category: "SERVER",
+    tech: "C++ · TCP",
+    ko: "직접 만든 네트워크 코드를 실제 게임 서버 흐름에 적용해 본 TCP 서버 프로젝트입니다.",
+    en: "A TCP game server project used to apply and test my own networking code in a working server flow.",
+  },
+  {
+    name: "TCP Game Client",
+    url: "https://github.com/yuchanahn/TCP_Game_Client",
+    category: "CLIENT",
+    tech: "Game client · TCP",
+    ko: "TCP 게임 서버의 접속과 패킷 처리를 확인하기 위해 함께 만든 테스트용 게임 클라이언트입니다.",
+    en: "A test game client built alongside the TCP server to verify connections and packet handling.",
+  },
+  {
+    name: "YC Async Timer",
+    url: "https://github.com/yuchanahn/yc_async_timer",
+    category: "LIBRARY",
+    tech: "C++20",
+    ko: "지정한 시간이 지난 뒤 작업을 실행하고 종료 시점을 제어하는 C++20 비동기 타이머 유틸리티입니다.",
+    en: "A C++20 asynchronous timer utility for scheduling callbacks and controlling shutdown.",
+  },
+  {
+    name: "YC Framework",
+    url: "https://github.com/yuchanahn/yc_framework",
+    category: "LIBRARY",
+    tech: "C++ · Thread pool",
+    ko: "스레드 풀·패킷·잠금 등 서버와 게임 코드에서 반복되는 기능을 묶어 본 C++ 공통 모듈입니다.",
+    en: "A collection of reusable C++ modules for server and game code, including thread pools, packets, and locking.",
+  },
+  {
+    name: "YCNet Core",
+    url: "https://github.com/yuchanahn/ycnet_core",
+    category: "NETWORK",
+    tech: "C++",
+    ko: "네트워크 처리의 핵심 부분을 작은 단위로 다시 정리해 본 C++ 네트워크 코어 프로젝트입니다.",
+    en: "A compact C++ project that reorganizes the core pieces of my networking code.",
+  },
+  {
+    name: "YCDB",
+    url: "https://github.com/yuchanahn/YCDB",
+    category: "DATABASE",
+    tech: "C++ · NoSQL",
+    ko: "데이터 저장과 조회 구조를 직접 다뤄 보기 위해 만든 C++ 기반 경량 NoSQL 실험 프로젝트입니다.",
+    en: "A lightweight C++ NoSQL experiment for learning data storage and retrieval structures.",
+  },
+  {
+    name: "Auto Battler Game Server",
+    url: "https://github.com/yuchanahn/autobattlergame_server",
+    category: "SERVER",
+    tech: "C++",
+    ko: "오토배틀러 게임의 서버 구조와 통신 흐름을 구현해 본 C++ 게임 서버 프로젝트입니다.",
+    en: "A C++ game server project exploring the server structure and network flow of an auto battler.",
+  },
+  {
+    name: "UE5 Network Game",
+    url: "https://github.com/yuchanahn/YC_NV_UE5_NetGame",
+    category: "GAME",
+    tech: "Unreal Engine 5 · C++ · Steam",
+    ko: "Unreal Engine 5에서 Steam 멀티플레이와 네트워크 게임 구조를 다룬 프로젝트입니다.",
+    en: "An Unreal Engine 5 project exploring Steam multiplayer and networked game structure.",
+  },
+  {
+    name: "UE5 Template",
+    url: "https://github.com/yuchanahn/UE5Template01",
+    category: "GAME",
+    tech: "Unreal Engine 5 · C++",
+    ko: "반복해서 쓰는 게임 코드와 프로젝트 구성을 정리하기 위해 만든 Unreal Engine 5 C++ 템플릿입니다.",
+    en: "An Unreal Engine 5 C++ template for organizing reusable gameplay code and project structure.",
+  },
+  {
+    name: "P2P Action Game",
+    url: "https://github.com/yuchanahn/p2pactiongame",
+    category: "NETWORK",
+    tech: "Rust · P2P",
+    ko: "Rust로 P2P 액션 게임의 통신 구조를 시도해 본 작은 네트워크 실험 프로젝트입니다.",
+    en: "A small Rust networking experiment for a peer-to-peer action game.",
+  },
+  {
+    name: "Fan-made Game",
+    url: "https://github.com/yuchanahn/fan_made_game_yuchan",
+    category: "GAME",
+    tech: "Unity · ShaderLab",
+    ko: "Unity와 ShaderLab을 사용해 제작한 팬메이드 게임 프로젝트입니다.",
+    en: "A fan-made game project built with Unity and ShaderLab.",
+  },
+  {
+    name: "Tower of Ukani",
+    url: "https://github.com/yuchanahn/Tower_Of_Ukani",
+    category: "TEAM GAME",
+    tech: "C#",
+    ko: "대학생 팀 CBT에서 함께 개발한 C# 게임 프로젝트입니다.",
+    en: "A C# game project developed with the university student team CBT.",
+  },
+  {
+    name: "Bybit Trade Bot",
+    url: "https://github.com/yuchanahn/trade_bot_bybit_cpp",
+    category: "EXPERIMENT",
+    tech: "C++ · Bybit API",
+    ko: "Bybit 시세와 거래 API 연동을 실험하기 위해 작성한 C++ 자동매매 프로젝트입니다.",
+    en: "A C++ trading-bot experiment for working with Bybit market and trading APIs.",
+  },
+];
+
 const storage = {
   get(key) {
     try {
@@ -275,6 +416,8 @@ const searchInput = document.querySelector("#search-input");
 const searchResults = document.querySelector("#search-results");
 const emptyState = document.querySelector("#empty-state");
 const resultTemplate = document.querySelector("#result-template");
+const projectGrid = document.querySelector("#project-grid");
+const projectCardTemplate = document.querySelector("#project-card-template");
 const viewerTitle = document.querySelector("#viewer-document-title");
 const openPdfLink = document.querySelector("#open-pdf-link");
 const downloadLink = document.querySelector("#download-link");
@@ -403,6 +546,7 @@ function applyLanguage(nextLanguage) {
       : translations[language].switchDark,
   );
   canvas.setAttribute("aria-label", translations[language].canvasLabel);
+  renderProjectCards();
 
   if (portfolio) {
     const title = translations[language][portfolio.titleKey];
@@ -414,6 +558,26 @@ function applyLanguage(nextLanguage) {
   }
 
   renderResults(searchInput.value);
+}
+
+function renderProjectCards() {
+  if (!projectGrid || !projectCardTemplate) return;
+
+  projectGrid.replaceChildren();
+  githubProjects.forEach((project) => {
+    const fragment = projectCardTemplate.content.cloneNode(true);
+    const link = fragment.querySelector(".project-card");
+    link.href = project.url;
+    link.setAttribute(
+      "aria-label",
+      `${project.name} · GitHub ${language === "ko" ? "저장소 열기" : "repository"}`,
+    );
+    link.querySelector(".project-category").textContent = project.category;
+    link.querySelector(".project-name").textContent = project.name;
+    link.querySelector(".project-description").textContent = project[language];
+    link.querySelector(".project-tech").textContent = project.tech;
+    projectGrid.append(fragment);
+  });
 }
 
 function searchableText(item) {

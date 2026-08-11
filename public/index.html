@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Full-stack development portfolio PDF."
+      content="풀스택 개발 포트폴리오와 공개 프로젝트를 확인할 수 있는 페이지입니다."
     />
     <meta name="theme-color" content="#f4f6f7" />
     <title>Full-Stack Portfolio</title>
@@ -25,8 +25,8 @@
         document.documentElement.dataset.theme = savedTheme || systemTheme;
       })();
     </script>
-    <link rel="stylesheet" href="./styles.css?v=9" />
-    <script src="./app.js?v=15" defer></script>
+    <link rel="stylesheet" href="./styles.css?v=10" />
+    <script src="./app.js?v=16" defer></script>
   </head>
   <body>
     <main class="page">
@@ -140,6 +140,45 @@
             <span class="choice-arrow" aria-hidden="true">→</span>
           </a>
         </div>
+
+        <section class="project-showcase" aria-labelledby="projects-title">
+          <div class="project-showcase-heading">
+            <div>
+              <span class="section-kicker" data-i18n="projectsKicker">
+                GITHUB PROJECTS
+              </span>
+              <h2 id="projects-title" data-i18n="projectsTitle">
+                공개 프로젝트
+              </h2>
+              <p data-i18n="projectsDescription">
+                지금 설명할 수 있는 작업을 중심으로 정리했습니다.
+              </p>
+            </div>
+            <a
+              class="all-repositories-link"
+              href="https://github.com/yuchanahn?tab=repositories"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span data-i18n="allRepositories">전체 저장소</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+
+          <div id="project-grid" class="project-grid"></div>
+
+          <template id="project-card-template">
+            <a class="project-card" target="_blank" rel="noreferrer">
+              <span class="project-card-topline">
+                <span class="project-category"></span>
+                <span class="project-external" aria-hidden="true">↗</span>
+              </span>
+              <strong class="project-name"></strong>
+              <span class="project-description"></span>
+              <span class="project-tech"></span>
+            </a>
+          </template>
+        </section>
       </section>
 
       <section id="viewer-screen" class="viewer-screen" hidden>
