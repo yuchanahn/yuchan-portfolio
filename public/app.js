@@ -40,11 +40,38 @@ const translations = {
     profileIntro:
       "SvelteKit과 Go를 중심으로 웹 서비스를 개발하고 운영하고 있습니다. PeroChat을 혼자 개발하며 프론트엔드, API, 결제, 배포와 운영을 맡고 있습니다.",
     profileEducationLabel: "학력",
-    profileEducation: "청강문화산업대학교 전공심화",
+    profileEducation: "대학 졸업",
     profileCurrentLabel: "현재",
     profileCurrent: "PeroChat 개인 개발·운영 · 2025.05–현재",
     profileExperienceLabel: "경험",
     profileExperience: "QuickBite 주문 사이트 개발·운영",
+    readIntroduction: "자기소개 보기",
+    home: "홈으로",
+    aboutTitle: "자기소개",
+    aboutLead:
+      "게임 개발로 프로그래밍을 시작했고, 지금은 웹 서비스를 직접 만들고 운영하고 있습니다.",
+    aboutStartTitle: "개발을 시작한 계기",
+    aboutStart1:
+      "중·고등학교 때 Unity로 게임을 만들고 동아리를 운영했습니다. 고등학교 3학년에는 게임 서버 프로그래밍을 배우며 멀티스레딩과 네트워크 구조를 접했고, 대학에서는 Unity와 Unreal Engine으로 팀 프로젝트를 진행했습니다.",
+    aboutStart2:
+      "군 복무 중에는 거래소 API를 이용한 자동매매 프로그램을 만들고 AWS EC2에서 24시간 실행했습니다. 로컬에서 한 번 동작하는 코드와 서버에서 계속 돌아가야 하는 코드는 다르다는 것을 이때 처음 체감했습니다. 외부 API 오류와 연결 상태, 로그와 재시작을 직접 챙기면서 웹과 서버 개발로 관심이 넓어졌습니다.",
+    aboutPeroChatTitle: "PeroChat을 만들고 운영한 경험",
+    aboutPeroChat1:
+      "대학 연구과제로 VRM과 LLM을 결합한 웹 채팅을 만들었고, 과제가 끝난 뒤 개인 프로젝트 PeroChat으로 계속 확장했습니다. SvelteKit으로 프런트엔드를, Go로 API 서버를 만들고 PostgreSQL, Redis, Supabase와 Oracle Cloud를 연결했습니다. 캐릭터 제작과 채팅뿐 아니라 결제, 관리자 기능, 다국어 UI, PWA와 앱 빌드까지 직접 구성해 실제 사용자가 접속하는 형태로 운영하고 있습니다.",
+    aboutPeroChat2:
+      "서비스 운영 중 결제 상품을 화면에 100포인트와 10포인트 보너스로 표시하면서 서버에서도 두 재화를 나누어 지급했습니다. 하지만 PeroChat 안에서는 모두 같은 방식으로 사용되고, 환불할 때도 주문으로 지급한 110포인트 전체를 회수해야 했습니다.",
+    aboutPeroChat3:
+      "이를 110포인트 전체가 한 주문에 연결된 같은 결제 재화로 처리되도록 바꿨습니다. 결제 상태, 지급 내역, 사용자 잔액과 거래 기록을 하나의 DB 트랜잭션에서 반영하고, 승인 요청이나 웹훅이 다시 들어와도 중복 지급되지 않도록 주문 단위로 처리 여부를 확인했습니다. 처음 작성한 코드를 유지하기보다 상품 정책과 실제 동작을 다시 확인하고 흐름 전체를 고친 경험이었습니다.",
+    aboutPeroChat4:
+      "문제가 생기면 감으로 코드를 바꾸기보다 브라우저 개발자 도구와 로그를 먼저 확인합니다. 캐릭터 목록이 늦게 표시됐을 때는 작은 썸네일에도 원본 해상도 이미지가 내려오는 것을 찾았고, Supabase의 이미지 변환 기능을 사용해 화면에 필요한 크기로 요청하도록 수정했습니다. iPhone Safari에서 키보드가 채팅 화면을 밀어내던 문제도 실제 기기에서 Visual Viewport의 변화를 확인하며 입력 영역만 이동하도록 고쳤습니다.",
+    aboutQuickBiteTitle: "실제 사용자의 요구를 반영한 QuickBite",
+    aboutQuickBite1:
+      "QuickBite는 교내에서 디저트를 판매하던 지인을 위해 만든 주문 사이트입니다. 처음에는 메뉴를 고르고 주문 정보를 받는 간단한 화면으로 시작했습니다. 실제 판매가 이어지면서 옵션, 수령 시간, 재고, 판매 일정, 계좌 안내와 주문 관리 기능이 차례로 필요해졌습니다.",
+    aboutQuickBite2:
+      "판매자가 휴대전화에서 주문을 빠르게 확인하고 수정할 수 있도록 화면을 여러 번 바꿨습니다. 주문 내역은 Google Sheets에 기록하고 Discord로 새 주문 알림을 보내도록 연결했습니다. 자체 도메인과 Ubuntu 서버에서 수개월간 운영했으며 실제 주문을 받는 데 사용했습니다.",
+    aboutQuickBite3:
+      "이 프로젝트에서는 많은 기술을 사용하는 것보다 판매자가 바로 쓸 수 있는지가 중요했습니다. 규모에 맞춰 SQLite를 사용했고, 관리자 화면도 판매 중 자주 확인하는 정보와 기능이 먼저 보이도록 수정했습니다. 처음 받은 요구사항을 구현하고 끝내는 것이 아니라, 실제 사용 중 나온 불편을 듣고 다시 고치는 과정이 필요하다는 것을 배웠습니다.",
+    viewWebPortfolio: "웹 개발 포트폴리오 보기",
     projectsKicker: "GITHUB PROJECTS",
     projectsTitle: "공개 프로젝트",
     projectsDescription: "지금 설명할 수 있는 작업을 중심으로 정리했습니다.",
@@ -76,12 +103,38 @@ const translations = {
     profileIntro:
       "I build and operate web services with SvelteKit and Go. I develop PeroChat independently, covering the frontend, APIs, payments, deployment, and operations.",
     profileEducationLabel: "Education",
-    profileEducation:
-      "Chungkang College of Cultural Industries · Advanced major program",
+    profileEducation: "College graduate",
     profileCurrentLabel: "Current",
     profileCurrent: "PeroChat · Independent development and operation · May 2025–Present",
     profileExperienceLabel: "Experience",
     profileExperience: "QuickBite ordering site · Development and operation",
+    readIntroduction: "Read introduction",
+    home: "Home",
+    aboutTitle: "About",
+    aboutLead:
+      "I started programming through game development and now build and operate web services end to end.",
+    aboutStartTitle: "How I started developing software",
+    aboutStart1:
+      "I built games with Unity throughout middle and high school and organized a programming club. In my final year of high school, I studied game server programming and learned the basics of multithreading and network architecture. I later worked on team projects with Unity and Unreal Engine at college.",
+    aboutStart2:
+      "During military service, I built an automated trading program using exchange APIs and ran it continuously on AWS EC2. That was when I first learned how different a program that runs once on a local machine is from one that must remain available on a server. Handling external API failures, connection states, logs, and restarts led me toward web and server development.",
+    aboutPeroChatTitle: "Building and operating PeroChat",
+    aboutPeroChat1:
+      "PeroChat began as a college research project combining VRM characters with an LLM. I continued developing it as an independent project after the course ended. I built the frontend with SvelteKit and the API server with Go, connecting PostgreSQL, Redis, Supabase, and Oracle Cloud. It now includes character creation, chat, payments, administration, multilingual UI, PWA support, and application builds, and is operated as a service used by real users.",
+    aboutPeroChat2:
+      "One product was displayed as 100 credits plus 10 bonus credits, and I initially granted the two amounts separately. Inside PeroChat, however, both were spent in the same way, and a refund had to reclaim all 110 credits granted by the order.",
+    aboutPeroChat3:
+      "I changed the system so that all 110 credits are treated as the same paid currency associated with one order. Payment state, the credit ledger, the user balance, and transaction history are updated in one database transaction. The server also checks the order before processing repeated approvals or webhooks so that credits are not granted twice. Rather than defending the first implementation, I revisited the product rule and corrected the entire flow.",
+    aboutPeroChat4:
+      "When a problem appears, I first inspect browser tools and logs instead of changing code by guesswork. When the character list loaded slowly, I found that full-resolution images were being downloaded for small thumbnails. I changed the shared image URL logic to request transformed images from Supabase at the size needed by each screen. I also fixed an iPhone Safari issue that pushed the chat scene when the keyboard opened by observing Visual Viewport changes on a real device and moving only the input area.",
+    aboutQuickBiteTitle: "Adapting QuickBite to real user needs",
+    aboutQuickBite1:
+      "QuickBite is an ordering site I built for someone selling desserts on campus. It started as a simple page for choosing a menu and submitting order information. As sales continued, it needed options, pickup times, inventory, sales schedules, bank account information, and order management.",
+    aboutQuickBite2:
+      "I revised the mobile interface several times so the seller could review and update orders quickly. Orders were recorded in Google Sheets, and new-order notifications were sent through Discord. The service ran on its own domain and an Ubuntu server for several months and was used for real orders.",
+    aboutQuickBite3:
+      "The priority was not to use as many technologies as possible, but to make the service immediately useful to the seller. I used SQLite at a scale where it was appropriate and arranged the admin page around the information needed most during sales. The project taught me that requirements do not end with the initial request; they continue to change as people use the service.",
+    viewWebPortfolio: "View web development portfolio",
     projectsKicker: "GITHUB PROJECTS",
     projectsTitle: "Public projects",
     projectsDescription: "Selected projects that I can explain clearly today.",
@@ -358,6 +411,7 @@ const languageButtons = document.querySelectorAll("[data-language]");
 const themeToggle = document.querySelector("#theme-toggle");
 const nirvanaVideoLink = document.querySelector("#nirvana-video-link");
 const homeScreen = document.querySelector("#home-screen");
+const aboutScreen = document.querySelector("#about-screen");
 const viewerScreen = document.querySelector("#viewer-screen");
 const searchPanel = document.querySelector("#search-panel");
 const searchTrigger = document.querySelector("#search-trigger");
@@ -383,6 +437,7 @@ const systemTheme = window.matchMedia?.("(prefers-color-scheme: dark)");
 
 const routeParams = new URLSearchParams(window.location.search);
 const requestedPortfolio = routeParams.get("c");
+const isAboutRoute = requestedPortfolio === "about";
 const portfolioKey = Object.hasOwn(
   portfolioDefinitions,
   requestedPortfolio ?? "",
@@ -501,6 +556,9 @@ function applyLanguage(nextLanguage) {
     const title = translations[language][portfolio.titleKey];
     viewerTitle.textContent = title;
     document.title = `${title} · Portfolio`;
+  } else if (isAboutRoute) {
+    document.title =
+      language === "ko" ? "자기소개 · 안유찬" : "About · Yuchan Ahn";
   } else {
     document.title =
       language === "ko" ? "개발 포트폴리오" : "Development Portfolio";
@@ -737,14 +795,24 @@ async function loadPortfolio({ preservePage = false } = {}) {
 }
 
 function initializeRoute() {
+  if (isAboutRoute) {
+    homeScreen.hidden = true;
+    aboutScreen.hidden = false;
+    viewerScreen.hidden = true;
+    searchPanel.hidden = true;
+    return;
+  }
+
   if (!portfolio) {
     homeScreen.hidden = false;
+    aboutScreen.hidden = true;
     viewerScreen.hidden = true;
     searchPanel.hidden = true;
     return;
   }
 
   homeScreen.hidden = true;
+  aboutScreen.hidden = true;
   viewerScreen.hidden = false;
   searchPanel.hidden = portfolioKey !== "web";
   updatePortfolioLinks();
