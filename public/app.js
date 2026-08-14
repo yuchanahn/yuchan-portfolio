@@ -6,8 +6,8 @@ const PDFJS_WORKER_URL =
 const portfolioDefinitions = {
   web: {
     pdfByTheme: {
-      light: "./assets/web-portfolio-light.pdf?v=14",
-      dark: "./assets/web-portfolio-dark.pdf?v=14",
+      light: "./assets/web-portfolio-light.pdf?v=15",
+      dark: "./assets/web-portfolio-dark.pdf?v=15",
     },
     titleKey: "webPortfolio",
     downloadNameByTheme: {
@@ -246,12 +246,12 @@ const pages = [
   {
     page: 8,
     ko: [
-      "학교 행사에서 주문 처리 로그 93건을 다룬 판매 시스템을 운영했습니다",
-      "유효 연락처 기준 최소 85명이 사용한 주문·판매 관리 시스템.",
+      "디저트 판매자의 요구에 맞춰 주문과 운영 화면을 만들었습니다",
+      "실제 판매 과정에서 나온 요청을 반영하며 수개월간 운영한 주문 사이트.",
     ],
     en: [
-      "Operated a school-event ordering system with 93 processed-order logs",
-      "At least 85 users by valid contact records, with seller tools and alerts.",
+      "Built ordering and operations screens around a dessert seller's needs",
+      "A production ordering site refined through real seller feedback over several months.",
     ],
     keywords: [
       "quickbite",
