@@ -6,8 +6,8 @@ const PDFJS_WORKER_URL =
 const portfolioDefinitions = {
   web: {
     pdfByTheme: {
-      light: "./assets/web-portfolio-light.pdf?v=13",
-      dark: "./assets/web-portfolio-dark.pdf?v=13",
+      light: "./assets/web-portfolio-light.pdf?v=14",
+      dark: "./assets/web-portfolio-dark.pdf?v=14",
     },
     titleKey: "webPortfolio",
     downloadNameByTheme: {
@@ -107,31 +107,37 @@ const translations = {
 const pages = [
   {
     page: 1,
-    ko: ["웹 서비스 개발·운영 포트폴리오", "PeroChat과 QuickBite 프로젝트 요약."],
-    en: ["Web service portfolio", "Overview of the PeroChat and QuickBite projects."],
+    ko: [
+      "웹 서비스 개발·운영 포트폴리오",
+      "약 100명 가입, 3개 언어, 실제 결제 검증과 앱 배포 테스트.",
+    ],
+    en: [
+      "Web service portfolio",
+      "About 100 sign-ups, three UI languages, live payment validation, and app release testing.",
+    ],
     keywords: ["perochat", "quickbite", "full-stack", "풀스택", "서비스", "operation"],
   },
   {
     page: 2,
     ko: [
-      "VRM·LLM 연구과제에서 시작한 PeroChat",
-      "개인 프로젝트의 시작, 현재 운영 상태와 사용 기술.",
+      "연구과제를 실제 서비스 구조로 확장했습니다",
+      "SvelteKit 클라이언트와 Go API, 데이터·AI·결제 시스템의 전체 구성.",
     ],
     en: [
-      "PeroChat: from VRM and LLM research",
-      "Project origin, current operation, and technology stack.",
+      "Expanded a research project into a production service",
+      "System architecture across SvelteKit, Go, data, AI, and payments.",
     ],
     keywords: ["vrm", "llm", "live2d", "svelte", "go", "연구과제", "사용 기술"],
   },
   {
     page: 3,
     ko: [
-      "부하 테스트로 찾은 채팅 저장 병목",
-      "Redis 조회 효과와 PostgreSQL 저장 구조 변경 전후를 k6로 확인했습니다.",
+      "채팅 저장 병목을 줄여 DB 연결 사용량을 79개에서 10개로 낮췄습니다",
+      "k6로 조회 캐시와 저장 구조 변경 전후를 분리해 확인했습니다.",
     ],
     en: [
-      "Finding a chat persistence bottleneck with k6",
-      "Measured Redis read performance and PostgreSQL persistence changes.",
+      "Reduced database connections from 79 to 10 by fixing chat persistence",
+      "Measured read caching and write-path changes separately with k6.",
     ],
     keywords: [
       "k6",
@@ -151,12 +157,12 @@ const pages = [
   {
     page: 4,
     ko: [
-      "Gemini 모델별 전역 레이트리미터",
-      "공유 API 키를 보호하기 위한 모델별 token bucket과 HTTP 429 처리.",
+      "공유 API 키의 429를 막기 위해 요청을 모델별로 제어했습니다",
+      "모델별 token bucket과 HTTP 429 처리로 공급자 한도를 보호했습니다.",
     ],
     en: [
-      "Global rate limiting by Gemini model",
-      "Per-model token buckets and HTTP 429 handling for a shared API key.",
+      "Controlled requests by model to prevent 429s on a shared API key",
+      "Per-model token buckets and HTTP 429 handling protect provider quotas.",
     ],
     keywords: [
       "gemini",
@@ -174,12 +180,12 @@ const pages = [
   {
     page: 5,
     ko: [
-      "결제 정책 수정과 원자적 재화 지급",
-      "PortOne·PayPal·Google Play 검증과 order ID 멱등 처리.",
+      "결제 재화를 중복 없이 한 번만 지급하도록 구조를 고쳤습니다",
+      "PortOne·PayPal·Google Play 검증과 주문 ID 단위의 원자적 지급 처리.",
     ],
     en: [
-      "Payment policy correction and atomic credit grants",
-      "PortOne, PayPal, Google Play validation, and order-ID idempotency.",
+      "Reworked payments so credits are granted exactly once",
+      "Provider validation and atomic, order-scoped credit grants.",
     ],
     keywords: [
       "payment",
@@ -198,12 +204,12 @@ const pages = [
   {
     page: 6,
     ko: [
-      "iPhone Safari 키보드 레이아웃",
-      "Visual Viewport 기반 입력창 보정과 모바일 회귀 한계.",
+      "iPhone Safari에서 화면 대신 입력창만 움직이도록 고쳤습니다",
+      "Visual Viewport를 기준으로 키보드 높이를 계산하고 입력 영역만 보정했습니다.",
     ],
     en: [
-      "iPhone Safari keyboard layout",
-      "Visual Viewport input correction and mobile regression limits.",
+      "Kept the scene fixed while moving only the input on iPhone Safari",
+      "Calculated keyboard height from Visual Viewport and corrected the input region.",
     ],
     keywords: [
       "iphone",
@@ -218,12 +224,12 @@ const pages = [
   {
     page: 7,
     ko: [
-      "관리자 페이지와 배포·운영",
-      "프롬프트·사용자·재화 관리와 Oracle Cloud·Coolify 운영.",
+      "DB 직접 수정 없이 프롬프트와 사용자를 관리했습니다",
+      "로컬 관리자 화면과 Oracle Cloud·Coolify 기반 배포·운영.",
     ],
     en: [
-      "Admin console and operations",
-      "Prompt, user, and credit management with Oracle Cloud and Coolify.",
+      "Managed prompts and users without editing the database directly",
+      "A local admin console with Oracle Cloud and Coolify operations.",
     ],
     keywords: [
       "admin",
@@ -240,12 +246,12 @@ const pages = [
   {
     page: 8,
     ko: [
-      "QuickBite 실제 운영 프로젝트",
-      "교내 디저트 주문·판매 관리, Sheets 기록과 Discord 알림.",
+      "학교 행사에서 주문 처리 로그 93건을 다룬 판매 시스템을 운영했습니다",
+      "유효 연락처 기준 최소 85명이 사용한 주문·판매 관리 시스템.",
     ],
     en: [
-      "QuickBite real-world project",
-      "Dessert ordering, seller operations, Sheets records, and Discord alerts.",
+      "Operated a school-event ordering system with 93 processed-order logs",
+      "At least 85 users by valid contact records, with seller tools and alerts.",
     ],
     keywords: [
       "quickbite",
@@ -262,12 +268,12 @@ const pages = [
   {
     page: 9,
     ko: [
-      "기술 경험과 개발 방식",
-      "게임·네트워크 경험과 AI 도구 활용 원칙.",
+      "백엔드·서비스 운영을 중심으로 문제를 해결합니다",
+      "주요 기술 경험, 대표 링크와 AI 도구 활용 방식.",
     ],
     en: [
-      "Engineering experience and development approach",
-      "Game and network experience with principles for AI-assisted work.",
+      "I solve problems with a focus on backend and service operations",
+      "Core experience, representative links, and responsible AI-assisted work.",
     ],
     keywords: [
       "unreal",
