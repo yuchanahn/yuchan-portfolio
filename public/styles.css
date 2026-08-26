@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "Pretendard Variable";
+  font-style: normal;
+  font-weight: 45 920;
+  font-display: swap;
+  src: url("./fonts/PretendardVariable.woff2") format("woff2-variations");
+}
+
 :root {
   color-scheme: light;
   --page: #f2f2ef;
@@ -9,14 +17,14 @@
   --muted: #6e716c;
   --border: #d8d9d3;
   --border-strong: #b9bbb4;
-  --accent: #a64b2f;
-  --accent-soft: #f3e4dc;
-  --accent-ink: #71301f;
+  --accent: #20211f;
+  --accent-soft: #e8e9e4;
+  --accent-ink: #111210;
   --inverse: #171817;
   --inverse-text: #f7f7f3;
   --shadow: 0 24px 70px rgb(21 22 21 / 9%);
   --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  --sans: Inter, Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", Arial, sans-serif;
+  --sans: "Pretendard Variable", Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", Arial, sans-serif;
 }
 
 :root[data-theme="dark"] {
@@ -30,9 +38,9 @@
   --muted: #a1a29c;
   --border: #363633;
   --border-strong: #555650;
-  --accent: #d17a57;
-  --accent-soft: #3b2922;
-  --accent-ink: #f0b294;
+  --accent: #f1f1ed;
+  --accent-soft: #30302e;
+  --accent-ink: #ffffff;
   --inverse: #efefe9;
   --inverse-text: #181918;
   --shadow: 0 28px 80px rgb(0 0 0 / 28%);
@@ -538,8 +546,8 @@ button.tag-chip:hover {
 
 .tag-chip.is-selected {
   border-color: var(--accent);
-  color: var(--accent-ink);
-  background: var(--accent-soft);
+  color: var(--inverse-text);
+  background: var(--inverse);
 }
 
 .tag-chip.compact {
@@ -592,8 +600,8 @@ button.tag-chip:hover {
 }
 
 .primary-button:hover:not(:disabled) {
-  background: var(--accent);
-  color: #ffffff;
+  background: var(--text-soft);
+  color: var(--inverse-text);
 }
 
 .primary-button:disabled {
@@ -1329,7 +1337,7 @@ a:focus-visible {
 
 @page {
   size: A4;
-  margin: 14mm 15mm 16mm;
+  margin: 0;
 }
 
 @media print {
@@ -1345,16 +1353,16 @@ a:focus-visible {
     --muted: #686b66;
     --border: #d7d8d2;
     --border-strong: #b9bbb4;
-    --accent: #99452c;
-    --accent-soft: #f2e3dc;
-    --accent-ink: #71301f;
+    --accent: #20211f;
+    --accent-soft: #e8e9e4;
+    --accent-ink: #111210;
     --inverse: #171817;
     --inverse-text: #ffffff;
   }
 
   html,
   body {
-    width: 100%;
+    width: 210mm;
     margin: 0;
     background: #ffffff;
     print-color-adjust: exact;
@@ -1386,8 +1394,8 @@ a:focus-visible {
   }
 
   .portfolio-cover {
-    min-height: calc(297mm - 30mm);
-    padding: 10mm 4mm 4mm;
+    min-height: 297mm;
+    padding: 20mm 17mm 15mm;
     break-after: page;
   }
 
@@ -1405,7 +1413,8 @@ a:focus-visible {
   }
 
   .document-overview {
-    padding: 8mm 4mm 12mm;
+    min-height: 297mm;
+    padding: 20mm 17mm 15mm;
     break-after: page;
   }
 
@@ -1414,22 +1423,71 @@ a:focus-visible {
   }
 
   .case-study {
-    padding: 11mm 4mm 12mm;
+    min-height: 297mm;
+    padding: 18mm 17mm 14mm;
     break-before: page;
+    break-after: page;
+    break-inside: avoid-page;
     border-bottom: 0;
   }
 
   .case-title {
-    font-size: 10.5mm;
+    margin-top: 8mm;
+    font-size: 9.2mm;
+    line-height: 1.13;
   }
 
   .case-lead {
-    font-size: 4.1mm;
+    margin-top: 4mm;
+    font-size: 4mm;
+    line-height: 1.55;
   }
 
   .case-paragraph {
-    font-size: 3.45mm;
-    line-height: 1.78;
+    font-size: 3.35mm;
+    line-height: 1.62;
+  }
+
+  .case-paragraph + .case-paragraph {
+    margin-top: 3mm;
+  }
+
+  .metric-grid {
+    margin-top: 7mm;
+  }
+
+  .metric-item {
+    min-height: 23mm;
+    padding: 3mm;
+  }
+
+  .metric-label {
+    margin-bottom: 1.5mm;
+  }
+
+  .metric-after {
+    font-size: 5mm;
+  }
+
+  .case-visual {
+    margin-top: 7mm;
+  }
+
+  .case-copy {
+    margin-top: 7mm;
+  }
+
+  .case-bullets {
+    margin-top: 6mm;
+  }
+
+  .case-bullets li {
+    padding: 2.5mm 3mm 2.5mm 6mm;
+  }
+
+  .case-bullets li::before {
+    top: 4mm;
+    left: 1mm;
   }
 
   .case-visual,
@@ -1441,7 +1499,7 @@ a:focus-visible {
   }
 
   .case-visual > img {
-    max-height: 118mm;
+    max-height: 82mm;
   }
 
   .case-visual.is-gallery {
@@ -1449,12 +1507,31 @@ a:focus-visible {
   }
 
   .case-visual.is-gallery > img {
-    height: 92mm;
+    height: 70mm;
+  }
+
+  #redis-k6 .case-title {
+    font-size: 8.7mm;
+  }
+
+  #redis-k6 .case-lead {
+    font-size: 3.8mm;
+  }
+
+  #redis-k6 .case-paragraph {
+    font-size: 3.15mm;
+  }
+
+  #redis-k6 .case-visual > img {
+    max-height: 68mm;
+  }
+
+  .case-footer {
+    display: none;
   }
 
   .document-closing {
-    min-height: 100mm;
-    break-before: page;
+    display: none;
   }
 
   a {

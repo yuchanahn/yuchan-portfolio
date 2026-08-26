@@ -220,7 +220,7 @@ function moduleScore(module, tags = selectedTags) {
 function matchingModules(tags = selectedTags) {
   if (tags.size === 0) return [];
   const selectedRoles = [...tags].filter((tag) => roleTags.has(tag));
-  return data.modules
+  const candidates = data.modules
     .filter((module) => {
       const matched = module.tags.filter((tag) => tags.has(tag));
       if (matched.length === 0) return false;
@@ -229,7 +229,10 @@ function matchingModules(tags = selectedTags) {
       const nonRoleMatches = matched.filter((tag) => !roleTags.has(tag)).length;
       return matchesRole || nonRoleMatches >= 3;
     })
-    .sort((a, b) => a.order - b.order);
+    .sort((a, b) => moduleScore(b, tags) - moduleScore(a, tags) || a.order - b.order);
+
+  const maxCases = selectedRoles.length > 0 ? 8 : 10;
+  return candidates.slice(0, maxCases).sort((a, b) => a.order - b.order);
 }
 
 function getPortfolioType(tags = selectedTags) {
