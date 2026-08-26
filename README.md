@@ -1,31 +1,37 @@
-# 안유찬 포트폴리오
+# 안유찬 태그형 포트폴리오
 
-PDF 포트폴리오를 바로 열어 보고 다운로드할 수 있는 정적 사이트입니다.
-별도의 프레임워크나 빌드 과정 없이 GitHub Pages에서 배포됩니다.
+개발 경험을 독립적인 사례로 기록하고, 선택한 기술 태그에 따라 한 편의 포트폴리오를 동적으로 구성하는 GitHub Pages 사이트입니다.
 
-## 구조
+## URL 구성
+
+```text
+/?tags=backend,fintech,payment,postgresql,operations
+/?tags=game-client,cpp,unreal,network
+```
+
+같은 URL을 열면 같은 사례와 순서가 표시됩니다. 문서 화면의 `PDF로 저장` 버튼은 브라우저 인쇄 기능을 열며, 선택된 사례만 A4 문서로 저장할 수 있습니다.
+
+## 주요 파일
 
 ```text
 public/
-  assets/portfolio.pdf
-  index.html
-  styles.css
-.github/workflows/pages.yml
+  index.html          # 태그 조합기와 연속 문서 화면
+  app.js              # 태그 선택, URL, 사례 조합, 인쇄
+  portfolio-data.js   # 태그, 기본 조합, 프로젝트와 기술 사례 원본
+  styles.css          # 화면·다크 모드·A4 인쇄 스타일
+  assets/             # 사례에 사용하는 화면과 다이어그램
+scripts/
+  validate-site.mjs   # 태그, 프로젝트, 이미지 참조 검사
 ```
 
-## 배포
+## 사례 추가
 
-1. GitHub에 새 저장소를 만듭니다.
-2. 이 저장소의 `main` 브랜치를 push합니다.
-3. GitHub 저장소의 `Settings → Pages → Build and deployment`에서
-   Source를 `GitHub Actions`로 설정합니다.
-4. Actions의 `Deploy portfolio to GitHub Pages` 작업이 끝나면 공개됩니다.
+`public/portfolio-data.js`의 `modules`에 다음 정보를 추가합니다.
 
-## 포트폴리오 교체
+- 고유 `id`와 문서 순서 `order`
+- 연결할 `project`
+- 해당 사례를 불러올 `tags`
+- 제목, 요약과 상세 설명
+- 필요할 경우 수치, 목록, 이미지
 
-최신 PDF를 `public/assets/portfolio.pdf`에 덮어쓰고 push하면 자동으로
-다시 배포됩니다.
-
-## 배포 전 확인할 정보
-
-- 공개 이메일 주소
+배포 전 `node scripts/validate-site.mjs`로 존재하지 않는 태그·프로젝트·이미지와 중복 ID를 검사합니다. `main` 브랜치에 push하면 GitHub Actions가 검사 후 GitHub Pages에 배포합니다.

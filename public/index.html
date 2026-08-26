@@ -5,432 +5,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="풀스택 개발 포트폴리오와 공개 프로젝트를 확인할 수 있는 페이지입니다."
+      content="기술 태그 조합에 따라 관련 개발 경험을 한 편의 문서로 구성하는 안유찬의 개발 포트폴리오입니다."
     />
-    <meta name="theme-color" content="#f4f6f7" />
-    <title>Full-Stack Portfolio</title>
+    <meta name="theme-color" content="#f4f4f2" />
+    <title>안유찬 · Modular Portfolio</title>
     <script>
       (() => {
         let savedTheme = null;
         try {
           savedTheme = localStorage.getItem("portfolio-theme");
         } catch {}
-
-        const systemTheme = window.matchMedia?.(
-          "(prefers-color-scheme: dark)",
-        ).matches
+        const systemTheme = window.matchMedia?.("(prefers-color-scheme: dark)").matches
           ? "dark"
           : "light";
-
         document.documentElement.dataset.theme = savedTheme || systemTheme;
       })();
     </script>
-    <link rel="stylesheet" href="./styles.css?v=12" />
-    <script src="./app.js?v=22" defer></script>
+    <link rel="stylesheet" href="./styles.css?v=30" />
+    <script src="./portfolio-data.js?v=1" defer></script>
+    <script src="./app.js?v=30" defer></script>
   </head>
   <body>
-    <main class="page">
+    <main class="page-shell">
       <header class="site-header">
-        <nav class="external-links" aria-label="External links">
-          <a href="https://github.com/yuchanahn" target="_blank" rel="noreferrer">
-            GitHub
-          </a>
-          <a href="https://personaxi.com" target="_blank" rel="noreferrer">
-            PeroChat
-          </a>
+        <a class="site-mark" href="./" aria-label="포트폴리오 조합기 홈">
+          <span>AYC</span>
+          <strong>PORTFOLIO SYSTEM</strong>
+        </a>
+
+        <nav class="external-links" aria-label="외부 링크">
+          <a href="https://github.com/yuchanahn/-" target="_blank" rel="noreferrer">Code</a>
+          <a href="https://personaxi.com" target="_blank" rel="noreferrer">PeroChat</a>
+          <a href="mailto:ultrauc123@gmail.com">Email</a>
           <a
-            href="mailto:ultrauc123@gmail.com"
-            aria-label="ultrauc123@gmail.com으로 이메일 보내기"
-            title="ultrauc123@gmail.com"
-          >
-            Email
-          </a>
-          <a
-            id="nirvana-video-link"
             href="https://www.youtube.com/watch?v=IK2acnw1DHY"
             target="_blank"
             rel="noreferrer"
-            aria-label="Nirvana 플레이 영상"
-            title="Nirvana 플레이 영상"
-          >
-            <span class="video-icon" aria-hidden="true"></span>
-            <span>Nirvana</span>
-          </a>
+          >Nirvana ↗</a>
         </nav>
 
-        <div class="header-tools">
-          <div class="preferences">
-            <div class="language-switch" role="group" aria-label="Language">
-              <button type="button" data-language="ko">한국어</button>
-              <button type="button" data-language="en">English</button>
-            </div>
-            <button
-              id="theme-toggle"
-              class="theme-toggle"
-              type="button"
-              aria-label="다크 모드로 전환"
-              title="다크 모드로 전환"
-            >
-              <span class="theme-icon sun-icon" aria-hidden="true"></span>
-              <span class="theme-icon moon-icon" aria-hidden="true"></span>
-            </button>
+        <div class="preferences">
+          <div class="language-switch" role="group" aria-label="Language">
+            <button type="button" data-language="ko">한국어</button>
+            <button type="button" data-language="en">EN</button>
           </div>
-
-          <div id="search-panel" class="search-panel" role="search" hidden>
-            <div class="search-bar">
-              <button
-                id="search-trigger"
-                class="search-trigger"
-                type="button"
-                aria-label="웹 포트폴리오 검색"
-                aria-expanded="false"
-                title="웹 포트폴리오 검색"
-              >
-                <span class="magnifier" aria-hidden="true"></span>
-              </button>
-              <label class="sr-only" for="search-input" data-i18n="searchLabel">
-                웹 포트폴리오 검색
-              </label>
-              <input
-                id="search-input"
-                type="search"
-                autocomplete="off"
-                spellcheck="false"
-                data-i18n-placeholder="searchPlaceholder"
-                placeholder="기술 또는 문제 검색"
-              />
-            </div>
-
-            <div
-              id="search-results"
-              class="results"
-              aria-live="polite"
-            ></div>
-
-            <p id="empty-state" class="empty-state" hidden data-i18n="empty">
-              검색 결과가 없습니다.
-            </p>
-
-            <template id="result-template">
-              <a class="result" href="./?c=web">
-                <span class="result-text">
-                  <strong></strong>
-                  <span></span>
-                </span>
-                <span class="result-arrow" aria-hidden="true">→</span>
-              </a>
-            </template>
-          </div>
+          <button id="theme-toggle" class="theme-toggle" type="button" aria-label="테마 변경">
+            <span class="theme-icon sun-icon" aria-hidden="true"></span>
+            <span class="theme-icon moon-icon" aria-hidden="true"></span>
+          </button>
         </div>
       </header>
 
-      <section id="home-screen" class="home-screen">
-        <section class="profile-summary" aria-labelledby="profile-name">
-          <div class="profile-photo-frame">
+      <section id="builder-screen" class="builder-screen">
+        <div class="builder-hero">
+          <div class="hero-copy">
+            <p class="eyebrow" data-i18n="heroEyebrow">MODULAR PORTFOLIO</p>
+            <h1 data-i18n="heroTitle">보고 싶은 기술을 고르면<br />포트폴리오가 다시 구성됩니다.</h1>
+            <p data-i18n="heroDescription">
+              각 개발 경험을 독립된 기록으로 저장했습니다. 지원 직무와 기술 태그를
+              조합하면 관련 사례만 골라 한 편의 문서로 이어서 보여줍니다.
+            </p>
+          </div>
+
+          <aside class="profile-card" aria-label="개발자 프로필">
             <img
-              class="profile-photo"
               src="./assets/profile-yuchan.jpg"
+              alt="안유찬 프로필 사진"
               width="1086"
               height="1447"
-              alt="Yuchan Ahn"
-              decoding="async"
             />
-          </div>
-
-          <div class="profile-content">
-            <span class="section-kicker" data-i18n="profileKicker">
-              PROFILE
-            </span>
-            <div class="profile-heading">
-              <h1 id="profile-name" data-i18n="profileName">안유찬</h1>
-              <span data-i18n="profileRole">Full-Stack Developer</span>
-            </div>
-            <p class="profile-intro" data-i18n="profileIntro">
-              SvelteKit과 Go를 중심으로 웹 서비스를 개발하고 운영하고
-              있습니다. PeroChat을 혼자 개발하며 프론트엔드, API, 결제,
-              배포와 운영을 맡고 있습니다.
-            </p>
-
-            <dl class="profile-facts">
-              <div>
-                <dt data-i18n="profileEducationLabel">학력</dt>
-                <dd data-i18n="profileEducation">
-                  청강문화산업대학교 전공심화
-                </dd>
-              </div>
-              <div>
-                <dt data-i18n="profileCurrentLabel">현재</dt>
-                <dd data-i18n="profileCurrent">
-                  PeroChat 개인 개발·운영 · 2025.05–현재
-                </dd>
-              </div>
-              <div>
-                <dt data-i18n="profileExperienceLabel">경험</dt>
-                <dd data-i18n="profileExperience">
-                  QuickBite 주문 사이트 개발·운영
-                </dd>
-              </div>
-            </dl>
-
-            <a class="profile-about-link" href="./?c=about">
-              <span data-i18n="readIntroduction">자기소개 보기</span>
-              <span aria-hidden="true">→</span>
-            </a>
-          </div>
-        </section>
-
-        <div class="portfolio-chooser" aria-label="Portfolio selection">
-          <a class="portfolio-choice" href="./?c=web">
-            <span class="choice-kind">WEB</span>
-            <strong data-i18n="webPortfolio">웹 개발 포트폴리오</strong>
-            <span data-i18n="webSummary">Full-stack · PeroChat</span>
-            <span class="choice-arrow" aria-hidden="true">→</span>
-          </a>
-
-          <a class="portfolio-choice" href="./?c=game">
-            <span class="choice-kind">GAME</span>
-            <strong data-i18n="gamePortfolio">게임 개발 포트폴리오</strong>
-            <span data-i18n="gameSummary">Unreal · Unity</span>
-            <span class="choice-arrow" aria-hidden="true">→</span>
-          </a>
-        </div>
-
-        <section class="project-showcase" aria-labelledby="projects-title">
-          <div class="project-showcase-heading">
             <div>
-              <span class="section-kicker" data-i18n="projectsKicker">
-                GITHUB PROJECTS
-              </span>
-              <h2 id="projects-title" data-i18n="projectsTitle">
-                공개 프로젝트
-              </h2>
-              <p data-i18n="projectsDescription">
-                지금 설명할 수 있는 작업을 중심으로 정리했습니다.
-              </p>
+              <span data-profile="role">풀스택 · 백엔드 · C++/게임 프로그래밍</span>
+              <h2 data-profile="name">안유찬</h2>
+              <p data-profile="introduction"></p>
+              <a href="mailto:ultrauc123@gmail.com">ultrauc123@gmail.com</a>
             </div>
-            <a
-              class="all-repositories-link"
-              href="https://github.com/yuchanahn?tab=repositories"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <span data-i18n="allRepositories">전체 저장소</span>
-              <span aria-hidden="true">↗</span>
-            </a>
+          </aside>
+        </div>
+
+        <section class="preset-section" aria-labelledby="preset-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow" data-i18n="presetEyebrow">QUICK START</p>
+              <h2 id="preset-title" data-i18n="presetTitle">지원 직무별 기본 조합</h2>
+            </div>
+            <p data-i18n="presetDescription">기본 조합을 고른 뒤 태그를 더하거나 뺄 수 있습니다.</p>
+          </div>
+          <div id="preset-grid" class="preset-grid"></div>
+        </section>
+
+        <section class="tag-builder" aria-labelledby="tag-builder-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow" data-i18n="tagEyebrow">BUILD YOUR VIEW</p>
+              <h2 id="tag-builder-title" data-i18n="tagTitle">태그 직접 조합</h2>
+            </div>
+            <button id="clear-tags" class="text-button" type="button" data-i18n="clearTags">
+              전체 해제
+            </button>
           </div>
 
-          <div id="project-grid" class="project-grid"></div>
+          <div id="tag-groups" class="tag-groups"></div>
 
-          <template id="project-card-template">
-            <a class="project-card" target="_blank" rel="noreferrer">
-              <span class="project-card-topline">
-                <span class="project-category"></span>
-                <span class="project-external" aria-hidden="true">↗</span>
-              </span>
-              <strong class="project-name"></strong>
-              <span class="project-description"></span>
-              <span class="project-tech"></span>
-            </a>
-          </template>
+          <div class="selection-bar">
+            <div>
+              <span class="selection-label" data-i18n="selectedTags">선택한 태그</span>
+              <div id="selected-tags" class="selected-tags" aria-live="polite"></div>
+            </div>
+            <button id="build-portfolio" class="primary-button" type="button">
+              <span data-i18n="buildPortfolio">이 조합으로 문서 만들기</span>
+              <strong id="matched-count">0</strong>
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="system-note" aria-label="포트폴리오 구성 방식">
+          <p data-i18n="systemNote">
+            선택한 태그는 URL에 저장됩니다. 같은 주소를 보내면 상대방도 같은 순서와
+            내용의 포트폴리오를 볼 수 있습니다.
+          </p>
+          <code>?tags=backend,payment,postgresql,operations</code>
         </section>
       </section>
 
-      <section id="about-screen" class="about-screen" hidden>
-        <a class="about-back-link" href="./">
-          <span aria-hidden="true">←</span>
-          <span data-i18n="home">홈으로</span>
-        </a>
-
-        <article class="about-article">
-          <header class="about-heading">
-            <span class="section-kicker">ABOUT</span>
-            <h1 data-i18n="aboutTitle">자기소개</h1>
-            <p data-i18n="aboutLead">
-              게임 개발로 프로그래밍을 시작했고, 지금은 웹 서비스를 직접
-              만들고 운영하고 있습니다.
-            </p>
-          </header>
-
-          <section class="about-copy">
-            <h2 data-i18n="aboutStartTitle">개발을 시작한 계기</h2>
-            <p data-i18n="aboutStart1">
-              중·고등학교 때 Unity로 게임을 만들고 동아리를 운영했습니다.
-              고등학교 3학년에는 게임 서버 프로그래밍을 배우며 멀티스레딩과
-              네트워크 구조를 접했고, 대학에서는 Unity와 Unreal Engine으로
-              팀 프로젝트를 진행했습니다.
-            </p>
-            <p data-i18n="aboutStart2">
-              군 복무 중에는 거래소 API를 이용한 자동매매 프로그램을 만들고
-              AWS EC2에서 24시간 실행했습니다. 로컬에서 한 번 동작하는 코드와
-              서버에서 계속 돌아가야 하는 코드는 다르다는 것을 이때 처음
-              체감했습니다. 외부 API 오류와 연결 상태, 로그와 재시작을 직접
-              챙기면서 웹과 서버 개발로 관심이 넓어졌습니다.
-            </p>
-          </section>
-
-          <section class="about-copy">
-            <h2 data-i18n="aboutPeroChatTitle">
-              PeroChat을 만들고 운영한 경험
-            </h2>
-            <p data-i18n="aboutPeroChat1">
-              대학 연구과제로 VRM과 LLM을 결합한 웹 채팅을 만들었고, 과제가
-              끝난 뒤 개인 프로젝트 PeroChat으로 계속 확장했습니다.
-              SvelteKit으로 프런트엔드를, Go로 API 서버를 만들고 PostgreSQL,
-              Redis, Supabase와 Oracle Cloud를 연결했습니다. 캐릭터 제작과
-              채팅뿐 아니라 결제, 관리자 기능, 다국어 UI, PWA와 앱 빌드까지
-              직접 구성해 실제 사용자가 접속하는 형태로 운영하고 있습니다.
-            </p>
-            <p data-i18n="aboutPeroChat2">
-              서비스 운영 중 결제 상품을 화면에 100포인트와 10포인트
-              보너스로 표시하면서 서버에서도 두 재화를 나누어 지급했습니다.
-              하지만 PeroChat 안에서는 모두 같은 방식으로 사용되고, 환불할
-              때도 주문으로 지급한 110포인트 전체를 회수해야 했습니다.
-            </p>
-            <p data-i18n="aboutPeroChat3">
-              이를 110포인트 전체가 한 주문에 연결된 같은 결제 재화로
-              처리되도록 바꿨습니다. 결제 상태, 지급 내역, 사용자 잔액과 거래
-              기록을 하나의 DB 트랜잭션에서 반영하고, 승인 요청이나 웹훅이
-              다시 들어와도 중복 지급되지 않도록 주문 단위로 처리 여부를
-              확인했습니다. 처음 작성한 코드를 유지하기보다 상품 정책과 실제
-              동작을 다시 확인하고 흐름 전체를 고친 경험이었습니다.
-            </p>
-            <p data-i18n="aboutPeroChat4">
-              문제가 생기면 감으로 코드를 바꾸기보다 브라우저 개발자 도구와
-              로그를 먼저 확인합니다. 캐릭터 목록이 늦게 표시됐을 때는 작은
-              썸네일에도 원본 해상도 이미지가 내려오는 것을 찾았고, Supabase의
-              이미지 변환 기능을 사용해 화면에 필요한 크기로 요청하도록
-              수정했습니다. iPhone Safari에서 키보드가 채팅 화면을 밀어내던
-              문제도 실제 기기에서 Visual Viewport의 변화를 확인하며 입력
-              영역만 이동하도록 고쳤습니다.
-            </p>
-          </section>
-
-          <section class="about-copy">
-            <h2 data-i18n="aboutQuickBiteTitle">
-              실제 사용자의 요구를 반영한 QuickBite
-            </h2>
-            <p data-i18n="aboutQuickBite1">
-              QuickBite는 교내에서 디저트를 판매하던 지인을 위해 만든 주문
-              사이트입니다. 처음에는 메뉴를 고르고 주문 정보를 받는 간단한
-              화면으로 시작했습니다. 실제 판매가 이어지면서 옵션, 수령 시간,
-              재고, 판매 일정, 계좌 안내와 주문 관리 기능이 차례로
-              필요해졌습니다.
-            </p>
-            <p data-i18n="aboutQuickBite2">
-              판매자가 휴대전화에서 주문을 빠르게 확인하고 수정할 수 있도록
-              화면을 여러 번 바꿨습니다. 주문 내역은 Google Sheets에 기록하고
-              Discord로 새 주문 알림을 보내도록 연결했습니다. 자체 도메인과
-              Ubuntu 서버에서 수개월간 운영했으며 실제 주문을 받는 데
-              사용했습니다.
-            </p>
-            <p data-i18n="aboutQuickBite3">
-              이 프로젝트에서는 많은 기술을 사용하는 것보다 판매자가 바로 쓸
-              수 있는지가 중요했습니다. 규모에 맞춰 SQLite를 사용했고,
-              관리자 화면도 판매 중 자주 확인하는 정보와 기능이 먼저 보이도록
-              수정했습니다. 처음 받은 요구사항을 구현하고 끝내는 것이 아니라,
-              실제 사용 중 나온 불편을 듣고 다시 고치는 과정이 필요하다는 것을
-              배웠습니다.
-            </p>
-          </section>
-
-          <footer class="about-footer">
-            <a class="about-portfolio-link" href="./?c=web">
-              <span data-i18n="viewWebPortfolio">
-                웹 개발 포트폴리오 보기
-              </span>
-              <span aria-hidden="true">→</span>
-            </a>
-            <p>
-              <strong data-i18n="profileName">안유찬</strong>
-              <a href="mailto:ultrauc123@gmail.com">ultrauc123@gmail.com</a>
-            </p>
-          </footer>
-        </article>
-      </section>
-
-      <section id="viewer-screen" class="viewer-screen" hidden>
-        <div class="viewer-toolbar">
-          <a class="back-link" href="./">
+      <section id="document-screen" class="document-screen" hidden>
+        <div class="document-toolbar">
+          <a class="back-button" href="./">
             <span aria-hidden="true">←</span>
-            <span data-i18n="back">다른 직군 포트폴리오</span>
+            <span data-i18n="editTags">태그 다시 고르기</span>
           </a>
-
-          <div class="viewer-document">
-            <strong id="viewer-document-title" class="viewer-document-title">
-              웹 개발 포트폴리오
-            </strong>
-
-            <div class="page-navigation" aria-label="PDF controls">
-              <button
-                id="previous-page"
-                class="page-control"
-                type="button"
-                aria-label="이전 페이지"
-                title="이전 페이지"
-              >
-                ‹
-              </button>
-              <span class="page-status">
-                <span id="current-page">1</span>
-                <span aria-hidden="true">/</span>
-                <span id="total-pages">—</span>
-              </span>
-              <button
-                id="next-page"
-                class="page-control"
-                type="button"
-                aria-label="다음 페이지"
-                title="다음 페이지"
-              >
-                ›
-              </button>
-            </div>
-          </div>
-
-          <div class="viewer-actions">
-            <a
-              id="open-pdf-link"
-              class="viewer-open"
-              href="./assets/web-portfolio.pdf?v=18"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <span data-i18n="openNewTab">뷰어로 보기</span>
-              <span class="external-arrow" aria-hidden="true">↗</span>
-            </a>
-            <a
-              id="download-link"
-              class="viewer-icon-action"
-              href="./assets/web-portfolio.pdf?v=18"
-              download
-              aria-label="PDF 다운로드"
-              title="PDF 다운로드"
-            >
-              <span class="download-icon" aria-hidden="true"></span>
-            </a>
+          <div id="toolbar-tags" class="toolbar-tags"></div>
+          <div class="document-actions">
+            <button id="copy-link" class="toolbar-button" type="button" data-i18n-title="copyLink">
+              <span data-i18n="copyLink">링크 복사</span>
+            </button>
+            <button id="print-document" class="primary-button compact" type="button">
+              <span data-i18n="savePdf">PDF로 저장</span>
+            </button>
           </div>
         </div>
 
-        <div id="viewer-stage" class="viewer-stage">
-          <p id="viewer-loading" class="viewer-message" data-i18n="loading">
-            포트폴리오를 불러오는 중입니다.
-          </p>
-          <canvas id="pdf-canvas" role="img" hidden></canvas>
-          <div id="viewer-error" class="viewer-message" hidden>
-            <p data-i18n="loadError">PDF를 불러오지 못했습니다.</p>
-            <a
-              id="error-download-link"
-              class="viewer-icon-action"
-              href="./assets/web-portfolio.pdf?v=18"
-              download
-              aria-label="PDF 다운로드"
-              title="PDF 다운로드"
-            >
-              <span class="download-icon" aria-hidden="true"></span>
-            </a>
-          </div>
-        </div>
+        <article id="portfolio-document" class="portfolio-document"></article>
       </section>
     </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
   </body>
 </html>

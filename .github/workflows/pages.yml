@@ -29,6 +29,9 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
+      - name: Validate portfolio data
+        run: node scripts/validate-site.mjs
+
       - name: Upload static site
         uses: actions/upload-pages-artifact@v4
         with:
