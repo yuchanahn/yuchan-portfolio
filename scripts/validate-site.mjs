@@ -30,8 +30,15 @@ function checkImage(image, owner) {
   assert(fs.existsSync(path.join(publicRoot, relativePath)), `${owner}: missing image '${image.src}'`);
 }
 
+function checkLinks(links, owner) {
+  (links || []).forEach((link, index) => {
+    assert(typeof link.href === "string" && /^https?:\/\//.test(link.href), `${owner}: invalid link ${index + 1}`);
+  });
+}
+
 data.tagGroups.forEach((group) => checkTags(group.tags, `tag group ${group.id}`));
 data.presets.forEach((preset) => checkTags(preset.tags, `preset ${preset.id}`));
+Object.entries(data.projects).forEach(([projectId, project]) => checkLinks(project.links, `project ${projectId}`));
 
 data.modules.forEach((module) => {
   assert(!moduleIds.has(module.id), `duplicate module id '${module.id}'`);
@@ -41,6 +48,7 @@ data.modules.forEach((module) => {
   checkTags(module.tags, module.id);
   checkImage(module.image, module.id);
   (module.images || []).forEach((image) => checkImage(image, module.id));
+  checkLinks(module.links, module.id);
 });
 
 data.presets.forEach((preset) => {

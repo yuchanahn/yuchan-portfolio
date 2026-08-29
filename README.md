@@ -7,9 +7,11 @@
 ```text
 /?tags=backend,fintech,payment,postgresql,operations
 /?tags=game-client,cpp,unreal,network
+/?project=bybitCpp
+/?project=p2p
 ```
 
-같은 URL을 열면 같은 사례와 순서가 표시됩니다. 문서 화면의 `PDF로 저장` 버튼은 브라우저 인쇄 기능을 열며, 선택된 사례만 A4 문서로 저장할 수 있습니다.
+같은 URL을 열면 같은 사례와 순서가 표시됩니다. 기술 사례의 프로젝트명을 누르면 해당 프로젝트의 기록만 모은 `?project=` 문서로 이동하고, 프로젝트·코드 링크에서 실제 저장소나 서비스로 들어갈 수 있습니다. 문서 화면의 `PDF로 저장` 버튼은 브라우저 인쇄 기능을 열며, 선택된 사례만 A4 문서로 저장할 수 있습니다.
 
 ## 주요 파일
 

@@ -29,6 +29,7 @@ const translations = {
     contentsLabel: "SELECTED EXPERIENCE",
     projectLabel: "PROJECT",
     matchingTags: "이 문서에서 연결된 태그",
+    projectLinks: "프로젝트·코드 바로가기",
     generatedNote:
       "이 문서는 선택한 기술 태그를 기준으로 기록된 개발 경험을 자동 구성한 결과입니다.",
     allRecords: "전체 기록에서 선택됨",
@@ -50,7 +51,7 @@ const translations = {
       "game-client":
         "Unreal Engine과 Unity 프로젝트, C++ UI, 멀티플레이 네트워크 및 팀 개발 회고를 중심으로 구성했습니다.",
       cpp:
-        "C++ 소켓·IOCP부터 UE5 네트워크 구조와 P2P 실험까지, 직접 구현하며 배운 시스템 경험을 중심으로 구성했습니다.",
+        "C++ 소켓·IOCP, UE5 네트워크와 거래소 REST·WebSocket 구현까지 직접 만들며 배운 시스템 경험을 중심으로 구성했습니다.",
       "game-server":
         "Go API, 실시간 통신, 캐시와 외부 API 제어, 게임 네트워크 경험을 중심으로 구성했습니다.",
       ai: "LLM 호출, 실시간 응답, 캐릭터 표현, 결제와 운영 도구를 연결한 AI 서비스 경험을 중심으로 구성했습니다.",
@@ -89,6 +90,7 @@ const translations = {
     contentsLabel: "SELECTED EXPERIENCE",
     projectLabel: "PROJECT",
     matchingTags: "Tags connected in this document",
+    projectLinks: "Project and code links",
     generatedNote:
       "This document was assembled automatically from recorded engineering experiences using the selected technology tags.",
     allRecords: "selected from the full record",
@@ -110,7 +112,7 @@ const translations = {
       "game-client":
         "Focused on Unreal Engine and Unity projects, C++ UI, multiplayer networking, and lessons from team development.",
       cpp:
-        "Focused on hands-on systems learning from C++ sockets and IOCP to UE5 networking and P2P experiments.",
+        "Focused on hands-on systems learning across C++ sockets and IOCP, UE5 networking, and exchange REST/WebSocket integration.",
       "game-server":
         "Focused on Go APIs, real-time communication, caching, external API control, and game-networking experience.",
       ai: "Focused on connecting LLM calls, streaming responses, character presentation, payments, and operations tooling.",
@@ -135,6 +137,7 @@ const roleTags = new Set([
 const allTagIds = data.tagGroups.flatMap((group) => group.tags);
 const tagOrder = new Map(allTagIds.map((tag, index) => [tag, index]));
 const params = new URLSearchParams(window.location.search);
+const requestedProjectId = data.projects[params.get("project")] ? params.get("project") : null;
 const legacyRoutes = {
   web: ["fullstack", "backend", "go", "svelte", "postgresql", "redis", "payment", "operations"],
   game: ["game-client", "cpp", "unreal", "unity", "network", "collaboration"],
@@ -218,6 +221,11 @@ function moduleScore(module, tags = selectedTags) {
 }
 
 function matchingModules(tags = selectedTags) {
+  if (requestedProjectId) {
+    return data.modules
+      .filter((module) => module.project === requestedProjectId)
+      .sort((a, b) => a.order - b.order);
+  }
   if (tags.size === 0) return [];
   const selectedRoles = [...tags].filter((tag) => roleTags.has(tag));
   const candidates = data.modules
@@ -236,6 +244,7 @@ function matchingModules(tags = selectedTags) {
 }
 
 function getPortfolioType(tags = selectedTags) {
+  if (requestedProjectId) return data.projects[requestedProjectId].portfolioType || "default";
   const priority = ["fintech", "game-client", "cpp", "game-server", "ai", "fullstack", "backend"];
   return priority.find((tag) => tags.has(tag)) || "default";
 }
@@ -321,13 +330,54 @@ function toggleTag(tagId) {
 function buildPortfolioUrl(tags = selectedTags) {
   const url = new URL(window.location.href);
   url.search = "";
-  url.searchParams.set("tags", orderedTags(tags).join(","));
+  if (requestedProjectId) url.searchParams.set("project", requestedProjectId);
+  else url.searchParams.set("tags", orderedTags(tags).join(","));
   if (language !== "ko") url.searchParams.set("lang", language);
   return url;
 }
 
 function projectDetails(projectId) {
   return data.projects[projectId];
+}
+
+function buildProjectUrl(projectId) {
+  const url = new URL(window.location.href);
+  url.search = "";
+  url.searchParams.set("project", projectId);
+  if (language !== "ko") url.searchParams.set("lang", language);
+  return url;
+}
+
+function createProjectContextLink(projectId) {
+  const project = projectDetails(projectId);
+  const link = element("a", "case-project-link");
+  link.href = buildProjectUrl(projectId);
+  link.append(
+    element("span", "case-project-link-label", translations[language].projectLabel),
+    element("strong", "case-project-link-value", localized(project.name)),
+    element("span", "case-project-link-arrow", "→"),
+  );
+  return link;
+}
+
+function createExternalLink(definition, className = "record-link") {
+  const link = element("a", className);
+  link.href = definition.href;
+  link.target = "_blank";
+  link.rel = "noreferrer";
+  link.append(
+    element("span", `${className}-label`, localized(definition.label)),
+    element("strong", `${className}-value`, localized(definition.value) || localized(definition.label)),
+    element("span", `${className}-arrow`, "↗"),
+  );
+  return link;
+}
+
+function renderRecordLinks(definitions, className = "record-links") {
+  if (!definitions?.length) return null;
+  const links = element("div", className);
+  definitions.forEach((definition) => links.append(createExternalLink(definition, "record-link")));
+  return links;
 }
 
 function appendLinkRow(parent) {
@@ -353,6 +403,7 @@ function appendLinkRow(parent) {
 
 function renderCover(modules) {
   const type = getPortfolioType();
+  const requestedProject = requestedProjectId ? projectDetails(requestedProjectId) : null;
   const cover = element("header", "portfolio-cover");
   const top = element("div", "cover-topline");
   top.append(
@@ -360,8 +411,18 @@ function renderCover(modules) {
     element("span", "cover-count", `${modules.length} ${translations[language].caseCount}`),
   );
 
-  const title = element("h1", "cover-title", translations[language].portfolioTitles[type]);
-  const intro = element("p", "cover-intro", translations[language].portfolioIntros[type]);
+  const title = element(
+    "h1",
+    "cover-title",
+    requestedProject
+      ? `${localized(requestedProject.name)} ${language === "ko" ? "프로젝트 기록" : "Project Record"}`
+      : translations[language].portfolioTitles[type],
+  );
+  const intro = element(
+    "p",
+    "cover-intro",
+    requestedProject ? localized(requestedProject.summary) : translations[language].portfolioIntros[type],
+  );
   const identity = element("div", "cover-identity");
   const identityLabel = element("span", "cover-small-label", translations[language].profileLabel);
   const identityName = element("h2", "cover-name", localized(data.profile.name));
@@ -369,7 +430,10 @@ function renderCover(modules) {
   identity.append(identityLabel, identityName, identityRole);
 
   const selected = element("div", "cover-selected-tags");
-  orderedTags().forEach((tag) => selected.append(createTagChip(tag, { compact: true, selected: true })));
+  const coverTags = requestedProjectId
+    ? [...new Set(modules.flatMap((module) => module.tags))].slice(0, 8)
+    : orderedTags();
+  coverTags.forEach((tag) => selected.append(createTagChip(tag, { compact: true, selected: true })));
 
   cover.append(top, title, intro, identity, selected);
   appendLinkRow(cover);
@@ -379,6 +443,7 @@ function renderCover(modules) {
 function renderProjectSummary(modules) {
   const projectIds = [...new Set(modules.map((module) => module.project))];
   const section = element("section", "document-overview");
+  if (projectIds.length > 4) section.classList.add("is-dense");
   const heading = element("div", "overview-heading");
   heading.append(
     element("span", "document-kicker", translations[language].contentsLabel),
@@ -389,10 +454,15 @@ function renderProjectSummary(modules) {
     const project = projectDetails(projectId);
     const card = element("article", "project-summary-card");
     const number = element("span", "summary-number", String(index + 1).padStart(2, "0"));
-    const name = element("h3", "summary-project-name", localized(project.name));
+    const name = element("h3", "summary-project-name");
+    const nameLink = element("a", "summary-project-detail-link", localized(project.name));
+    nameLink.href = buildProjectUrl(projectId);
+    name.append(nameLink);
     const meta = element("p", "summary-project-meta", `${localized(project.period)} · ${localized(project.type)}`);
     const summary = element("p", "summary-project-copy", localized(project.summary));
     card.append(number, name, meta, summary);
+    const links = renderRecordLinks(project.links, "summary-project-links");
+    if (links) card.append(links);
     grid.append(card);
   });
   section.append(heading, grid);
@@ -428,24 +498,42 @@ function renderImages(module) {
   return figure;
 }
 
+function renderFlow(module) {
+  const steps = localized(module.flow);
+  if (!Array.isArray(steps) || steps.length === 0) return null;
+  const flow = element("div", "case-flow");
+  steps.forEach((step, index) => {
+    const item = element("div", "case-flow-step");
+    item.append(
+      element("span", "case-flow-number", String(index + 1).padStart(2, "0")),
+      element("strong", "case-flow-text", step),
+    );
+    flow.append(item);
+  });
+  return flow;
+}
+
 function renderCase(module, index) {
   const project = projectDetails(module.project);
   const section = element("section", "case-study");
   section.id = module.id;
   const meta = element("div", "case-meta");
+  const projectLabel = createProjectContextLink(module.project);
   meta.append(
     element("span", "case-index", String(index + 1).padStart(2, "0")),
-    element("span", "case-project", `${translations[language].projectLabel} · ${localized(project.name)}`),
+    projectLabel,
     element("span", "case-category", localized(module.category)),
   );
   const title = element("h2", "case-title", localized(module.title));
   const lead = element("p", "case-lead", localized(module.lead));
+  const flow = renderFlow(module);
   const visual = renderImages(module);
   const copy = element("div", "case-copy");
   localized(module.paragraphs).forEach((paragraph) => copy.append(element("p", "case-paragraph", paragraph)));
 
   section.append(meta, title, lead);
   if (module.metrics) section.append(renderMetrics(module.metrics));
+  if (flow) section.append(flow);
   if (visual) section.append(visual);
   section.append(copy);
 
@@ -455,7 +543,19 @@ function renderCase(module, index) {
     section.append(list);
   }
 
-  const matchedTags = module.tags.filter((tag) => selectedTags.has(tag));
+  const recordLinks = renderRecordLinks(module.links || project.links, "case-record-links");
+  if (recordLinks) {
+    const linksSection = element("section", "case-links-section");
+    linksSection.append(
+      element("span", "case-links-label", translations[language].projectLinks),
+      recordLinks,
+    );
+    section.append(linksSection);
+  }
+
+  const matchedTags = requestedProjectId
+    ? module.tags
+    : module.tags.filter((tag) => selectedTags.has(tag));
   const footer = element("footer", "case-footer");
   footer.append(element("span", "case-footer-label", translations[language].matchingTags));
   const footerTags = element("div", "case-footer-tags");
@@ -482,7 +582,9 @@ function renderDocument() {
   toolbarTagsElement.replaceChildren();
   orderedTags().forEach((tag) => toolbarTagsElement.append(createTagChip(tag, { compact: true, selected: true })));
   const type = getPortfolioType();
-  document.title = `${localized(data.profile.name)} · ${translations[language].portfolioTitles[type]}`;
+  document.title = requestedProjectId
+    ? `${localized(data.profile.name)} · ${localized(data.projects[requestedProjectId].name)}`
+    : `${localized(data.profile.name)} · ${translations[language].portfolioTitles[type]}`;
 }
 
 function renderProfile() {
@@ -560,7 +662,7 @@ async function printPortfolio() {
 function initializeRoute() {
   const requestedLanguage = params.get("lang");
   if (translations[requestedLanguage]) language = requestedLanguage;
-  const isDocument = selectedTags.size > 0 && matchingModules().length > 0;
+  const isDocument = (requestedProjectId || selectedTags.size > 0) && matchingModules().length > 0;
   builderScreen.hidden = isDocument;
   documentScreen.hidden = !isDocument;
   if (isDocument) renderDocument();

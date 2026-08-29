@@ -36,6 +36,9 @@ window.PORTFOLIO_DATA = {
         "testing",
         "unreal",
         "unity",
+        "csharp",
+        "rust",
+        "pathfinding",
         "network",
       ],
     },
@@ -65,6 +68,9 @@ window.PORTFOLIO_DATA = {
     testing: { ko: "부하 테스트", en: "Load Testing" },
     unreal: { ko: "Unreal Engine", en: "Unreal Engine" },
     unity: { ko: "Unity", en: "Unity" },
+    csharp: { ko: "C#", en: "C#" },
+    rust: { ko: "Rust", en: "Rust" },
+    pathfinding: { ko: "JPS·길찾기", en: "JPS/Pathfinding" },
     network: { ko: "네트워크", en: "Networking" },
     operations: { ko: "서비스 운영", en: "Service Operations" },
     performance: { ko: "성능 개선", en: "Performance" },
@@ -97,8 +103,8 @@ window.PORTFOLIO_DATA = {
       id: "cpp-systems",
       title: { ko: "C++ 시스템·네트워크", en: "C++ Systems & Networking" },
       description: {
-        ko: "소켓·IOCP, 멀티스레드, 게임 넷코드와 성능 측정 경험",
-        en: "Sockets, IOCP, multithreading, game netcode, and performance work",
+        ko: "소켓·IOCP, UE5 네트워크, 거래소 REST·WebSocket 및 C++ 코드 회고",
+        en: "Sockets, IOCP, UE5 networking, exchange REST/WebSockets, and C++ code review",
       },
       tags: ["cpp", "network", "unreal", "performance", "collaboration"],
     },
@@ -124,6 +130,7 @@ window.PORTFOLIO_DATA = {
 
   projects: {
     perochat: {
+      portfolioType: "fullstack",
       name: "PeroChat",
       period: "2025.05–현재",
       type: { ko: "개인 개발·운영", en: "Solo development and operations" },
@@ -131,8 +138,13 @@ window.PORTFOLIO_DATA = {
         ko: "대학 과제로 시작한 VRM+LLM 웹 채팅을 2D·Live2D·VRM 캐릭터, 결제, 관리자 기능과 다국어 UI를 갖춘 서비스로 확장했습니다.",
         en: "A university VRM+LLM web-chat project expanded into a service with 2D, Live2D and VRM characters, payments, admin tools, and multilingual UI.",
       },
+      links: [
+        { label: { ko: "서비스", en: "Service" }, href: "https://personaxi.com", value: "personaxi.com" },
+        { label: { ko: "공개 프런트엔드", en: "Public frontend" }, href: "https://github.com/yuchanahn/personaxi-front", value: "GitHub" },
+      ],
     },
     quickbite: {
+      portfolioType: "fullstack",
       name: "QuickBite",
       period: { ko: "수개월간 운영", en: "Operated for several months" },
       type: { ko: "개인 개발·실사용", en: "Solo development, used in production" },
@@ -142,6 +154,7 @@ window.PORTFOLIO_DATA = {
       },
     },
     nirvana: {
+      portfolioType: "game-client",
       name: "Nirvana",
       period: "2023.03–2023.11",
       type: { ko: "22명 팀 · 프로그래머 4명", en: "22-person team · 4 programmers" },
@@ -149,8 +162,13 @@ window.PORTFOLIO_DATA = {
         ko: "Unreal Engine 5.3으로 제작한 2인 멀티플레이 액션 로그라이크 졸업 프로젝트입니다.",
         en: "A two-player multiplayer action roguelike capstone project built with Unreal Engine 5.3.",
       },
+      links: [
+        { label: { ko: "플레이 영상", en: "Play video" }, href: "https://www.youtube.com/watch?v=IK2acnw1DHY", value: "YouTube" },
+        { label: { ko: "공개 코드", en: "Public code" }, href: "https://github.com/yuchanahn/-", value: "GitHub" },
+      ],
     },
     foundations: {
+      portfolioType: "cpp",
       name: { ko: "네트워크·시스템 학습", en: "Networking & systems foundations" },
       period: { ko: "고등학교–현재", en: "High school–present" },
       type: { ko: "개인 학습·실험", en: "Study and experiments" },
@@ -158,6 +176,75 @@ window.PORTFOLIO_DATA = {
         ko: "소켓과 IOCP부터 P2P·롤백 실험까지 직접 구현하며 네트워크 프로그래밍을 공부했습니다.",
         en: "Networking studies ranging from sockets and IOCP to P2P and rollback experiments.",
       },
+      links: [
+        { label: { ko: "공개 코드 모음", en: "Code samples" }, href: "https://github.com/yuchanahn/-", value: "GitHub" },
+      ],
+    },
+    tower: {
+      portfolioType: "game-client",
+      name: "Tower of Ukani",
+      period: "2019",
+      type: { ko: "대학교 1학년 Unity 팀 프로젝트", en: "First-year university Unity team project" },
+      summary: {
+        ko: "몬스터 AI와 상태 관리, JPS 길찾기와 움직이는 장애물을 반영하는 비동기 경로 계산을 맡았습니다.",
+        en: "Worked on monster AI and state, JPS pathfinding, and asynchronous path rebuilding for moving obstacles.",
+      },
+      links: [
+        { label: { ko: "프로젝트", en: "Project" }, href: "https://github.com/yuchanahn/Tower_Of_Ukani", value: "GitHub" },
+      ],
+    },
+    vapor: {
+      portfolioType: "game-client",
+      name: "Vapor",
+      period: "2023",
+      type: { ko: "Unity 팀 프로젝트", en: "Unity team project" },
+      summary: {
+        ko: "공통 입력 구조를 전투 기능과 키 설정 저장까지 확장하고 게임 데이터를 CSV로 분리했습니다.",
+        en: "Expanded a shared input layer into combat and persisted key bindings, while moving game data into CSV files.",
+      },
+      links: [
+        { label: { ko: "프로젝트", en: "Project" }, href: "https://github.com/yuchanahn/CK2022CapstoneDesign", value: "GitHub" },
+      ],
+    },
+    p2p: {
+      portfolioType: "game-server",
+      name: "P2P Netcode",
+      period: "2025",
+      type: { ko: "Godot·Rust 개인 실험", en: "Godot and Rust personal experiment" },
+      summary: {
+        ko: "UDP 기반 delay netcode를 먼저 만든 뒤 snapshot과 재시뮬레이션을 추가해 rollback 구조까지 비교했습니다.",
+        en: "Built UDP delay netcode first, then added snapshots and resimulation to compare a rollback approach.",
+      },
+      links: [
+        { label: { ko: "프로젝트", en: "Project" }, href: "https://github.com/yuchanahn/p2pactiongame", value: "GitHub" },
+      ],
+    },
+    bybitCpp: {
+      portfolioType: "cpp",
+      name: "C++ Bybit Trading Bot",
+      period: "2021–2022",
+      type: { ko: "C++ 개인 학습 프로젝트", en: "C++ personal study project" },
+      summary: {
+        ko: "Bybit의 공개·비공개 WebSocket, 주문 REST API와 HMAC-SHA256 서명을 C++로 직접 연결했습니다.",
+        en: "Connected Bybit public/private WebSockets, trading REST APIs, and HMAC-SHA256 signing directly in C++.",
+      },
+      links: [
+        { label: { ko: "프로젝트", en: "Project" }, href: "https://github.com/yuchanahn/trade_bot_bybit_cpp", value: "GitHub" },
+      ],
+    },
+    autoTrading: {
+      portfolioType: "fintech",
+      name: { ko: "D·Nim 자동매매", en: "D and Nim Trading Bots" },
+      period: "2024",
+      type: { ko: "개인·공동 학습 프로젝트", en: "Personal and collaborative study projects" },
+      summary: {
+        ko: "거래소 실시간 주문을 기준으로 상태를 저장해 프로세스 종료 뒤에도 주문과 포지션을 복구하도록 실험했습니다.",
+        en: "Used exchange real-time orders as the recovery source so order and position state could survive process restarts.",
+      },
+      links: [
+        { label: "Nim", href: "https://github.com/doongjohn/bigmoney", value: "GitHub" },
+        { label: "D", href: "https://github.com/doongjohn/bigmoney-d", value: "GitHub" },
+      ],
     },
   },
 
@@ -187,6 +274,40 @@ window.PORTFOLIO_DATA = {
         ],
       },
       image: { src: "./assets/system-architecture.png", alt: "PeroChat system architecture" },
+    },
+    {
+      id: "auth-evolution",
+      order: 15,
+      project: "perochat",
+      category: { ko: "인증 구조", en: "Authentication Architecture" },
+      tags: ["fullstack", "backend", "ai", "go", "svelte", "mobile", "operations"],
+      title: {
+        ko: "인증을 직접 구현한 뒤 Supabase Auth로 전환했습니다",
+        en: "Moved to Supabase Auth after implementing the authentication flow directly",
+      },
+      lead: {
+        ko: "Google OAuth에서 시작해 이메일 로그인과 자체 토큰 흐름을 만들었고, 플랫폼이 늘면서 인증 운영 비용을 확인한 뒤 관리형 인증으로 바꿨습니다.",
+        en: "Started with Google OAuth, built email login and token handling, then adopted managed authentication after seeing the maintenance cost across platforms.",
+      },
+      flow: {
+        ko: ["Google OAuth", "이메일 로그인\n쿠키 세션", "Redis access token\nrefresh token", "Supabase Auth\nGo JWT 검증"],
+        en: ["Google OAuth", "Email login\nCookie session", "Redis access token\nRefresh token", "Supabase Auth\nGo JWT validation"],
+      },
+      paragraphs: {
+        ko: [
+          "초기에는 Google OAuth만 사용했습니다. 이메일 로그인도 필요해지면서 비밀번호 해시, 쿠키 세션, Redis access token과 refresh token 저장 구조를 직접 구현했습니다. 이 과정에서 로그인 화면보다 토큰 갱신, 쿠키 도메인과 사용자 동기화 코드가 더 빠르게 늘어나는 것을 경험했습니다.",
+          "웹과 앱의 인증 흐름을 함께 유지하는 비용을 검토한 뒤, 인증은 PeroChat의 핵심 기능이 아니라고 판단했습니다. 현재는 Supabase Auth가 인증을 담당하고 Go API가 JWT 서명과 sub를 확인해 내부 사용자와 동기화합니다.",
+          "직접 구현할 수 있다는 이유만으로 계속 자체 운영하지 않고, 직접 만들어 보며 확인한 비용을 근거로 관리형 서비스를 선택한 사례입니다.",
+        ],
+        en: [
+          "The first version used only Google OAuth. Email login then led to password hashing, cookie sessions, Redis access tokens, and refresh-token storage. Token refresh, cookie domains, and account synchronization grew faster than the login UI itself.",
+          "After reviewing the cost of keeping web and app flows aligned, I decided authentication was not PeroChat's core product. Supabase Auth now owns authentication while the Go API validates the JWT signature and subject before syncing the internal user.",
+          "The decision was not based on being unable to build authentication, but on understanding its ongoing cost after implementing it directly.",
+        ],
+      },
+      links: [
+        { label: { ko: "로그인 구현", en: "Login implementation" }, href: "https://github.com/yuchanahn/personaxi-front/blob/c64d4aa286b379a8c68822fe925f12f5b3a392e3/src/routes/login/%2Bpage.svelte", value: "GitHub" },
+      ],
     },
     {
       id: "svelte-go-split",
@@ -291,19 +412,19 @@ window.PORTFOLIO_DATA = {
       paragraphs: {
         ko: [
           "캐릭터 목록은 자주 조회되지만 수정 빈도는 상대적으로 낮아 Redis에 조회용 데이터를 캐시했습니다. 캐릭터 수정 시 관련 키만 무효화하고, Redis를 사용할 수 없으면 PostgreSQL 조회로 계속 동작하도록 했습니다.",
-          "조회와 실제 2D 채팅 흐름을 별도 k6 시나리오로 만들었습니다. 조회 테스트에서 처리량은 약 590 RPS에서 1,760 RPS로 증가했고 p99는 596.33ms에서 239.04ms로 줄었습니다.",
-          "채팅 시나리오에서는 조회보다 저장 과정의 연결 사용이 더 큰 문제였습니다. 메시지·세션·재화 정산 기록을 함께 처리하도록 수정한 뒤 같은 조건에서 DB 연결 사용량은 79/80에서 10/80으로, 응답 확인 시간은 409.32ms에서 2.14ms로 줄었습니다.",
+          "조회와 실제 2D 채팅 흐름을 별도 k6 시나리오로 만들었습니다. 조회 테스트에서 처리량은 약 590 RPS에서 1,760 RPS로 증가했고 p99는 약 596ms에서 약 239ms로 줄었습니다.",
+          "채팅 시나리오에서는 조회보다 저장 과정의 연결 사용이 더 큰 문제였습니다. 메시지·세션·재화 정산 기록을 함께 처리하도록 수정한 뒤 같은 조건에서 DB 연결 사용량은 79/80에서 10/80으로, 평균 응답 확인 시간은 약 400ms에서 약 2ms로 줄었습니다.",
         ],
         en: [
           "Character lists are read often and change less frequently, so I cached read models in Redis. Character edits invalidate related keys, and PostgreSQL remains the fallback when Redis is unavailable.",
-          "I created separate k6 scenarios for list reads and a realistic 2D chat flow. Read throughput increased from about 590 to 1,760 RPS, while p99 fell from 596.33ms to 239.04ms.",
-          "The chat scenario showed a larger issue in the write path. Grouping message, session, and credit-settlement work reduced database connection usage from 79/80 to 10/80 and response-check time from 409.32ms to 2.14ms under the same test conditions.",
+          "I created separate k6 scenarios for list reads and a realistic 2D chat flow. Read throughput increased from about 590 to 1,760 RPS, while p99 fell from about 596ms to about 239ms.",
+          "The chat scenario showed a larger issue in the write path. Grouping message, session, and credit-settlement work reduced database connection usage from 79/80 to 10/80 and average response-check time from about 400ms to about 2ms under the same test conditions.",
         ],
       },
       metrics: [
         { label: "RPS", before: "590", after: "1,760" },
         { label: "DB connections", before: "79/80", after: "10/80" },
-        { label: "Response check", before: "409.32ms", after: "2.14ms" },
+        { label: "Response check", before: "~400ms", after: "~2ms" },
       ],
       image: { src: "./assets/load-test-comparison.png", alt: "k6 result comparison" },
     },
@@ -368,23 +489,27 @@ window.PORTFOLIO_DATA = {
       category: { ko: "서비스 운영 도구", en: "Operations Tooling" },
       tags: ["fullstack", "backend", "ai", "go", "postgresql", "admin", "operations", "llm"],
       title: {
-        ko: "관리자 페이지에서 서비스 프롬프트와 사용자 상태를 관리했습니다",
-        en: "Managed service prompts and user state through an admin console",
+        ko: "서비스 프롬프트를 코드 배포 없이 관리하도록 바꿨습니다",
+        en: "Made service prompts manageable without a code deployment",
       },
       lead: {
-        ko: "DB를 직접 수정하지 않고 반복되는 프롬프트 검증, 사용자 상태 확인과 재화 지급을 처리합니다.",
-        en: "Handled repeated prompt validation, account checks, and credit grants without editing the database directly.",
+        ko: "파일과 include로 시작한 프롬프트 구조를 역할별 PromptKit 레이어와 관리자 미리보기로 확장했습니다.",
+        en: "Evolved file-and-include prompts into role-based PromptKit layers with an admin preview.",
+      },
+      flow: {
+        ko: ["긴 프롬프트", "파일·include\n변수 치환", "PromptKit\n레이어 조립", "관리자 미리보기\nDB 저장"],
+        en: ["Long prompt", "Files and includes\nVariable replacement", "PromptKit\nLayer assembly", "Admin preview\nDatabase storage"],
       },
       paragraphs: {
         ko: [
-          "관리 대상은 사용자가 캐릭터에 작성한 개인 프롬프트가 아니라, PeroChat이 2D·Live2D·VRM 채팅과 LLM 호출에 자동으로 붙이는 시스템 프롬프트와 공통 레이어입니다.",
-          "캐릭터·채팅 모드·테스트 메시지를 넣어 최종 조합 결과와 포함된 레이어를 확인하고 Runtime Check를 통과한 PromptKit만 적용합니다. 사용자 관리에서는 역할·플랜·상태·재화를 조회하고 지급 사유와 처리 기록을 남깁니다.",
-          "관리 화면은 로컬에서만 실행하고 API는 Supabase JWT, 관리자 역할과 별도 rate limit으로 보호했습니다.",
+          "SillyTavern의 JSON 기반 구조를 분석해 필요한 개념을 확인한 뒤, 초기에는 파일·재귀 include·변수 치환으로 공통 프롬프트를 나눴습니다. 2D·Live2D·VRM, 로어북과 메모리 처리가 늘면서 단순 파일 분리만으로는 조립 순서와 적용 범위를 확인하기 어려워졌습니다.",
+          "현재는 root, base, child, persona와 component 레이어를 실행 모드에 맞춰 조립합니다. 캐릭터·채팅 모드·테스트 메시지를 넣어 최종 결과와 포함된 레이어를 미리 보고 Runtime Check를 통과한 PromptKit만 적용합니다.",
+          "관리 대상은 사용자가 캐릭터에 작성한 개인 프롬프트가 아니라 PeroChat이 LLM 호출 때 자동으로 붙이는 시스템 프롬프트입니다. 같은 관리자 화면에서 사용자 역할·플랜·상태·재화도 확인하고 지급 사유와 처리 기록을 남깁니다.",
         ],
         en: [
-          "The console does not edit a user's private character prompt. It manages system prompts and shared service layers automatically added to 2D, Live2D, VRM, and other LLM calls.",
-          "A character, chat mode, and test message preview the final prompt composition. Only PromptKits that pass Runtime Check can become active. Account tools inspect roles, plans, status, credits, and record grant reasons.",
-          "The admin UI runs locally, while its APIs require Supabase JWT validation, an admin role, and a separate rate limit.",
+          "After studying SillyTavern's JSON prompt structure, the first version separated shared prompts through files, recursive includes, and variable replacement. As 2D, Live2D, VRM, lorebook, and memory flows grew, files alone no longer made assembly order and scope easy to inspect.",
+          "The current system assembles root, base, child, persona, and component layers for each runtime mode. A character, chat mode, and test message preview the final result, and only PromptKits that pass Runtime Check can become active.",
+          "The console manages PeroChat's system prompts, not private prompts written by users. The same operations tool also inspects roles, plans, account state, and credits while recording grant reasons.",
         ],
       },
       images: [
@@ -614,31 +739,106 @@ window.PORTFOLIO_DATA = {
     {
       id: "p2p-netcode",
       order: 410,
-      project: "foundations",
-      category: { ko: "게임 넷코드 실험", en: "Game Netcode Experiments" },
-      tags: ["game-server", "game-client", "network", "realtime", "performance", "unreal", "cpp"],
+      project: "p2p",
+      category: { ko: "Rollback 넷코드 실험", en: "Rollback Netcode Experiment" },
+      tags: ["game-server", "game-client", "rust", "network", "realtime", "performance"],
       title: {
-        ko: "P2P 연결과 lockstep·rollback 구조를 작은 프로젝트로 실험했습니다",
-        en: "Experimented with P2P connectivity, lockstep, and rollback in small projects",
+        ko: "delay netcode에서 rollback 구조까지 직접 비교했습니다",
+        en: "Compared delay netcode with a rollback design through direct implementation",
       },
       lead: {
-        ko: "Rust UDP 프로젝트에서 NAT 홀펀칭과 지연 환경의 동기화 방식을 직접 비교했습니다.",
-        en: "A Rust UDP project compared NAT hole punching and synchronization approaches under induced latency.",
+        ko: "입력을 기다리는 구조의 지연을 확인한 뒤 world snapshot, 입력 기록과 재시뮬레이션을 추가했습니다.",
+        en: "After seeing the latency cost of waiting for input, I added world snapshots, input history, and resimulation.",
+      },
+      flow: {
+        ko: ["UDP tick·입력 packet", "delay 방식\n입력 대기", "world snapshot\n입력 기록", "rollback\n재시뮬레이션"],
+        en: ["UDP ticks\nInput packets", "Delay model\nWait for input", "World snapshots\nInput history", "Rollback\nResimulation"],
       },
       paragraphs: {
         ko: [
-          "초기 릴레이 서버를 통해 피어의 외부 주소를 교환하고 UDP hole punching으로 직접 연결을 시도했습니다. 패킷 손실과 순서 문제를 다루기 위해 ACK, timeout과 순서 보장 로직도 작은 단위로 구현했습니다.",
-          "Clumsy로 지연을 만들어 delay lockstep과 rollback 흐름을 비교했습니다. 과거 테스트 기록에서는 각각 약 200~250ms와 450ms 조건을 사용했습니다. 상용 넷코드라고 주장하기보다 동기화 방식의 차이를 이해하기 위한 실험입니다.",
+          "Godot와 Rust GDExtension으로 UDP tick, ping과 입력 packet을 만들고 먼저 정해진 tick의 입력을 기다리는 delay 방식으로 동기화했습니다. 구조는 단순했지만 네트워크 지연이 그대로 조작 지연으로 느껴졌습니다.",
+          "다음 구현에서는 먼저 예측해 실행하고 늦은 입력이 도착하면 과거 world snapshot으로 돌아가 같은 입력을 다시 실행하도록 바꿨습니다. 재실행 결과를 맞추기 위해 엔진 node 상태 의존을 줄이고 data-only world, 자체 collision type과 고정 PRNG를 추가했습니다.",
+          "상용 넷코드라고 표현하지 않습니다. 두 동기화 방식에서 지연을 어디에 부담하는지 작은 코드로 직접 비교한 프로젝트입니다.",
         ],
         en: [
-          "An initial relay exchanged peers' public addresses before UDP hole punching attempted a direct connection. Small ACK, timeout, and ordering mechanisms explored packet loss and sequencing.",
-          "I used Clumsy to compare delay lockstep and rollback flows under latency. Historical test notes used roughly 200–250ms and 450ms conditions. This was an experiment to understand the trade-offs, not production netcode.",
+          "Using Godot and a Rust GDExtension, I implemented UDP ticks, ping, and input packets, starting with a delay model that waits for the required tick's input. It was simple, but network latency became input latency.",
+          "The next version predicted ahead and returned to an earlier world snapshot when late input arrived. To make resimulation more repeatable, I reduced direct engine-node state, introduced a data-only world, custom collision types, and a fixed PRNG.",
+          "This is not presented as production netcode. It is a small implementation used to compare where delay and rollback place their costs.",
         ],
       },
+      links: [
+        { label: { ko: "프로젝트 코드", en: "Project code" }, href: "https://github.com/yuchanahn/p2pactiongame", value: "GitHub" },
+      ],
+    },
+    {
+      id: "tower-dynamic-jps",
+      order: 420,
+      project: "tower",
+      category: { ko: "몬스터 AI·길찾기", en: "Monster AI & Pathfinding" },
+      tags: ["game-client", "unity", "csharp", "pathfinding", "performance", "collaboration"],
+      title: {
+        ko: "움직이는 장애물에 맞춰 JPS 경로를 다시 계산했습니다",
+        en: "Rebuilt JPS paths around moving obstacles",
+      },
+      lead: {
+        ko: "고정 grid에서 동작하던 길찾기에 움직이는 발판을 반영하고 반복 계산을 작업 queue로 옮겼습니다.",
+        en: "Extended static-grid pathfinding for moving platforms and moved repeated calculations into a work queue.",
+      },
+      flow: {
+        ko: ["고정 JPS grid", "움직이는 지형\n경로 불일치", "비동기 grid 갱신", "계산 시간 기반\n미래 위치 반영"],
+        en: ["Static JPS grid", "Moving ground\nStale path", "Async grid rebuild", "Future position from\ncalculation time"],
+      },
+      paragraphs: {
+        ko: [
+          "대학교 1학년 팀 프로젝트에서 몬스터 AI, 상태 관리와 길찾기를 맡았습니다. 초기 JPS는 정적인 맵에서는 동작했지만 발판과 장애물이 움직이면 이전 grid와 실제 지형이 달라졌습니다.",
+          "움직이는 지형을 반영해 grid를 다시 만들고 JPS builder 계산을 concurrent queue로 보냈습니다. 비동기 계산을 추가한 뒤에는 길찾기 결과가 적용되는 시점과 몬스터 상태가 어긋나는 문제가 생겨, 계산 시간을 재고 장애물의 미래 위치를 반영했습니다.",
+          "학생 때 만든 코드라 현재 기준의 구조적 한계는 그대로 밝힙니다. 정적 알고리즘을 움직이는 게임 환경에 적용하며 상태와 계산 시점 문제를 처음 경험한 사례입니다.",
+        ],
+        en: [
+          "In a first-year university team project, I worked on monster AI, state, and pathfinding. The initial JPS grid worked on static maps but became stale when platforms and obstacles moved.",
+          "I rebuilt the grid around moving ground and sent JPS builder work through a concurrent queue. Async calculation then exposed timing issues between path results and monster state, so I measured build time and used it to estimate the obstacle's future position.",
+          "The student code has structural limitations by today's standards. Its value is the first hands-on lesson that applying a static algorithm to a moving game world creates state and timing problems.",
+        ],
+      },
+      links: [
+        { label: { ko: "프로젝트 코드", en: "Project code" }, href: "https://github.com/yuchanahn/Tower_Of_Ukani", value: "GitHub" },
+      ],
+    },
+    {
+      id: "vapor-input-system",
+      order: 430,
+      project: "vapor",
+      category: { ko: "입력·게임 데이터", en: "Input & Game Data" },
+      tags: ["game-client", "unity", "csharp", "collaboration"],
+      title: {
+        ko: "공통 입력 구조를 전투와 키 설정 저장까지 확장했습니다",
+        en: "Extended a shared input layer into combat and persisted key bindings",
+      },
+      lead: {
+        ko: "입력 처리를 한곳에 모은 뒤 차징·콤보·패링과 사용자 키 설정을 같은 흐름에 연결했습니다.",
+        en: "Centralized input handling, then connected charged attacks, combos, parries, and user key bindings through the same path.",
+      },
+      flow: {
+        ko: ["Unity Input System", "YCInputSystem", "차징·콤보·패링", "키 설정 저장"],
+        en: ["Unity Input System", "YCInputSystem", "Charge·combo·parry", "Persisted bindings"],
+      },
+      paragraphs: {
+        ko: [
+          "프로젝트 초기에 Unity Input System을 도입하고 게임 코드가 직접 입력 장치를 읽지 않도록 YCInputSystem을 만들었습니다. 이후 차징 공격, 콤보와 패링을 이 공통 입력 경로에 연결했습니다.",
+          "사용자가 키를 바꿀 수 있는 UI와 설정 저장까지 추가해 다음 실행에도 binding이 유지되도록 했습니다. 게임 수치는 sheet를 역할별로 나누고 CSV parser를 추가해 코드 밖에서 조정할 수 있게 했습니다.",
+        ],
+        en: [
+          "I introduced Unity's Input System early and created YCInputSystem so gameplay code would not read devices directly. Charged attacks, combos, and parries were then connected through that shared path.",
+          "I added rebinding UI and persistence so bindings survived a restart. Game values were split into role-specific sheets and loaded through a CSV parser for editing outside the code.",
+        ],
+      },
+      links: [
+        { label: { ko: "프로젝트 코드", en: "Project code" }, href: "https://github.com/yuchanahn/CK2022CapstoneDesign", value: "GitHub" },
+      ],
     },
     {
       id: "unity-unet",
-      order: 420,
+      order: 440,
       project: "foundations",
       category: { ko: "초기 게임 개발", en: "Early Game Development" },
       tags: ["game-client", "game-server", "unity", "network", "collaboration"],
@@ -663,28 +863,75 @@ window.PORTFOLIO_DATA = {
     },
     {
       id: "cpp-trading-bot",
-      order: 430,
-      project: "foundations",
-      category: { ko: "C++ API 실험", en: "C++ API Experiment" },
-      tags: ["cpp", "fintech", "network", "operations"],
+      order: 450,
+      project: "bybitCpp",
+      category: { ko: "C++ 거래소 API", en: "C++ Exchange API" },
+      tags: ["cpp", "fintech", "network", "realtime", "operations", "performance"],
       title: {
-        ko: "거래소 API와 C++ 자동매매 프로그램을 실험했습니다",
-        en: "Experimented with exchange APIs and a C++ trading bot",
+        ko: "Bybit의 실시간 시세와 주문 상태를 C++로 직접 연결했습니다",
+        en: "Connected Bybit market data and order state directly in C++",
       },
       lead: {
-        ko: "시세와 주문 API를 연결하고 프로그램이 계속 실행될 때 필요한 연결 상태와 로그를 다뤘습니다.",
-        en: "Connected market-data and order APIs while handling connection state and logs for a continuously running process.",
+        ko: "공개 호가·비공개 포지션 WebSocket과 주문 REST API, HMAC-SHA256 서명을 하나의 실행 흐름으로 묶었습니다.",
+        en: "Combined public order-book and private-position WebSockets, order REST APIs, and HMAC-SHA256 signing in one execution flow.",
+      },
+      flow: {
+        ko: ["Public WebSocket\n호가", "Private WebSocket\n포지션", "position_type_b\n전략 상태", "REST API\n주문·취소·재조회"],
+        en: ["Public WebSocket\nOrder book", "Private WebSocket\nPositions", "position_type_b\nStrategy state", "REST API\nOrder·cancel·reconcile"],
       },
       paragraphs: {
         ko: [
-          "Bybit 시세와 거래 API를 호출하고 주문 조건을 평가하는 작은 C++ 프로젝트를 만들었습니다. 이를 실제 투자 성과나 금융 시스템 실무 경험으로 표현하지 않습니다.",
-          "의미가 있었던 부분은 외부 API 오류, 연결 재시도, 로그와 프로세스 재시작처럼 한 번 실행되는 코드와 계속 운영되는 코드의 차이를 경험한 것입니다.",
+          "공개 WebSocket에서 BTCUSDT 호가 snapshot과 insert·delete event를 받아 매수·매도 기준 가격을 갱신했습니다. 비공개 WebSocket에서는 long·short 포지션의 진입 가격과 수량 변화를 받고, 주문 생성·취소와 잔액·포지션 조회는 REST API로 분리했습니다.",
+          "비공개 요청은 API key, timestamp와 parameter를 정렬해 문자열로 만든 뒤 OpenSSL HMAC-SHA256으로 서명했습니다. 시장가·지정가 주문과 reduce_only 청산 주문이 같은 parameter 생성 규칙을 사용하도록 구성했습니다.",
+          "현재 기준으로는 WebSocket thread와 main loop가 공유하는 상태의 동기화, reconnect·shutdown과 thread 소유권이 부족합니다. 다시 만든다면 std::jthread와 event queue로 수신과 상태 소유를 분리하고 testnet에서 재연결과 중복 event를 먼저 검증합니다. 저지연 거래 시스템으로 과장하지 않고 C++ 네트워크 구현과 현재의 코드 판단을 함께 보여주는 프로젝트입니다.",
         ],
         en: [
-          "I built a small C++ project that consumed Bybit market and trading APIs and evaluated order conditions. I do not present this as investment performance or professional financial-systems experience.",
-          "Its value was learning the difference between code that runs once and a process that must continue through API errors, reconnects, logging, and restarts.",
+          "The public WebSocket applied BTCUSDT order-book snapshots and insert/delete events to local bid and ask prices. A private WebSocket received long and short position changes, while order creation, cancellation, balances, and reconciliation used REST APIs.",
+          "Private requests sorted the API key, timestamp, and parameters into a signing string, then generated an OpenSSL HMAC-SHA256 signature. Market, limit, and reduce-only close orders shared the same parameter-building rule.",
+          "By today's standards, synchronization between WebSocket threads and the main loop, reconnect and shutdown handling, and thread ownership are incomplete. A rebuild would use std::jthread and an event queue with testnet cases for reconnects and duplicate events. I present it as hands-on C++ networking plus a current code review, not a low-latency trading system.",
         ],
       },
+      links: [
+        { label: { ko: "프로젝트", en: "Project" }, href: "https://github.com/yuchanahn/trade_bot_bybit_cpp", value: "GitHub" },
+        { label: "REST", href: "https://github.com/yuchanahn/trade_bot_bybit_cpp/blob/0905f73e564103ad20e77b9b991bfd47893f102a/trade_bot_bybit/bybit_api.hpp", value: "bybit_api.hpp" },
+        { label: "WebSocket", href: "https://github.com/yuchanahn/trade_bot_bybit_cpp/blob/0905f73e564103ad20e77b9b991bfd47893f102a/trade_bot_bybit/bybit_websocket.hpp", value: "bybit_websocket.hpp" },
+        { label: "HMAC", href: "https://github.com/yuchanahn/trade_bot_bybit_cpp/blob/0905f73e564103ad20e77b9b991bfd47893f102a/trade_bot_bybit/Encryption.hpp", value: "Encryption.hpp" },
+      ],
+    },
+    {
+      id: "trading-state-recovery",
+      order: 460,
+      project: "autoTrading",
+      category: { ko: "외부 상태 복구", en: "External State Recovery" },
+      tags: ["fintech", "network", "operations"],
+      title: {
+        ko: "프로세스가 종료돼도 거래소 주문 상태를 다시 복구하도록 바꿨습니다",
+        en: "Changed the design so exchange order state could recover after a process exit",
+      },
+      lead: {
+        ko: "메모리 상태만 믿지 않고 거래소의 realtime order와 저장된 포지션을 복구 기준으로 사용했습니다.",
+        en: "Used exchange real-time orders and persisted positions as the recovery source instead of trusting process memory alone.",
+      },
+      flow: {
+        ko: ["전략 의사코드", "Bybit REST·WebSocket", "상태 JSON 저장", "realtime order 기준\n재시작 복구"],
+        en: ["Strategy pseudocode", "Bybit REST·WebSocket", "Persist state as JSON", "Recover from\nreal-time orders"],
+      },
+      paragraphs: {
+        ko: [
+          "Nim 버전은 매매 전략을 의사코드로 먼저 정리하고 Bybit 공개·비공개 REST와 WebSocket, HMAC 인증을 붙였습니다. WebSocket 오류 재연결, 동시에 API를 호출할 때 생기는 문제와 포지션 JSON 저장을 순서대로 보완했습니다.",
+          "D 버전에서는 프로그램 내부 상태만 믿으면 강제 종료 뒤 거래소의 실제 주문과 로컬 상태가 달라질 수 있다고 판단했습니다. 거래소 realtime order를 기준으로 활성 주문과 open·close·cancel 상태를 저장해 재시작 뒤 복구하도록 바꿨습니다.",
+          "투자 수익을 보여주는 사례가 아니라 외부 시스템을 상태의 기준으로 삼고 연결 단절과 재시작을 처리해 본 경험으로 설명합니다.",
+        ],
+        en: [
+          "The Nim version began with trading-strategy pseudocode, then connected Bybit public/private REST, WebSockets, and HMAC authentication. I added WebSocket reconnect handling, addressed overlapping API calls, and persisted positions as JSON.",
+          "In the D version, process memory could diverge from the exchange after a forced exit. The design changed to persist active and open/close/cancel state from the exchange's real-time order stream for restart recovery.",
+          "This is not an investment-performance claim. It is an example of treating an external system as the source of truth and handling disconnects and restarts.",
+        ],
+      },
+      links: [
+        { label: "Nim", href: "https://github.com/doongjohn/bigmoney", value: "GitHub" },
+        { label: "D", href: "https://github.com/doongjohn/bigmoney-d", value: "GitHub" },
+      ],
     },
   ],
 };
