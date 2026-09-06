@@ -561,12 +561,12 @@ window.PORTFOLIO_DATA = {
         ko: [
           "캐릭터 허브가 늦게 표시되어 Network 패널을 확인했습니다. 카드에 보이는 이미지는 작았지만 요청 URL은 업로드된 원본을 그대로 가리키고 있었습니다.",
           "공개 이미지 URL을 변환 경로로 바꾸는 공통 함수를 만들었습니다. 캐릭터 카드에는 width 480·quality 72, 채팅 목록과 프로필 아이콘에는 96×96처럼 용도별 크기를 적용하고, 변환 실패나 상세 보기에서는 원본 URL을 사용할 수 있게 했습니다.",
-          "전후 전송량을 같은 조건에서 다시 측정하기 전까지 과장된 개선 수치는 사용하지 않습니다. 이 사례는 기본적인 최적화이지만, 실제 브라우저 요청을 보고 원인을 찾아 수정한 경험입니다.",
+          "카드와 목록에서는 화면에 필요한 크기의 이미지만 내려받도록 바꿔, 원본 이미지를 반복해서 요청하던 흐름을 줄였습니다.",
         ],
         en: [
           "The character hub rendered slowly, so I inspected the Network panel. Although cards displayed small images, their URLs still pointed at the uploaded originals.",
           "I added a shared URL transformer. Character cards request width 480 at quality 72, while chat lists and avatars request 96×96 assets. Detail views and failed transformations can still use the original URL.",
-          "I avoid claiming a numeric improvement until transfer size is remeasured under the same conditions. The optimization is basic, but it came from tracing a real browser request rather than guessing.",
+          "Cards and lists now download images sized for their actual display area instead of repeatedly requesting full-resolution originals.",
         ],
       },
       image: { src: "./assets/thumbnail-transform.png", alt: "Thumbnail image transformation flow" },
@@ -588,7 +588,7 @@ window.PORTFOLIO_DATA = {
       paragraphs: {
         ko: [
           "기능이 늘면서 페이지마다 조건문으로 문자열을 바꾸는 방식은 누락을 만들기 쉬웠습니다. 공통 키를 기준으로 한국어·영어·일본어 사전을 나누고, 언어 선택을 저장해 페이지 이동 뒤에도 유지했습니다.",
-          "초기 번역과 반복적인 누락 확인에는 AI 에이전트의 도움을 많이 받았습니다. 그대로 배포하지 않고 실제 UI 길이, 서비스 용어와 변수 치환을 확인해 수정했습니다. 번역을 직접 모두 작성했다고 표현하지 않습니다.",
+          "초기 번역과 반복적인 누락 확인에는 AI 에이전트의 도움을 많이 받았고, 실제 UI 길이와 서비스 용어, 변수 치환을 직접 확인해 수정했습니다.",
         ],
         en: [
           "As features grew, page-level conditional strings made omissions likely. Shared keys separate Korean, English, and Japanese dictionaries, while the selected language persists across navigation.",
@@ -672,12 +672,12 @@ window.PORTFOLIO_DATA = {
         ko: [
           "제가 담당한 범위는 온라인 세션과 로비, 서버·클라이언트의 게임 진행 처리, 스테이지 로딩, 인벤토리·미션·부활·게임오버 UI 연결입니다. 플레이어 전투와 몬스터 AI는 다른 프로그래머가 주도했고, 저는 이 기능들이 2인 네트워크 흐름 안에서 함께 작동하도록 서버 처리와 UI 접점을 연결했습니다.",
           "작업 후반에는 각 파트에서 만든 기능을 2인 플레이 흐름에 합치면서 세션 접속 실패, 두 명이 접속했을 때 발생하는 크래시, 몬스터 체력과 쉴드 동기화, 로딩 완료 시점, 인벤토리 조작 충돌 같은 문제를 반복해서 수정했습니다. 기능 하나를 만드는 것보다 서로 다른 시스템이 한 판의 시작과 종료까지 끊기지 않게 연결하는 일이 더 많았습니다.",
-          "이 프로젝트는 현재의 코드 기준으로 보면 책임 분리가 부족한 부분도 많습니다. 다만 여러 명이 동시에 만드는 Unreal 프로젝트에서 네트워크 권한, 비동기 콜백, UI 상태와 레벨 수명을 함께 다뤄 본 첫 장기 팀 개발 경험이었습니다.",
+          "여러 명이 동시에 만드는 Unreal 프로젝트에서 네트워크 권한, 비동기 콜백, UI 상태와 레벨 수명을 함께 다뤘습니다.",
         ],
         en: [
           "My scope covered online sessions and the lobby, server/client gameplay flow, stage loading, and the UI paths for inventory, missions, revival, and game over. Other programmers led player combat and monster AI; I connected those systems to the shared two-player server flow and UI.",
           "Late in development, much of my work was integrating features from different programmers into a complete two-player run. I fixed session-join failures, two-player crashes, monster health and shield synchronization, loading-completion timing, and conflicting inventory interactions.",
-          "The project still has responsibility and coupling issues by my current standards. It was nevertheless my first long team project that required handling network authority, asynchronous callbacks, UI state, and level lifetime together in Unreal.",
+          "The project required handling network authority, asynchronous callbacks, UI state, and level lifetime together in Unreal.",
         ],
       },
       image: { src: "./assets/nirvana-gameplay.png", alt: "Nirvana two-player combat gameplay" },
@@ -700,12 +700,12 @@ window.PORTFOLIO_DATA = {
         ko: [
           "`UOSS`에서 세션 생성·검색·합류·삭제와 로그인, 초대 수락, 네트워크 오류 delegate를 한곳에 연결했습니다. 게임 전용 `UNrvOss`에서는 `Init → Searching → Found → Joining → Joined` 상태를 두고 메인 메뉴가 현재 진행 상황을 표시하고 중복 요청을 막도록 했습니다.",
           "호스트는 `CreateSession` 완료 후 로비 맵을 listen server로 열고, 게스트는 검색 결과를 검증한 뒤 `JoinSession`을 호출했습니다. 합류 callback에서 `GetResolvedConnectString`으로 접속 주소를 받은 다음 `ClientTravel`을 실행하도록 순서를 고쳤습니다. 검색 결과가 없을 때는 실패 상태에서 다시 검색할 수 있게 메뉴 조건도 수정했습니다.",
-          "프로젝트 설정은 EOSPlus를 기본 서비스, Steam을 native platform으로 두고 Steam 계정 ID를 외부 자격 정보로 넘기도록 구성했습니다. 당시 목표는 상용 크로스플랫폼 출시가 아니라 Steam 로그인 정보를 EOSPlus 세션 흐름에 연결해 보는 것이었고, 구현도 해당 범위까지 진행했습니다.",
+          "프로젝트 설정은 EOSPlus를 기본 서비스, Steam을 native platform으로 두고 Steam 계정 ID를 외부 자격 정보로 넘기도록 구성했습니다. Steam 로그인 정보를 EOSPlus 세션 흐름에 연결해 계정 확인부터 방 검색과 합류까지 이어지는 경로를 구현했습니다.",
         ],
         en: [
           "`UOSS` centralizes delegates for create, find, join, destroy, login, invite acceptance, and network failures. The game-specific `UNrvOss` tracks an `Init → Searching → Found → Joining → Joined` state so the main menu can show progress and avoid duplicate requests.",
           "The host opens the lobby as a listen server after `CreateSession` completes. A guest validates the search result, calls `JoinSession`, resolves the connect string inside the join callback, and then performs `ClientTravel`. I also made a failed search return to a state from which the user could search again.",
-          "The project configured EOSPlus as the default service and Steam as the native platform, passing the Steam account ID into the external-credential path. The implementation explored connecting Steam identity to the EOSPlus session flow; it was not a commercial cross-platform release.",
+          "The project configured EOSPlus as the default service and Steam as the native platform, passing the Steam account ID into the external-credential path. This connected Steam sign-in to the EOSPlus flow from identity checks through room discovery and joining.",
         ],
       },
       image: { src: "./assets/nirvana-session-flow.svg", alt: "Nirvana online session creation and join flow" },
@@ -743,12 +743,12 @@ window.PORTFOLIO_DATA = {
         ko: [
           "패킷을 바이트로 읽고 쓰는 직렬화 기반은 팀원이 먼저 만들었습니다. 저는 패킷 ID와 `FPac_*` USTRUCT 타입을 연결하는 매핑·바인딩 코드, 기능별 패킷 정의, 그리고 `Server.cpp`와 `Client.cpp`에서 인벤토리와 전투 보조 상태, 미션, 부활처럼 실제 게임 진행이 바뀌는 처리 코드를 작성했습니다.",
           "클라이언트의 입력과 UI 조작은 `ANetPC`의 reliable RPC를 거쳐 서버 dispatch queue로 들어갑니다. 서버에서는 아이템을 누가 드래그 중인지 확인하고, 아이템 선택 결과와 엔티티의 체력·쉴드, 남은 몬스터 수, 영혼 게이지와 부활 여부를 판단한 뒤 필요한 클라이언트 또는 전체에 결과 패킷을 보냅니다. 클라이언트는 수신한 결과로 로컬 world 상태와 HUD를 갱신합니다.",
-          "이 방식으로 Unreal RPC가 여러 액터에 흩어지는 것을 일부 줄이고, 게임 진행 처리를 서버 코드에서 이어서 확인할 수 있었습니다. 다만 기능이 늘면서 `FServer`의 정적 상태와 tick 함수에 처리가 계속 붙었고, 나중에는 한 기능을 수정할 때 확인해야 할 범위가 커졌습니다. 서버 기능을 인벤토리, 스테이지, 플레이어 상태처럼 나눠 관리했으면 흐름을 더 쉽게 추적할 수 있었을 것이라는 아쉬움이 남았습니다.",
+          "이 방식으로 Unreal RPC가 여러 액터에 흩어지는 것을 줄이고, 인벤토리 조작부터 전투 상태와 미션 진행까지 서버 코드에서 한 흐름으로 처리했습니다.",
         ],
         en: [
           "A teammate first built the byte-level serialization foundation. I wrote the mapping and binding code that connects packet IDs to `FPac_*` USTRUCT types, added feature-specific packets, and implemented gameplay handling in `Server.cpp` and `Client.cpp` for inventory, supporting combat state, missions, revival, and other run-state changes.",
           "Client input and UI actions travel through reliable RPCs on `ANetPC` into the server dispatch queue. The server checks item-drag ownership and decides item rewards, entity health and shields, remaining monsters, soul gauge, revival, and game-over state before sending the result to one or both clients. Each client applies the response to its local world state and HUD.",
-          "This reduced some RPC logic scattered across actors and kept the gameplay flow visible in the server code. As features accumulated, however, static `FServer` state and the tick function grew, increasing the amount of code that had to be checked for each change. Separating inventory, stage, and player-state handling would have made the flow easier to follow.",
+          "This reduced RPC logic scattered across actors and kept inventory interactions, combat state, and mission progress in one server-side flow.",
         ],
       },
       image: { src: "./assets/nirvana-packet-flow.svg", alt: "Nirvana gameplay packet and server state flow" },
@@ -814,12 +814,12 @@ if (ReadyCount >= GetPcNum(GetWorld())) {
         ko: [
           "서버의 애니메이션 인스턴스에서 현재 몽타주와 section을 확인하고 값이 달라질 때 multicast RPC를 보내는 구조였습니다. 저는 section jump와 resume 호출, 몽타주 play rate 전달을 수정했고, 현재 몽타주를 다시 전송하는 replay 경로를 추가했습니다.",
           "클라이언트와 서버의 시간 차이는 `FPac_TimeSync`로 계산한 offset을 사용했습니다. 일시정지 후 재개할 때는 공유 시간과 재개 시작 시점의 차이로 재생 위치를 계산해 `Montage_SetPosition`을 호출합니다. section 변경에서는 해당 section의 시작 위치로 이동하도록 처리돼 있습니다.",
-          "이 컴포넌트는 액터 좌표를 보정하거나 root-motion 위치를 다시 계산하지 않습니다. 제가 수정한 범위는 몽타주 재생 상태가 서로 달라지는 조건을 찾고, 섹션 이동과 일시정지·재개·재전송 흐름을 보완한 부분입니다.",
+          "제가 수정한 부분은 몽타주 재생 상태가 서로 달라지는 조건을 찾고, 섹션 이동과 일시정지·재개·재전송 흐름을 보완한 작업입니다.",
         ],
         en: [
           "The server observes the active montage and section and sends a multicast RPC when either changes. I revised section-jump and resume calls, passed montage play rate through the RPC, and added a replay path that resends the current montage.",
           "Client/server time difference is derived from an offset calculated with `FPac_TimeSync`. On resume, the client calculates playback time from the shared clock and calls `Montage_SetPosition`; a section change moves to that section's start.",
-          "This component does not correct actor coordinates or reconstruct root-motion position. My changes focused on conditions where montage state diverged and on section changes, pause/resume, and replay paths.",
+          "My changes focused on identifying when montage state diverged and revising section changes, pause/resume, and replay paths.",
         ],
       },
       code: {
@@ -854,12 +854,10 @@ if (ReadyCount >= GetPcNum(GetWorld())) {
         ko: [
           "네트워크에 전달할 데이터는 `USTRUCT`와 `UPROPERTY`로 정의해 Unreal 직렬화를 사용하고, `UFUNCTION(Server/Client/NetMulticast, Reliable)`로 전송 경계를 만들었습니다. 액터와 위젯 수명은 `IsValid`, `TObjectPtr`, `TArray`, `TMap` 같은 Unreal 타입과 규칙을 따라 처리했습니다.",
           "서버·클라이언트 처리 코드에서는 packet channel을 `std::variant`로 묶고 타입별 lambda를 실행했습니다. `std::views::filter`로 유효한 entity를 순회하고, packet concept과 generic lambda로 전송 함수를 공통화했으며, 포인터나 조회 실패는 `ErrorOr`로 호출자에게 넘기는 방식을 사용했습니다. 공통 유틸리티의 일부는 팀 코드이고, 저는 이를 기능 코드에서 사용하고 필요한 packet과 handler를 확장했습니다.",
-          "당시에는 pipe 형태의 함수 조합과 정적 상태를 많이 사용해 코드를 짧게 만드는 데 관심이 있었습니다. 지금 보면 팀원이 처음 읽기 어렵고 디버깅 경로가 길어지는 단점도 분명합니다. 이 경험 이후에는 문법적인 압축보다 책임과 데이터 흐름이 바로 보이는 구조를 우선하게 됐습니다.",
         ],
         en: [
           "Network payloads use `USTRUCT` and `UPROPERTY` so Unreal serialization can handle them, while `UFUNCTION(Server/Client/NetMulticast, Reliable)` defines transport boundaries. Actor and widget lifetime follows Unreal types and checks such as `IsValid`, `TObjectPtr`, `TArray`, and `TMap`.",
           "Server and client handlers group packet channels with `std::variant` and invoke type-specific lambdas. `std::views::filter` selects valid entities, packet concepts and generic lambdas share send paths, and `ErrorOr` carries pointer or lookup failures to the caller. Some utilities are shared team code; my work used them in gameplay and expanded the packet and handler set.",
-          "At the time I favored pipe-style composition and static state to make code concise. In retrospect, this also made the flow harder for teammates to read and debug. The project shifted my priority from syntactic compression toward explicit responsibility and visible data flow.",
         ],
       },
       code: {
@@ -876,33 +874,6 @@ Packet | Unpack<FPac_Input2Server> | [](FPac_Input2Server Input) {
   Entity.Unwrap().AChrPtr.Unwrap()
         ->ExecuteInput(Input.Input, Input.Type);
 };`,
-      },
-    },
-    {
-      id: "team-retrospective",
-      order: 330,
-      project: "nirvana",
-      category: { ko: "협업 회고", en: "Team Retrospective" },
-      tags: ["game-client", "game-server", "cpp", "unreal", "network", "collaboration"],
-      title: {
-        ko: "프로젝트가 끝난 뒤 팀의 코드 구조가 왜 복잡해졌는지 되돌아봤습니다",
-        en: "Reviewed why the team's code structure became harder to maintain",
-      },
-      lead: {
-        ko: "기능을 빠르게 추가하는 동안 상속 관계와 서버·클라이언트 책임을 통일하지 못했습니다.",
-        en: "While adding features quickly, the team did not keep inheritance and client/server responsibilities consistent.",
-      },
-      paragraphs: {
-        ko: [
-          "필요할 때마다 비슷한 자식 클래스를 추가하면서 부모·자식 관계가 역할보다 작업 순서에 따라 만들어졌습니다. 어느 함수가 어느 클래스에 있는지 찾기 어려워졌고, 액터 안에는 서버에서 처리할 코드와 클라이언트에서 실행할 코드가 HasAuthority 조건문으로 섞였습니다.",
-          "기능 추가 일정이 우선되면서 새 코드를 어느 계층에 넣을지, 상태는 누가 소유할지, 서버와 클라이언트가 각각 어디까지 처리할지에 대한 기준을 충분히 맞추지 못했습니다. 같은 종류의 기능도 프로그래머마다 다른 위치와 방식으로 구현되면서 수정 범위가 점점 넓어졌습니다.",
-          "프로젝트를 끝낸 뒤에는 코딩 스타일을 맞추는 것만으로는 부족하다는 점을 배웠습니다. 다음 팀 개발에서는 구현에 들어가기 전에 상태와 네트워크 책임의 경계를 먼저 정하고, 새 기능도 같은 구조를 따르게 만드는 과정을 중요하게 보고 있습니다.",
-        ],
-        en: [
-          "Similar child classes were added whenever a feature needed them, so inheritance reflected implementation order rather than responsibility. Functions became hard to locate, while server and client code mixed inside actors behind repeated HasAuthority checks.",
-          "Delivery pressure meant the team did not align enough on where new code belonged, who owned each state, or how far server and client responsibilities extended. Similar features ended up in different locations and styles depending on the programmer, so each change touched a wider area over time.",
-          "After the project, I learned that a shared coding style alone is not enough. In future team projects, I want to agree on state ownership and network responsibility before implementation and make new features follow that shared structure.",
-        ],
       },
     },
     {
@@ -923,12 +894,10 @@ Packet | Unpack<FPac_Input2Server> | [](FPac_Input2Server Input) {
         ko: [
           "초등학생 때 RPG Maker로 게임을 만들면서 온라인 게임을 직접 구현할 수 있다는 점에 흥미를 느꼈습니다. 이후 게임 학원에서 소켓 프로그래밍과 Windows IOCP를 배우며 서버가 연결과 패킷을 처리하는 과정을 직접 구현했습니다.",
           "연결 수립, 비동기 입출력, 패킷 경계와 직렬화, 스레드 동기화를 직접 구현해 보며 라이브러리 아래에서 어떤 일이 일어나는지 공부했습니다. C++에서는 RAII와 객체 수명, 포인터·참조, 메모리 소유권을 코드 구조와 함께 이해하려고 했습니다.",
-          "락프리나 나노초 단위 최적화를 실무 수준으로 다뤘다고 주장하지 않습니다. Modern C++와 저지연 시스템에 관심이 있고, 측정과 프로파일링을 바탕으로 더 깊게 배우려는 단계입니다.",
         ],
         en: [
           "I became interested in server development while making games in RPG Maker and realizing online games could be built directly. I later studied sockets and Windows IOCP at a game academy and implemented the connection and packet flow myself.",
           "Implementing connection setup, asynchronous I/O, packet framing and serialization, and thread synchronization helped me understand what libraries abstract away. In C++, I focus on RAII, object lifetime, pointers and references, and ownership.",
-          "I do not claim production expertise in lock-free structures or nanosecond optimization. I am strongly interested in Modern C++ and low-latency systems and want to deepen that work through measurement and profiling.",
         ],
       },
     },
@@ -950,12 +919,10 @@ Packet | Unpack<FPac_Input2Server> | [](FPac_Input2Server Input) {
         ko: [
           "첫 버전은 왕복 지연을 tick으로 환산해 입력을 미래 tick에 예약하고, 양쪽 입력 확인이 끝난 tick만 실행하는 delay 방식이었습니다. 구현은 단순했지만 네트워크 지연이 커질수록 내 조작도 늦게 반응했습니다.",
           "rollback 브랜치에서는 입력을 먼저 예측해 현재 tick을 진행하고, 나중에 받은 입력이 예측과 다르면 저장한 world로 돌아가 현재 tick까지 다시 계산했습니다. 이를 위해 입력 기록, world snapshot과 일정한 tick 기반 시뮬레이션을 추가했습니다.",
-          "실험 범위는 두 클라이언트의 연결과 입력 동기화까지입니다. NAT 환경별 연결 성공률, 장시간 세션과 여러 플랫폼에서 같은 결과가 유지되는지는 별도로 검증하지 않았습니다.",
         ],
         en: [
           "The first version converted round-trip latency into ticks, scheduled input in a future tick, and advanced only after both inputs were acknowledged. It was simple, but higher network latency directly delayed local control.",
           "The rollback branch predicts missing input and advances immediately. If a later packet differs from the prediction, it restores a stored world and simulates forward to the current tick using recorded input.",
-          "The experiment covers two-client connection and input synchronization. It does not validate connection success across NAT types, long-running sessions, or deterministic results across platforms.",
         ],
       },
       links: [
@@ -997,12 +964,10 @@ Packet | Unpack<FPac_Input2Server> | [](FPac_Input2Server Input) {
         ko: [
           "클라이언트는 UDP socket을 임의 port에 열고 등록 서버에 자신의 endpoint를 보냈습니다. 서버에서 상대방의 local address와 public address를 받으면 내부 주소로 먼저 hole-punch packet을 보내고, 응답이 없으면 일정 시간 뒤 공인 주소를 다시 시도했습니다. 마지막에는 등록 서버 주소를 중계 경로로 사용하도록 전환했습니다.",
           "수신은 별도 thread에서 담당하고, 주소별 packet queue를 `Mutex<HashMap<SocketAddr, Vec<Vec<u8>>>>`에 넣었습니다. Godot의 physics loop에서는 queue를 비운 뒤 packet type에 따라 연결, ping·pong, 입력과 시간 동기화를 처리했습니다. 여러 packet은 1byte 길이를 앞에 붙여 하나의 UDP payload로 묶었습니다.",
-          "시간 보정은 한 차례 측정한 RTT의 절반을 편도 지연으로 가정하는 단순한 방식이고, NAT 종류별 성공 여부와 실제 relay 동작을 체계적으로 검증한 단계는 아닙니다. 또한 Rust struct의 메모리를 그대로 복사하는 `unsafe` 직렬화라 padding, endian과 잘못된 packet 길이에 취약합니다.",
         ],
         en: [
           "The client opens a UDP socket on an ephemeral port and registers its endpoint. After receiving the peer's private and public addresses, it first sends a hole-punch packet to the LAN address, retries through the public address after a timeout, and finally switches to the registration server address as a relay fallback.",
           "A receive thread groups packets by sender in a mutex-protected queue. The Godot physics loop drains the queue and handles connection, ping/pong, input, and time synchronization. Multiple packets are concatenated into one UDP payload with a one-byte length prefix.",
-          "Clock offset uses a single half-RTT estimate, and NAT behavior or the relay path was not tested as a production service. Serialization also copies Rust struct memory through `unsafe`, leaving padding, endian, and malformed-length risks.",
         ],
       },
       links: [
@@ -1043,12 +1008,10 @@ self.inputs.insert(tick, input2send);`,
         ko: [
           "좌우 이동, 점프, 공격, 회피와 방어를 `u8`의 각 bit에 배치했습니다. 로컬 입력은 현재 game tick보다 3tick 뒤의 key로 저장하고, `InputPacket`에는 기준 tick과 `[u8; 30]` 배열을 넣었습니다.",
           "매 tick 새 입력만 보내는 대신 보관 중인 최근 30tick을 packet에 다시 채웠습니다. 별도의 신뢰성 계층이나 매 packet 재전송 요청 없이도 다음 UDP packet이 도착하면 직전에 빠진 입력을 함께 복구할 수 있게 한 방식입니다.",
-          "30tick이라는 크기와 3tick 지연은 실험용 고정값이며 RTT와 손실률에 따라 조정되지 않습니다. 입력 packet의 중복 전송량, 오래된 `player_input`과 snapshot의 보관 한도도 실제 서비스 기준으로 측정하거나 제한하지 않았습니다.",
         ],
         en: [
           "Left, right, jump, attack, roll, and guard occupy individual bits in a `u8`. Local input is stored three ticks ahead, and each `InputPacket` carries a reference tick plus a `[u8; 30]` history array.",
           "Instead of sending only the newest input, every packet overlaps the latest 30 ticks. A later UDP packet can therefore recover recently lost input without a separate reliable channel or per-packet retransmission request.",
-          "The 30-tick window and three-tick delay are fixed experiment values rather than adaptive settings. Bandwidth overhead and lifetime limits for the accumulated input and snapshot maps were not measured for production use.",
         ],
       },
       links: [
@@ -1090,12 +1053,10 @@ self.world = simulate_world(self.world.clone(), current_inputs, cur_tick);`,
         ko: [
           "현재 tick의 상대 입력이 없으면 계산 전 world를 snapshot으로 저장하고 상대의 직전 입력을 이번 tick에도 유지했습니다. 그래서 packet을 기다리지 않고 로컬 화면은 계속 진행됐습니다.",
           "나중에 30tick 입력 packet을 받으면 이미 기록된 예측값과 실제값을 비교해 첫 번째 불일치 tick을 찾았습니다. 해당 snapshot을 가져와 `simulate_world_range`로 그 tick부터 현재까지 두 플레이어의 입력을 다시 적용한 뒤 현재 world와 snapshot 목록을 교체했습니다.",
-          "예측 기준은 단순히 이전 입력을 반복하는 방식이고, snapshot 조회와 입력 map 접근에도 `unwrap()`이 많아 packet 순서나 기록 누락에 안전하지 않습니다. rollback 횟수, 재시뮬레이션 시간과 최대 복구 거리도 별도로 측정하지 않았습니다.",
         ],
         en: [
           "When remote input is missing for the current tick, the world is snapshotted before simulation and the previous remote input is repeated. The local game therefore keeps moving without waiting for the packet.",
           "When a 30-tick input packet arrives, predicted values are compared with actual input to find the earliest mismatch. The code restores that snapshot, reapplies both players' input through `simulate_world_range`, and replaces the current world and snapshot history.",
-          "Prediction is only last-input repetition, and snapshot and input-map access relies heavily on `unwrap()`, so reordering or missing history is not handled safely. Rollback count, resimulation time, and maximum recovery distance were not instrumented.",
         ],
       },
       links: [
@@ -1144,12 +1105,10 @@ self.world = simulate_world(self.world.clone(), current_inputs, cur_tick);`,
         ko: [
           "플레이어의 위치·속도·체력·공격 대기 시간과 애니메이션 시작 tick을 복제 가능한 `WorldData`와 `PlayerData`에 모았습니다. 한 tick 계산은 1/60초 고정 delta를 받고 이동, 점프, 공격·회피·방어, 충돌과 대미지 적용 결과를 다음 world로 돌려줬습니다.",
           "Godot physics query 대신 Box·Circle 충돌 자료형과 cast 함수를 만들었고, 공격 대미지는 동일 tick에서 같은 값이 나오도록 tick을 seed로 한 Xorshift 난수를 사용했습니다. 애니메이션 frame도 경과 시간 대신 시작 tick과 현재 tick으로 계산했습니다.",
-          "다만 완전히 결정적인 순수 시뮬레이션으로 분리된 것은 아닙니다. `PlayerData`에 Godot object 참조가 남고 계산 중 `AnimatedSprite2D`를 읽으며, `HashMap` 순회 순서와 부동소수점 연산도 결과 차이를 만들 수 있습니다. rollback의 핵심 개념을 구현했지만 멀티 플랫폼 결정성까지 보장한 구조는 아닙니다.",
         ],
         en: [
           "`WorldData` and `PlayerData` hold cloneable position, velocity, health, attack cooldown, and animation-start tick. One simulation tick uses a fixed 1/60 delta and produces the next state after movement, jump, attack, roll, guard, collision, and damage handling.",
           "Custom box and circle collision helpers replace Godot physics queries for these interactions. Damage uses an Xorshift generator seeded from the tick, while animation frames are derived from start and current tick instead of elapsed wall time.",
-          "The simulation is not a fully deterministic pure core. `PlayerData` still contains a Godot object reference, simulation reads `AnimatedSprite2D`, and `HashMap` iteration plus floating-point math can diverge across peers. It implements the rollback concept but does not guarantee cross-platform determinism.",
         ],
       },
       links: [
@@ -1175,12 +1134,10 @@ self.world = simulate_world(self.world.clone(), current_inputs, cur_tick);`,
         ko: [
           "지상형과 비행형 몬스터의 공통 코드를 각각 `GroundMob_Base`와 `FlyingMob_Base`로 나누고, 슬라임·꽃잎박쥐·우는안개가 필요한 행동을 별도 컴포넌트와 Blackboard로 구성했습니다. 같은 추적·공격 기능을 공유하면서도 박쥐의 도망과 천장 매달리기, 우는안개의 순간이동과 범위 공격처럼 몬스터별 행동을 추가할 수 있게 만들었습니다.",
           "몬스터가 공격 중인지, 피격됐는지, 스턴이나 넉백 때문에 행동을 멈춰야 하는지를 이동·애니메이션·행동 트리에서 함께 확인했습니다. 사망 뒤에는 아이템 드롭, 시체 조각 생성과 흡수, 체력바와 대미지 텍스트까지 연결했습니다.",
-          "처음 만든 장기 Unity 팀 프로젝트라 공통 기반과 개별 몬스터 코드의 경계가 고르지 않고, 여러 상태를 bool과 컴포넌트 조회로 연결한 부분도 많습니다. 그래도 하나의 몬스터가 인식부터 이동·공격·피격·사망까지 이어지는 전체 흐름을 직접 다뤄 본 프로젝트였습니다.",
         ],
         en: [
           "Shared ground and flying behavior was separated into `GroundMob_Base` and `FlyingMob_Base`, while Slime, Flower Bat, and Weeping Mist composed their own actions through components and blackboards. Common follow and attack behavior could be reused while adding monster-specific actions such as fleeing, ceiling hanging, teleporting, and area attacks.",
           "Movement, animation, and behavior-tree code all checked whether a monster was attacking, hurt, stunned, or being knocked back. The same flow connected item drops, pooled corpse pieces, health bars, and damage text after death.",
-          "As an early long-running Unity team project, the boundary between shared foundations and individual monster code is uneven, and many states are linked through booleans and component lookups. It still gave me end-to-end experience with a monster's perception, movement, combat, damage, and death flow.",
         ],
       },
     },
@@ -1220,12 +1177,10 @@ self.world = simulate_world(self.world.clone(), current_inputs, cur_tick);`,
         ko: [
           "`BT_Base` 안에 Root, Selector, Sequence, Decorator, Service와 Task를 구현했습니다. 각 노드는 `Process()` 결과로 다음 노드를 계속 볼지 결정하고, `AddNode()`와 `End()`를 이어서 트리 구조를 코드에서 바로 읽을 수 있게 구성했습니다. Service는 노드별 시간을 기록해 일정 간격으로 조건을 갱신할 수 있게 했습니다.",
           "Blackboard는 몬스터 본체와 행동 컴포넌트를 연결했습니다. 예를 들어 꽃잎박쥐는 행동 정지, 공격, 도망, 추적, 천장 매달리기, 임의 이동 순서로 조건을 확인합니다. 슬라임은 피격·공격·추적·임의 이동을 사용하고, 우는안개는 순간이동과 스턴을 더 높은 우선순위로 처리했습니다.",
-          "현재 구현은 성공·실패·실행 중을 구분하는 상태 대신 bool만 반환합니다. 여러 프레임에 걸리는 행동은 각 컴포넌트의 flag와 timer가 따로 진행 상태를 기억해야 했고, 행동 수가 늘수록 Blackboard와 컴포넌트 사이를 함께 확인해야 했습니다.",
         ],
         en: [
           "`BT_Base` implements Root, Selector, Sequence, Decorator, Service, and Task nodes. Each node uses its `Process()` result to decide whether traversal continues, while chained `AddNode()` and `End()` calls keep the tree visible in code. Services track per-node time for periodic work.",
           "Blackboards connect the tree to monster components. Flower Bat checks stop, attack, flee, follow, ceiling-hang, and random-move behavior in order. Slime uses hurt, attack, follow, and random movement, while Weeping Mist gives teleport and stun higher priority.",
-          "The implementation returns booleans rather than explicit success, failure, and running states. Multi-frame actions therefore keep progress in separate flags and timers, so larger behavior sets require reading both the blackboard and its components.",
         ],
       },
     },
@@ -1259,12 +1214,10 @@ SetValue(SE_Obj.StatusEffect_NoTask, true);`,
         ko: [
           "`StatusEffect_Object`가 속도 배율, 이동 방향, 공격·추적·방향 전환 가능 여부, 행동 정지, 애니메이션과 넉백 곡선을 한곳에 보관합니다. `GroundMob_Base`와 `FlyingMob_Base`는 이 값을 읽어 Rigidbody 속도, 현재 애니메이션과 행동 가능 여부를 결정합니다.",
           "스턴은 이동과 공격, 추적을 멈추고 스턴 애니메이션을 적용했습니다. 슬로우는 동시에 들어온 감속 값을 목록으로 관리했고, 넉백은 방향과 `AnimationCurve`를 전달해 시간에 따라 속도가 줄어드는 움직임을 만들었습니다. 효과 컴포넌트는 실행 중에 추가되고 timer가 끝나면 제거됩니다.",
-          "우선순위가 높은 효과의 값을 먼저 적용하려고 `SE_Stat<T>`에 priority를 넣었지만, 높은 효과가 사라졌을 때 남은 효과의 우선순위를 다시 계산하는 구조까지는 만들지 못했습니다. 여러 상태가 겹치는 경우를 안정적으로 처리하려면 활성 효과 전체를 매번 합산하거나 정렬하는 방식이 필요했습니다.",
         ],
         en: [
           "`StatusEffect_Object` stores speed, effect direction, attack and follow permission, turning, behavior suspension, animation, and knockback curves. `GroundMob_Base` and `FlyingMob_Base` read those values when deciding Rigidbody velocity, animation, and available actions.",
           "Stun stops movement, attack, and follow behavior and selects a stunned animation. Slow keeps a list of active reductions, while knockback passes a direction and `AnimationCurve` to produce decaying velocity. Effect components are added at runtime and removed when their timer ends.",
-          "`SE_Stat<T>` uses priority so stronger effects can win, but it does not fully recompute priority after a stronger effect disappears. Robust stacking would require aggregating or sorting the complete set of active effects each time.",
         ],
       },
     },
@@ -1299,12 +1252,10 @@ SetValue(SE_Obj.StatusEffect_NoTask, true);`,
         ko: [
           "프로젝트에 포함된 JPS 구현의 `GridView`와 `Grid`를 읽고 월드 좌표를 grid point로 변환하는 코드, 맵 이름과 대상 크기별 pathfinder 등록, 계산된 point를 몬스터 이동 벡터로 바꾸는 코드를 연결했습니다. 꽃잎박쥐의 추적과 임의 이동에서 이 경로를 사용했습니다.",
           "움직이는 발판이 차지하던 node를 해제하고 새 위치의 node를 장애물로 표시하도록 갱신했습니다. 장애물 변경 뒤 jump-point를 다시 만드는 작업은 `ConcurrentQueue<Action>`에 넣고 단일 worker가 처리하도록 만들어 메인 스레드에서 반복 계산하는 구간을 분리했습니다.",
-          "worker는 일이 없을 때도 queue를 계속 확인하고, 종료 시 thread join을 하지 않으며, 계산 중인 grid를 메인 스레드가 읽는 시점도 엄격하게 통제하지 않습니다. 당시에는 스레드를 붙여 계산을 분리하는 데 집중했지만, 지금 보면 신호 기반 대기와 결과 교환 경계를 함께 설계했어야 합니다.",
         ],
         en: [
           "I read the included JPS `GridView` and `Grid` code and connected world-to-grid conversion, per-map and object-size pathfinder registration, and conversion of returned points into monster movement. Flower Bat used this path for follow and random-move behavior.",
           "Moving platforms clear their previous nodes and mark nodes at the new position as blocked. Rebuilding jump points after obstacle changes is queued through `ConcurrentQueue<Action>` and processed by a single worker instead of repeatedly running on the main thread.",
-          "The worker busy-polls when idle, does not join on shutdown, and does not strictly guard when the main thread reads a grid being rebuilt. The experiment separated computation, but it also showed that waiting and result-exchange boundaries must be designed alongside the thread itself.",
         ],
       },
     },
@@ -1339,12 +1290,10 @@ SetValue(SE_Obj.StatusEffect_NoTask, true);`,
         ko: [
           "시작할 때 prefab별 개수만큼 만들어 queue에 넣고, 필요할 때 꺼내 `SetOn()`으로 위치와 상태를 초기화했습니다. pool이 비면 같은 설정 개수만큼 추가 생성하고, 사용이 끝난 오브젝트는 `SetOff()`에서 다시 queue로 돌려보냈습니다.",
           "몬스터가 죽으면 `CorpseMgr`가 시체 조각을 pool에서 가져와 흩뿌리고, 흡수 상태가 되면 플레이어 쪽으로 이동시키면서 크기를 줄인 뒤 다시 반환했습니다. 대미지 텍스트와 몬스터 체력바도 짧은 시간 동안 재사용하는 흐름으로 연결했습니다.",
-          "pool ID와 prefab 설정이 배열 순서에 묶여 있고 타입별 초기화 규칙도 각 컴포넌트가 직접 알고 있어 규모가 커지면 관리하기 어렵습니다. 작은 팀 프로젝트에서 반복 생성되는 전투 오브젝트의 수명과 초기화 문제를 처음 정리해 본 구현입니다.",
         ],
         en: [
           "The pool instantiates a configured count per prefab, dequeues an object, and resets its position and state through `SetOn()`. When empty it grows by the same configured amount, while `SetOff()` returns finished objects to the queue.",
           "On monster death, `CorpseMgr` takes corpse pieces from the pool and scatters them. Absorption moves them toward the player, shrinks them, and then returns them. Damage text and monster health bars follow similar short-lived reuse paths.",
-          "Pool IDs depend on array order and each component owns its own reset rules, which would become difficult at larger scale. It was an early implementation for learning object lifetime and initialization around repeated combat objects.",
         ],
       },
     },
@@ -1366,12 +1315,10 @@ SetValue(SE_Obj.StatusEffect_NoTask, true);`,
         ko: [
           "플레이어 이동·점프·공격·차지·방어·회피·피격·사망 동작을 구현하고, 일반 공격·콤보·차지 공격·패링을 애니메이션 이벤트와 충돌 판정에 연결했습니다. 입력은 이름과 태그를 가진 mapping으로 모아 플레이어와 UI가 같은 경로를 사용하게 했습니다.",
           "설정 화면에서는 키 변경, 음량과 전체 화면 설정을 저장했고, 씬 이동 시 체력·스태미나·포션과 다음 씬 정보를 파일로 남겼습니다. Google Sheets에서 컷신과 NPC 대사를 CSV로 받아 dictionary로 변환하고, 타이핑 연출과 튜토리얼 이벤트에서 사용했습니다.",
-          "플레이어 코드에 여러 동작의 조건이 모이고 문자열로 연결한 애니메이션 이벤트가 많아 수정할 때 여러 지점을 함께 확인해야 하는 구조도 남아 있습니다. 반면 실제 게임 한 편을 완성하면서 조작, 전투, UI, 데이터와 씬 전환이 서로 어떻게 영향을 주는지 폭넓게 다뤘습니다.",
         ],
         en: [
           "I implemented player movement, jump, attack, charge, defense, roll, hit, and death behavior and connected normal attacks, combos, charged attacks, and parries to animation events and collision handling. Named and tagged input mappings allowed gameplay and UI to share one input path.",
           "Settings persist key bindings, audio, and fullscreen choice, while scene changes store health, stamina, potions, and the next scene. Cutscene and NPC text is downloaded from Google Sheets as CSV, converted into dictionaries, and used by typing effects and tutorial events.",
-          "The player file still contains conditions for many behaviors, and string-based animation event connections require checking several points for each change. The project nevertheless provided broad experience connecting controls, combat, UI, data, and scene transitions in a complete game.",
         ],
       },
     },
@@ -1420,12 +1367,12 @@ SetValue(SE_Obj.StatusEffect_NoTask, true);`,
         ko: [
           "공격 버튼을 짧게 눌렀다 떼면 일반 공격 상태로 들어가고, 일정 시간 이상 누르면 `ChargingAttack`의 timer가 끝나 차지 상태로 전환됩니다. combo 횟수에 따라 애니메이션과 대미지 배율, 이펙트를 바꾸고 제한 시간이 지나면 combo를 초기화했습니다.",
           "`NormalAttack`이 피격 callback을 등록하고 `ComboAttack`, `ChargingAttack`, `ParringAttack`이 필요한 판정만 override했습니다. 패링 가능한 공격이 collider에 들어오면 적의 패링 상태를 확인하고 적에게 대미지와 `OnParriedHit()`을 적용한 뒤 플레이어의 성공 이벤트를 호출했습니다.",
-          "공격 collider의 시작·종료, 이동 곡선과 이펙트는 `AnimEvBind`의 이름으로 애니메이션 이벤트와 연결했습니다. 애니메이션 프레임과 실제 판정을 맞추기 편했지만 문자열 이름이 prefab 설정과 코드 양쪽에 흩어져 있어, 이름을 바꾸거나 이벤트를 빠뜨리면 실행 중에 문제가 발생하는 구조였습니다.",
+          "공격 collider의 시작·종료, 이동 곡선과 이펙트는 `AnimEvBind`의 이름으로 애니메이션 이벤트와 연결해 애니메이션 프레임과 실제 판정 시점을 맞췄습니다.",
         ],
         en: [
           "A short press and release enters normal attack, while holding beyond the timer switches to charge. Combo count selects animation, damage multiplier, and effect, then resets after a timeout.",
           "`NormalAttack` registers hit callbacks and `ComboAttack`, `ChargingAttack`, and `ParringAttack` override only their specific rules. A parry checks the enemy's parry state, applies damage and `OnParriedHit()`, and then notifies the player controller of success.",
-          "Attack collision windows, movement curves, and effects are connected to animation events through names in `AnimEvBind`. This aligns hit timing with frames, but the string contract is spread across prefabs and code, so missing or renamed events fail at runtime.",
+          "Attack collision windows, movement curves, and effects are connected to animation events through names in `AnimEvBind`, aligning hit timing with animation frames.",
         ],
       },
     },
@@ -1468,12 +1415,10 @@ SetValue(SE_Obj.StatusEffect_NoTask, true);`,
         ko: [
           "1차원·2차원 axis와 key mapping에 이름, player 또는 UI 태그, 현재 상태와 callback을 저장했습니다. 플레이어 코드는 `Move`, `Jump`, `Attack`, `Defence` 같은 이름으로 callback을 연결하고, 상호작용과 포션 사용, 설정 화면도 같은 입력 목록을 사용했습니다.",
           "`UIView`가 열리면 player 태그를 막고 UI 태그를 활성화한 뒤 `Time.timeScale`을 0으로 바꿨습니다. UI 이동은 `Time.unscaledDeltaTime`으로 처리해 일시정지 중에도 포인터와 slider가 움직이게 했습니다. 키 변경 화면은 다음에 눌린 `KeyCode`를 mapping에 반영하고 JSON 저장 파일에 남겼습니다.",
-          "이 코드는 Unity의 새 Input System action을 사용한 구현은 아닙니다. callback 필드가 하나뿐이라 서로 다른 화면이 같은 입력을 쓰면 덮어쓸 수 있고 중복 키 검사와 mouse rebinding도 없습니다. 당시 프로젝트에 필요한 입력 문맥과 키 저장을 직접 묶은 구조입니다.",
         ],
         en: [
           "One- and two-dimensional axes and key mappings store a name, player or UI tag, current state, and callback. Player code binds names such as `Move`, `Jump`, `Attack`, and `Defence`, while interactions, potions, and settings use the same list.",
           "Opening `UIView` blocks the player tag, enables the UI tag, and sets `Time.timeScale` to zero. UI motion uses `Time.unscaledDeltaTime`, so the pointer and sliders keep moving while paused. Rebinding captures the next `KeyCode` and stores the mapping in JSON.",
-          "This is not an implementation of Unity's newer Input System actions. Each mapping has only one callback slot, so screens can overwrite one another, and duplicate-key checks and mouse rebinding are absent. It is a project-specific layer for input context and persistence.",
         ],
       },
     },
@@ -1511,12 +1456,10 @@ foreach (var t in row.Skip(1)) {
         ko: [
           "`UnityWebRequest`로 Google Sheets의 gviz CSV 응답을 받고, 직접 만든 `CsvParser`가 comma, 줄바꿈, 따옴표로 감싼 값과 이중 따옴표 escape를 처리했습니다. 첫 행을 column 이름으로 삼아 `Dictionary<string, Dictionary<string, string>>` 형태로 변환했습니다.",
           "`CutsceneView`는 Story, NPC, Intro_Cutscene sheet를 불러오고, `PrintStory`가 key에 해당하는 Text를 한 글자씩 출력했습니다. sheet와 key를 `Sheet@Key` 형태로 전달해 다른 UI에서도 텍스트를 가져올 수 있게 했으며 타이핑 사운드와 종료 이벤트도 연결했습니다.",
-          "데이터를 실행 중에 받아오기 때문에 네트워크나 sheet 형식이 잘못되면 컷신이 시작되지 않을 수 있지만, 오류 표시나 로컬 fallback은 충분히 만들지 못했습니다. 팀이 텍스트를 코드 밖에서 편집할 수 있게 한 대신 외부 데이터 의존성을 함께 관리해야 한다는 점을 배웠습니다.",
         ],
         en: [
           "`UnityWebRequest` downloads the Google Sheets gviz CSV response. My `CsvParser` handles commas, newlines, quoted fields, and escaped double quotes, then the first row becomes column names in a nested dictionary.",
           "`CutsceneView` loads Story, NPC, and Intro_Cutscene sheets, and `PrintStory` renders the selected Text one character at a time. Other UI can request text with a `Sheet@Key` string, with typing audio and completion events connected to the same flow.",
-          "Because data is downloaded at runtime, a network or schema failure can block a cutscene, and the project lacks a complete error display or local fallback. Moving text out of code improved team editing but introduced an external dependency that also needed operational handling.",
         ],
       },
     },
@@ -1559,12 +1502,10 @@ public void Save<T>(T data) where T : struct {
         ko: [
           "`save_ingame_data_t`에는 포션 수, 체력, 스태미나, 다음 scene과 새 게임 여부를 저장했습니다. scene이 바뀔 때 현재 값을 기록하고, 다음 scene에서 파일을 읽어 플레이어와 인벤토리에 다시 적용했습니다.",
           "키 mapping은 이름별 `KeyCode[]` dictionary로 저장했고, 사운드 master·BGM·SFX와 전체 화면 여부도 각각 별도 struct로 관리했습니다. 저장 파일이 없으면 nullable 결과를 받아 기본 설정이나 새 게임 흐름으로 넘어가게 했습니다.",
-          "실제 코드는 inspector에서 받은 경로에 바로 파일을 쓰며 버전, 임시 파일 교체와 손상 복구가 없습니다. 예외도 모두 같은 ‘저장 파일 없음’으로 처리해 원인을 구분하지 못합니다. 팀 프로젝트에서 필요한 저장 기능은 동작했지만 저장 형식 변경과 실패 복구까지 생각하려면 구조를 더 보완해야 했습니다.",
         ],
         en: [
           "`save_ingame_data_t` stores potion count, health, stamina, the next scene, and new-game state. Values are written during a scene change and applied back to the player and inventory in the following scene.",
           "Key mappings are stored as a dictionary of named `KeyCode[]` values, while master, BGM, SFX, and fullscreen settings use their own structs. A missing file returns a nullable result so the game can continue with defaults or a new-game path.",
-          "The implementation writes directly to an inspector-provided path without versioning, temporary-file replacement, or corruption recovery. It also catches all exceptions as a missing file. It worked for the project scope but would need stronger migration and failure handling for a released game.",
         ],
       },
     },
@@ -1590,12 +1531,10 @@ public void Save<T>(T data) where T : struct {
         ko: [
           "공개 WebSocket에서 BTCUSDT 호가 snapshot과 insert·delete event를 받아 매수·매도 기준 가격을 갱신했습니다. 비공개 WebSocket에서는 long·short 포지션의 진입 가격과 수량 변화를 받고, 주문 생성·취소와 잔액·포지션 조회는 REST API로 분리했습니다.",
           "비공개 요청은 API key, timestamp와 parameter를 정렬해 문자열로 만든 뒤 OpenSSL HMAC-SHA256으로 서명했습니다. 시장가·지정가 주문과 reduce_only 청산 주문이 같은 parameter 생성 규칙을 사용하도록 구성했습니다.",
-          "현재 기준으로는 WebSocket thread와 main loop가 공유하는 상태의 동기화, reconnect·shutdown과 thread 소유권이 부족합니다. 다시 만든다면 std::jthread와 event queue로 수신과 상태 소유를 분리하고 testnet에서 재연결과 중복 event를 먼저 검증합니다. 저지연 거래 시스템으로 과장하지 않고 C++ 네트워크 구현과 현재의 코드 판단을 함께 보여주는 프로젝트입니다.",
         ],
         en: [
           "The public WebSocket applied BTCUSDT order-book snapshots and insert/delete events to local bid and ask prices. A private WebSocket received long and short position changes, while order creation, cancellation, balances, and reconciliation used REST APIs.",
           "Private requests sorted the API key, timestamp, and parameters into a signing string, then generated an OpenSSL HMAC-SHA256 signature. Market, limit, and reduce-only close orders shared the same parameter-building rule.",
-          "By today's standards, synchronization between WebSocket threads and the main loop, reconnect and shutdown handling, and thread ownership are incomplete. A rebuild would use std::jthread and an event queue with testnet cases for reconnects and duplicate events. I present it as hands-on C++ networking plus a current code review, not a low-latency trading system.",
         ],
       },
       links: [
