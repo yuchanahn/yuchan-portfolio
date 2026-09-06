@@ -38,7 +38,11 @@ function checkLinks(links, owner) {
 
 data.tagGroups.forEach((group) => checkTags(group.tags, `tag group ${group.id}`));
 data.presets.forEach((preset) => checkTags(preset.tags, `preset ${preset.id}`));
-Object.entries(data.projects).forEach(([projectId, project]) => checkLinks(project.links, `project ${projectId}`));
+Object.entries(data.projects).forEach(([projectId, project]) => {
+  checkLinks(project.links, `project ${projectId}`);
+  checkImage(project.image, `project ${projectId}`);
+  (project.images || []).forEach((image) => checkImage(image, `project ${projectId}`));
+});
 
 data.modules.forEach((module) => {
   assert(!moduleIds.has(module.id), `duplicate module id '${module.id}'`);

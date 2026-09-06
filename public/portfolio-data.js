@@ -138,6 +138,16 @@ window.PORTFOLIO_DATA = {
         ko: "대학 과제로 시작한 VRM+LLM 웹 채팅을 2D·Live2D·VRM 캐릭터, 결제, 관리자 기능과 다국어 UI를 갖춘 서비스로 확장했습니다.",
         en: "A university VRM+LLM web-chat project expanded into a service with 2D, Live2D and VRM characters, payments, admin tools, and multilingual UI.",
       },
+      description: {
+        ko: "웹 브라우저에서 2D·Live2D·VRM 캐릭터와 LLM으로 대화하는 서비스입니다. 대학 과제로 만든 VRM+LLM 채팅에서 시작해 캐릭터 탐색과 제작, 계정, 포인트 결제, 관리자 기능과 모바일 앱 배포 테스트까지 확장했습니다.",
+        en: "A browser-based service for chatting with 2D, Live2D, and VRM characters through LLMs. It began as a university VRM+LLM chat assignment and expanded into character discovery and authoring, accounts, credit payments, admin tools, and mobile distribution tests.",
+      },
+      contribution: {
+        ko: "서비스 기획, SvelteKit 프런트엔드, Go API, 데이터베이스와 캐시, 인증·결제, 배포와 운영을 혼자 진행했습니다.",
+        en: "Handled product planning, the SvelteKit frontend, Go APIs, database and cache, authentication and payments, deployment, and operations as a solo developer.",
+      },
+      stack: ["SvelteKit", "Go", "PostgreSQL", "Redis", "Supabase", "Coolify", "Oracle Cloud"],
+      image: { src: "./assets/perochat-chat.png", alt: "PeroChat character chat screen" },
       links: [
         { label: { ko: "서비스", en: "Service" }, href: "https://personaxi.com", value: "personaxi.com" },
         { label: { ko: "공개 프런트엔드", en: "Public frontend" }, href: "https://github.com/yuchanahn/personaxi-front", value: "GitHub" },
@@ -152,6 +162,19 @@ window.PORTFOLIO_DATA = {
         ko: "교내 디저트 판매자의 주문 접수와 판매 관리를 위해 만들고 실제 요구에 맞춰 계속 수정한 웹사이트입니다.",
         en: "An ordering and sales-management site built for a dessert seller and iterated from real operational feedback.",
       },
+      description: {
+        ko: "메신저로 주문을 받으며 생기던 반복 작업을 줄이기 위해 만든 디저트 주문 사이트입니다. 수개월 동안 실제 판매에 사용하면서 메뉴 옵션, 재고, 판매 일정, 계좌 안내와 주문 확인 화면을 판매 방식에 맞춰 계속 수정했습니다.",
+        en: "A dessert ordering site built to reduce repetitive messenger-based ordering. It was used for real sales over several months and evolved with menu options, inventory, schedules, payment guidance, and order confirmation screens.",
+      },
+      contribution: {
+        ko: "주문·완료 화면과 모바일 UI, 판매 관리 흐름, SQLite 주문 처리, Google Sheets 기록, Discord 알림, 도메인과 Ubuntu 서버 운영을 맡았습니다.",
+        en: "Built the order and completion screens, mobile UI, seller workflow, SQLite order processing, Google Sheets logging, Discord notifications, and domain and Ubuntu deployment.",
+      },
+      stack: ["Web UI", "SQLite", "Google Sheets", "Discord", "Ubuntu"],
+      images: [
+        { src: "./assets/quickbite-order.png", alt: "QuickBite order form" },
+        { src: "./assets/quickbite-success.png", alt: "QuickBite successful order screen" },
+      ],
     },
     nirvana: {
       portfolioType: "game-client",
@@ -162,6 +185,16 @@ window.PORTFOLIO_DATA = {
         ko: "Unreal Engine 5.3으로 제작한 2인 멀티플레이 액션 로그라이크 졸업 프로젝트입니다.",
         en: "A two-player multiplayer action roguelike capstone project built with Unreal Engine 5.3.",
       },
+      description: {
+        ko: "두 플레이어가 한 팀으로 스테이지를 진행하는 Unreal Engine 5.3 액션 로그라이크입니다. 22명 규모의 졸업 프로젝트에서 프로그래머 4명이 약 8개월 동안 개발했습니다.",
+        en: "A two-player Unreal Engine 5.3 action roguelike in which both players progress through stages as one team. It was developed over roughly eight months by four programmers in a 22-person capstone team.",
+      },
+      contribution: {
+        ko: "온라인 세션과 로비, 패킷 ID·타입 매핑, 서버·클라이언트 게임 진행 처리, 스테이지 로딩, 인벤토리·미션·부활·게임오버 UI 연결을 담당했습니다.",
+        en: "Worked on online sessions and the lobby, packet ID/type mapping, server/client gameplay flow, stage loading, and UI integration for inventory, missions, revival, and game over.",
+      },
+      stack: ["Unreal Engine 5.3", "C++", "EOSPlus", "Steam", "RPC", "USTRUCT"],
+      image: { src: "./assets/nirvana-gameplay.png", alt: "Nirvana two-player combat gameplay" },
       links: [
         { label: { ko: "플레이 영상", en: "Play video" }, href: "https://www.youtube.com/watch?v=IK2acnw1DHY", value: "YouTube" },
         { label: { ko: "공개 코드", en: "Public code" }, href: "https://github.com/yuchanahn/-", value: "GitHub" },
@@ -169,13 +202,23 @@ window.PORTFOLIO_DATA = {
     },
     foundations: {
       portfolioType: "cpp",
+      introPage: false,
       name: { ko: "네트워크·시스템 학습", en: "Networking & systems foundations" },
-      period: { ko: "개인 학습 기록", en: "Independent study record" },
+      period: { ko: "고등학교 이후", en: "Since high school" },
       type: { ko: "개인 학습·실험", en: "Study and experiments" },
       summary: {
         ko: "소켓과 Windows IOCP를 직접 구현하며 연결·패킷·동시성의 기초를 공부했습니다.",
         en: "Studied connection handling, packets, and concurrency by implementing sockets and Windows IOCP.",
       },
+      description: {
+        ko: "온라인 게임 서버를 직접 만들고 싶어 게임 학원에서 소켓 프로그래밍과 Windows IOCP를 배웠고, 이후 프로젝트에서도 패킷과 동시성 코드를 계속 작성했습니다.",
+        en: "Wanting to build online game servers led to studying socket programming and Windows IOCP at a game academy, followed by continued packet and concurrency work in later projects.",
+      },
+      contribution: {
+        ko: "연결 수립, 비동기 입출력, 패킷 경계와 직렬화, 스레드 동기화를 C++로 직접 구현하며 라이브러리 아래의 동작을 공부했습니다.",
+        en: "Implemented connection setup, asynchronous I/O, packet framing and serialization, and thread synchronization in C++ to study the behavior underneath libraries.",
+      },
+      stack: ["C++", "Windows IOCP", "TCP/IP", "Socket", "Multithreading"],
       links: [
         { label: { ko: "공개 코드 모음", en: "Code samples" }, href: "https://github.com/yuchanahn/-", value: "GitHub" },
       ],
@@ -189,8 +232,23 @@ window.PORTFOLIO_DATA = {
         ko: "행동 트리와 몬스터별 행동, 상태이상, 오브젝트 재사용 구조를 구현하고 공개 JPS 코드를 게임의 이동 구조에 연결했습니다.",
         en: "Implemented behavior trees, per-monster actions, status effects, and object reuse, then connected an open JPS implementation to the game's movement model.",
       },
+      description: {
+        ko: "플레이어가 횡스크롤 스테이지를 이동하며 여러 몬스터와 전투하는 Unity 2D 액션 게임입니다. 대학교 1학년 때 진행한 팀 프로젝트로, 몬스터의 인식부터 이동·공격·피격·사망까지 이어지는 흐름을 중심으로 개발했습니다.",
+        en: "A Unity 2D side-scrolling action game in which the player traverses stages and fights multiple monster types. Built as a first-year university team project, with work centered on the full monster flow from perception through movement, combat, damage, and death.",
+      },
+      contribution: {
+        ko: "행동 트리, 몬스터별 AI와 상태 관리, 스턴·슬로우·넉백, 전투 오브젝트 재사용을 구현했습니다. 공개 JPS 코드는 Unity 좌표와 몬스터 이동에 연결하고 반복 계산을 작업 스레드로 분리했습니다.",
+        en: "Implemented behavior trees, per-monster AI and state handling, stun, slow, knockback, and combat-object reuse. Connected an open JPS implementation to Unity coordinates and monster movement and moved repeated rebuilds to a worker thread.",
+      },
+      stack: ["Unity", "C#", "Behavior Tree", "Monster AI", "JPS Integration", "Multithreading"],
+      image: {
+        src: "./assets/tower-of-ukani-gameplay.jpg",
+        alt: "Tower of Ukani gameplay with multiple monsters",
+        position: "center 46%",
+      },
       links: [
         { label: { ko: "프로젝트", en: "Project" }, href: "https://github.com/yuchanahn/Tower_Of_Ukani", value: "GitHub" },
+        { label: { ko: "플레이 영상", en: "Play video" }, href: "https://www.youtube.com/watch?v=aay9sGB_U9c", value: "YouTube" },
       ],
     },
     vapor: {
@@ -202,6 +260,16 @@ window.PORTFOLIO_DATA = {
         ko: "플레이어 전투, 입력·UI, 컷신 데이터와 저장 기능을 연결한 2D 횡스크롤 액션 게임입니다.",
         en: "A 2D side-scrolling action game connecting player combat, input and UI, cutscene data, and save files.",
       },
+      description: {
+        ko: "Unity 2021.3으로 제작한 2D 횡스크롤 액션 게임입니다. 팀 프로젝트에서 플레이어 조작과 전투를 중심으로 설정 화면, 컷신 데이터와 저장 기능까지 한 게임 흐름으로 연결했습니다.",
+        en: "A 2D side-scrolling action game built with Unity 2021.3. In this team project, player control and combat were connected with settings, cutscene data, and save files into one game flow.",
+      },
+      contribution: {
+        ko: "이동·점프·콤보·차지·방어·회피·패링, 입력 매핑과 키 변경 UI, Google Sheets 기반 대사 로딩, 진행 상태와 설정 저장을 구현했습니다.",
+        en: "Implemented movement, jumping, combos, charge attacks, defense, rolls and parries, input mapping and rebinding UI, Google Sheets dialogue loading, and progress and settings saves.",
+      },
+      stack: ["Unity 2021.3", "C#", "Animation Event", "Google Sheets", "JSON"],
+      image: { src: "./assets/vapor-input-flow.svg", alt: "Vapor input and UI control flow" },
       links: [
         { label: { ko: "프로젝트", en: "Project" }, href: "https://github.com/yuchanahn/CK2022CapstoneDesign", value: "GitHub" },
       ],
@@ -215,6 +283,16 @@ window.PORTFOLIO_DATA = {
         ko: "Godot와 Rust로 UDP 연결, 입력 동기화와 rollback 재시뮬레이션을 직접 실험한 2인 P2P 액션 게임입니다.",
         en: "A two-player P2P action-game experiment built with Godot and Rust to explore UDP connections, input synchronization, and rollback resimulation.",
       },
+      description: {
+        ko: "Godot은 화면과 입력에 사용하고 Rust GDExtension에서 UDP 통신과 tick 단위 게임 계산을 구현한 2인 P2P 액션 게임 실험입니다. 입력 지연 방식과 rollback 방식을 같은 게임에서 비교했습니다.",
+        en: "A two-player P2P action-game experiment using Godot for presentation and input while implementing UDP transport and tick-based simulation in a Rust GDExtension. Input delay and rollback were compared in the same game.",
+      },
+      contribution: {
+        ko: "상대 주소 등록과 UDP 연결 시도, bit 단위 입력 기록, 최근 30tick 중복 전송, 입력 예측, world snapshot과 불일치 시점부터의 재시뮬레이션을 구현했습니다.",
+        en: "Implemented peer endpoint registration and UDP connection attempts, bit-packed input history, overlapping 30-tick packets, input prediction, world snapshots, and resimulation from the first mismatched tick.",
+      },
+      stack: ["Godot", "Rust", "GDExtension", "UDP", "Rollback", "Tick Simulation"],
+      image: { src: "./assets/p2p-rollback-flow.svg", alt: "P2P rollback and resimulation flow" },
       links: [
         { label: { ko: "프로젝트", en: "Project" }, href: "https://github.com/yuchanahn/p2pactiongame", value: "GitHub" },
       ],
@@ -228,6 +306,15 @@ window.PORTFOLIO_DATA = {
         ko: "Bybit의 공개·비공개 WebSocket, 주문 REST API와 HMAC-SHA256 서명을 C++로 직접 연결했습니다.",
         en: "Connected Bybit public/private WebSockets, trading REST APIs, and HMAC-SHA256 signing directly in C++.",
       },
+      description: {
+        ko: "Bybit 거래소의 실시간 호가와 포지션을 받아 주문 전략에 연결한 C++ 개인 학습 프로젝트입니다. 공개·비공개 WebSocket과 주문 REST API를 한 실행 흐름에서 사용했습니다.",
+        en: "A personal C++ study project connecting Bybit real-time order books and positions to order logic. Public and private WebSockets and the trading REST API run in one application flow.",
+      },
+      contribution: {
+        ko: "호가 snapshot과 변경 event 처리, 포지션 상태 갱신, 시장가·지정가·청산 주문, API parameter 구성과 OpenSSL HMAC-SHA256 서명을 구현했습니다.",
+        en: "Implemented order-book snapshots and updates, position-state updates, market, limit, and close orders, API parameter construction, and OpenSSL HMAC-SHA256 signing.",
+      },
+      stack: ["C++", "WebSocket", "REST API", "OpenSSL", "HMAC-SHA256", "JSON"],
       links: [
         { label: { ko: "프로젝트", en: "Project" }, href: "https://github.com/yuchanahn/trade_bot_bybit_cpp", value: "GitHub" },
       ],
@@ -241,6 +328,15 @@ window.PORTFOLIO_DATA = {
         ko: "거래소 실시간 주문을 기준으로 상태를 저장해 프로세스 종료 뒤에도 주문과 포지션을 복구하도록 실험했습니다.",
         en: "Used exchange real-time orders as the recovery source so order and position state could survive process restarts.",
       },
+      description: {
+        ko: "D와 Nim으로 거래소 주문·포지션 상태와 자동매매 흐름을 구현한 학습 프로젝트입니다. 실행 중인 주문 정보를 저장하고 프로세스가 다시 시작될 때 거래소 상태를 기준으로 이어서 처리했습니다.",
+        en: "Study projects in D and Nim implementing exchange order and position state for automated trading. Active order data was persisted and reconciled against exchange state after process restarts.",
+      },
+      contribution: {
+        ko: "실시간 주문 수신, 주문 상태 저장, 프로세스 재시작 뒤 주문·포지션 복구와 전략 상태 연결을 구현했습니다.",
+        en: "Implemented real-time order handling, persisted order state, recovery of orders and positions after restart, and strategy-state integration.",
+      },
+      stack: ["D", "Nim", "WebSocket", "REST API", "State Recovery"],
       links: [
         { label: "Nim", href: "https://github.com/doongjohn/bigmoney", value: "GitHub" },
         { label: "D", href: "https://github.com/doongjohn/bigmoney-d", value: "GitHub" },
@@ -1087,11 +1183,11 @@ self.world = simulate_world(self.world.clone(), current_inputs, cur_tick);`,
   if tick > real_input_tick {
     snapshot.insert(tick, world_data.clone());
   }
-
   for (id, input) in input_data.iter() {
     let player = world_data.players.get_mut(id).unwrap();
     let (next, action, cols) = simulate_player(
-      player.clone(), &world_data.collision, input[&tick], tick, 1.0 / 60.0
+      player.clone(), &world_data.collision,
+      input[&tick], tick, 1.0 / 60.0
     );
     world_data.players.insert(*id, next);
     world_data.collision = cols;

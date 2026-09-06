@@ -26,7 +26,14 @@ const translations = {
     selectedPortfolio: "SELECTED PORTFOLIO",
     profileLabel: "DEVELOPER",
     contactLabel: "CONTACT & LINKS",
-    contentsLabel: "SELECTED EXPERIENCE",
+    contentsLabel: "PROJECT INDEX",
+    projectOverviewLabel: "프로젝트 소개",
+    projectPeriodLabel: "개발 기간",
+    projectTypeLabel: "개발 형태",
+    projectDescriptionLabel: "프로젝트",
+    projectContributionLabel: "담당 작업",
+    projectStackLabel: "사용 기술",
+    projectCasesLabel: "이 문서에 포함된 기술 사례",
     projectLabel: "PROJECT",
     matchingTags: "이 문서에서 연결된 태그",
     projectLinks: "프로젝트·코드 바로가기",
@@ -87,7 +94,14 @@ const translations = {
     selectedPortfolio: "SELECTED PORTFOLIO",
     profileLabel: "DEVELOPER",
     contactLabel: "CONTACT & LINKS",
-    contentsLabel: "SELECTED EXPERIENCE",
+    contentsLabel: "PROJECT INDEX",
+    projectOverviewLabel: "PROJECT OVERVIEW",
+    projectPeriodLabel: "Period",
+    projectTypeLabel: "Development",
+    projectDescriptionLabel: "Project",
+    projectContributionLabel: "My work",
+    projectStackLabel: "Technology",
+    projectCasesLabel: "Case studies included in this document",
     projectLabel: "PROJECT",
     matchingTags: "Tags connected in this document",
     projectLinks: "Project and code links",
@@ -369,6 +383,7 @@ function buildProjectUrl(projectId) {
   url.search = "";
   url.searchParams.set("project", projectId);
   if (language !== "ko") url.searchParams.set("lang", language);
+  url.hash = `project-${projectId}`;
   return url;
 }
 
@@ -471,7 +486,13 @@ function renderProjectSummary(modules) {
   const heading = element("div", "overview-heading");
   heading.append(
     element("span", "document-kicker", translations[language].contentsLabel),
-    element("h2", "overview-title", `${modules.length} ${translations[language].caseCount}`),
+    element(
+      "h2",
+      "overview-title",
+      language === "ko"
+        ? `${projectIds.length}개 프로젝트·학습 기록 · ${modules.length}개 기술 사례`
+        : `${projectIds.length} project records · ${modules.length} case studies`,
+    ),
   );
   const grid = element("div", "project-summary-grid");
   projectIds.forEach((projectId, index) => {
@@ -490,6 +511,91 @@ function renderProjectSummary(modules) {
     grid.append(card);
   });
   section.append(heading, grid);
+  return section;
+}
+
+function renderProjectIntroduction(projectId, index, total, projectModules) {
+  const project = projectDetails(projectId);
+  const section = element("section", "project-introduction");
+  section.id = `project-${projectId}`;
+  section.dataset.project = projectId;
+
+  const topline = element("div", "project-intro-topline");
+  topline.append(
+    element("span", "project-intro-kicker", translations[language].projectOverviewLabel),
+    element(
+      "span",
+      "project-intro-number",
+      `${String(index + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}`,
+    ),
+  );
+
+  const title = element("h2", "project-intro-title", localized(project.name));
+  const summary = richTextElement("p", "project-intro-summary", localized(project.summary));
+  section.append(topline, title, summary);
+
+  const imageDefinitions = project.images || (project.image ? [project.image] : []);
+  if (imageDefinitions.length > 0) {
+    const media = element(
+      "figure",
+      `project-intro-media${imageDefinitions.length > 1 ? " is-gallery" : ""}`,
+    );
+    imageDefinitions.forEach((imageDefinition) => {
+      const image = document.createElement("img");
+      image.src = imageDefinition.src;
+      image.alt = imageDefinition.alt || "";
+      image.decoding = "async";
+      if (imageDefinition.position) image.style.objectPosition = imageDefinition.position;
+      media.append(image);
+    });
+    section.append(media);
+  } else {
+    section.classList.add("has-no-media");
+  }
+
+  const details = element("div", "project-intro-details");
+  const appendDetail = (label, content, className = "") => {
+    if (!content) return;
+    const row = element("div", `project-intro-row${className ? ` ${className}` : ""}`);
+    row.append(
+      element("span", "project-intro-label", label),
+      richTextElement("p", "project-intro-value", content),
+    );
+    details.append(row);
+  };
+
+  appendDetail(translations[language].projectPeriodLabel, localized(project.period));
+  appendDetail(translations[language].projectTypeLabel, localized(project.type));
+  appendDetail(
+    translations[language].projectDescriptionLabel,
+    localized(project.description) || localized(project.summary),
+    "is-description",
+  );
+  appendDetail(
+    translations[language].projectContributionLabel,
+    localized(project.contribution),
+    "is-description",
+  );
+
+  if (project.stack?.length) {
+    const stackRow = element("div", "project-intro-row is-stack");
+    const stack = element("div", "project-intro-stack");
+    project.stack.forEach((item) => stack.append(element("span", "project-intro-stack-item", localized(item))));
+    stackRow.append(
+      element("span", "project-intro-label", translations[language].projectStackLabel),
+      stack,
+    );
+    details.append(stackRow);
+  }
+
+  appendDetail(
+    translations[language].projectCasesLabel,
+    language === "ko" ? `${projectModules.length}개` : `${projectModules.length}`,
+  );
+  section.append(details);
+
+  const links = renderRecordLinks(project.links, "project-intro-links");
+  if (links) section.append(links);
   return section;
 }
 
@@ -609,9 +715,28 @@ function renderCase(module, index) {
 
 function renderDocument() {
   const modules = matchingModules();
+  const projectIds = [...new Set(modules.map((module) => module.project))];
+  const introProjectIds = projectIds.filter((projectId) => projectDetails(projectId).introPage !== false);
+  const projectOrder = new Map(introProjectIds.map((projectId, index) => [projectId, index]));
+  const introducedProjects = new Set();
   portfolioDocument.replaceChildren();
-  portfolioDocument.append(renderCover(modules), renderProjectSummary(modules));
-  modules.forEach((module, index) => portfolioDocument.append(renderCase(module, index)));
+  portfolioDocument.append(renderCover(modules));
+  if (projectIds.length > 1) portfolioDocument.append(renderProjectSummary(modules));
+  modules.forEach((module, index) => {
+    if (!introducedProjects.has(module.project) && projectDetails(module.project).introPage !== false) {
+      introducedProjects.add(module.project);
+      const projectModules = modules.filter((item) => item.project === module.project);
+      portfolioDocument.append(
+        renderProjectIntroduction(
+          module.project,
+          projectOrder.get(module.project),
+          introProjectIds.length,
+          projectModules,
+        ),
+      );
+    }
+    portfolioDocument.append(renderCase(module, index));
+  });
 
   const closing = element("footer", "document-closing");
   closing.append(

@@ -908,6 +908,145 @@ button.tag-chip:hover {
   padding-top: 18px;
 }
 
+.project-introduction {
+  min-height: 980px;
+  padding: 70px;
+  border-bottom: 1px solid var(--border);
+}
+
+.project-intro-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.project-intro-kicker,
+.project-intro-number {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.project-intro-number {
+  color: var(--muted);
+}
+
+.project-intro-title {
+  max-width: 900px;
+  margin: 64px 0 0;
+  font-size: clamp(48px, 7vw, 74px);
+  font-weight: 860;
+  letter-spacing: -0.07em;
+  line-height: 1.02;
+}
+
+.project-intro-summary {
+  max-width: 760px;
+  margin: 22px 0 0;
+  color: var(--text-soft);
+  font-size: 19px;
+  font-weight: 640;
+  line-height: 1.6;
+  word-break: keep-all;
+}
+
+.project-intro-media {
+  display: grid;
+  overflow: hidden;
+  margin: 42px 0 0;
+  aspect-ratio: 16 / 6.4;
+  background: var(--surface-soft);
+}
+
+.project-intro-media.is-gallery {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  aspect-ratio: 16 / 7;
+}
+
+.project-intro-media img {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: cover;
+}
+
+.project-intro-media.is-gallery img + img {
+  border-left: 1px solid var(--border);
+}
+
+.project-intro-details {
+  margin-top: 40px;
+  border-top: 1px solid var(--border-strong);
+}
+
+.project-intro-row {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 28px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.project-intro-row.is-description {
+  padding-top: 19px;
+  padding-bottom: 19px;
+}
+
+.project-intro-label {
+  padding-top: 2px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 760;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.project-intro-value {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 13px;
+  line-height: 1.72;
+  word-break: keep-all;
+}
+
+.project-intro-row.is-description .project-intro-value {
+  color: var(--text);
+  font-size: 14px;
+}
+
+.project-intro-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.project-intro-stack-item {
+  padding: 7px 9px;
+  border: 1px solid var(--border);
+  color: var(--text-soft);
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.project-intro-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.project-introduction.has-no-media .project-intro-details {
+  margin-top: 90px;
+}
+
 .record-link {
   display: inline-grid;
   grid-template-columns: auto auto auto;
@@ -1449,6 +1588,7 @@ a:focus-visible {
 
   .portfolio-cover,
   .document-overview,
+  .project-introduction,
   .case-study {
     padding-right: 28px;
     padding-left: 28px;
@@ -1505,6 +1645,44 @@ a:focus-visible {
   .case-study {
     padding-top: 50px;
     padding-bottom: 50px;
+  }
+
+  .project-introduction {
+    min-height: 0;
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+
+  .project-intro-title {
+    margin-top: 46px;
+    font-size: 46px;
+  }
+
+  .project-intro-summary {
+    font-size: 16px;
+  }
+
+  .project-intro-media,
+  .project-intro-media.is-gallery {
+    aspect-ratio: 4 / 3;
+  }
+
+  .project-intro-media.is-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .project-intro-media.is-gallery img + img {
+    border-top: 1px solid var(--border);
+    border-left: 0;
+  }
+
+  .project-intro-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .project-introduction.has-no-media .project-intro-details {
+    margin-top: 54px;
   }
 
   .case-title {
@@ -1675,18 +1853,84 @@ a:focus-visible {
     break-after: page;
   }
 
+  .project-introduction {
+    min-height: 297mm;
+    padding: 18mm 17mm 14mm;
+    break-before: page;
+    break-after: page;
+    break-inside: avoid-page;
+    border-bottom: 0;
+  }
+
+  .project-intro-title {
+    margin-top: 14mm;
+    font-size: 15mm;
+    line-height: 1.03;
+  }
+
+  .project-intro-summary {
+    margin-top: 4mm;
+    font-size: 4.1mm;
+    line-height: 1.55;
+  }
+
+  .project-intro-media,
+  .project-intro-media.is-gallery {
+    height: 70mm;
+    margin-top: 8mm;
+    aspect-ratio: auto;
+  }
+
+  .project-intro-details {
+    margin-top: 7mm;
+  }
+
+  .project-intro-row {
+    grid-template-columns: 32mm minmax(0, 1fr);
+    gap: 5mm;
+    padding: 2.4mm 0;
+  }
+
+  .project-intro-row.is-description {
+    padding-top: 3mm;
+    padding-bottom: 3mm;
+  }
+
+  .project-intro-value,
+  .project-intro-row.is-description .project-intro-value {
+    font-size: 3mm;
+    line-height: 1.55;
+  }
+
+  .project-intro-stack {
+    gap: 1.4mm;
+  }
+
+  .project-intro-stack-item {
+    padding: 1.3mm 1.7mm;
+    font-size: 2.25mm;
+  }
+
+  .project-intro-links {
+    margin-top: 4mm;
+  }
+
+  .project-introduction.has-no-media .project-intro-details {
+    margin-top: 23mm;
+  }
+
   .project-summary-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .document-overview.is-dense .project-summary-card {
-    min-height: 37mm;
-    padding: 3.5mm;
+    min-height: 52mm;
+    padding: 5mm;
   }
 
   .document-overview.is-dense .summary-project-name {
-    margin-top: 3mm;
-    font-size: 4.3mm;
+    margin-top: 5mm;
+    font-size: 4.8mm;
   }
 
   .document-overview.is-dense .summary-project-meta {
@@ -1694,9 +1938,9 @@ a:focus-visible {
   }
 
   .document-overview.is-dense .summary-project-copy {
-    margin-top: 2mm;
-    font-size: 2.65mm;
-    line-height: 1.48;
+    margin-top: 3mm;
+    font-size: 2.8mm;
+    line-height: 1.52;
   }
 
   .document-overview.is-dense .summary-project-links {
@@ -1826,8 +2070,7 @@ a:focus-visible {
   }
 
   .case-links-section {
-    margin-top: 5mm;
-    padding-top: 3mm;
+    display: none;
   }
 
   .record-link {
@@ -1848,6 +2091,56 @@ a:focus-visible {
 
   #redis-k6 .case-visual > img {
     max-height: 68mm;
+  }
+
+  #p2p-world-simulation {
+    padding-top: 14mm;
+    padding-bottom: 10mm;
+  }
+
+  #p2p-world-simulation .case-title {
+    margin-top: 6mm;
+    font-size: 7.7mm;
+  }
+
+  #p2p-world-simulation .case-lead {
+    margin-top: 2.5mm;
+    font-size: 3.4mm;
+    line-height: 1.42;
+  }
+
+  #p2p-world-simulation .case-visual {
+    margin-top: 4mm;
+  }
+
+  #p2p-world-simulation .case-visual > img {
+    max-height: 47mm;
+  }
+
+  #p2p-world-simulation .case-code {
+    margin-top: 3mm;
+  }
+
+  #p2p-world-simulation .case-code-caption {
+    padding: 1.5mm 2mm;
+  }
+
+  #p2p-world-simulation .case-code-pre {
+    padding: 2mm;
+  }
+
+  #p2p-world-simulation .case-code-content {
+    font-size: 2.15mm;
+    line-height: 1.32;
+  }
+
+  #p2p-world-simulation .case-copy {
+    margin-top: 4mm;
+  }
+
+  #p2p-world-simulation .case-paragraph {
+    font-size: 2.75mm;
+    line-height: 1.45;
   }
 
   .case-footer {
