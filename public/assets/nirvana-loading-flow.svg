@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 580" role="img" aria-labelledby="title desc">
+  <title id="title">Nirvana synchronized level loading flow</title>
+  <desc id="desc">The server waits until both clients finish loading before removing input lock and starting the stage.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#242522"/></marker>
+    <style>
+      .bg{fill:#fafaf7}.box{fill:#fff;stroke:#c9cbc4;stroke-width:2}.dark{fill:#20211f}.line{fill:none;stroke:#242522;stroke-width:2.5;marker-end:url(#arrow)}
+      .lane{fill:none;stroke:#a0a29c;stroke-width:2}.eyebrow{font:700 18px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:2px;fill:#666962}
+      .title{font:800 31px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#171817}.label{font:750 17px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#20211f}
+      .small{font:500 14px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#686b65}.inverse{font:750 17px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#fff}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="580"/>
+  <text class="eyebrow" x="56" y="58">SYNCHRONIZED LEVEL LOADING</text>
+  <text class="title" x="56" y="98">The next stage starts only after both players are ready</text>
+
+  <rect class="dark" x="56" y="160" width="190" height="208" rx="18"/>
+  <text class="eyebrow" x="82" y="197" style="fill:#bfc1ba">SERVER</text>
+  <text class="inverse" x="82" y="240">NextLevelName</text>
+  <text class="small" x="82" y="274" style="fill:#d7d8d2">lock player input</text>
+  <text class="small" x="82" y="302" style="fill:#d7d8d2">FPac_NextLevel</text>
+  <text class="small" x="82" y="324" style="fill:#d7d8d2">LoadStart</text>
+
+  <rect class="box" x="326" y="142" width="252" height="116" rx="18"/>
+  <text class="eyebrow" x="352" y="177">CLIENT A</text>
+  <text class="label" x="352" y="215">Loading UI + map load</text>
+  <rect class="box" x="326" y="286" width="252" height="116" rx="18"/>
+  <text class="eyebrow" x="352" y="321">CLIENT B</text>
+  <text class="label" x="352" y="359">Loading UI + map load</text>
+
+  <rect class="box" x="658" y="142" width="224" height="116" rx="18"/>
+  <text class="label" x="686" y="191">progress = 100%</text>
+  <text class="small" x="686" y="221">GameLoadingEnded</text>
+  <rect class="box" x="658" y="286" width="224" height="116" rx="18"/>
+  <text class="label" x="686" y="335">progress = 100%</text>
+  <text class="small" x="686" y="365">GameLoadingEnded</text>
+
+  <rect class="dark" x="962" y="186" width="182" height="172" rx="18"/>
+  <text class="eyebrow" x="990" y="223" style="fill:#bfc1ba">GATE</text>
+  <text class="inverse" x="990" y="263">StageLoaded</text>
+  <text class="small" x="990" y="296" style="fill:#d7d8d2">ready count</text>
+  <text class="small" x="990" y="323" style="fill:#d7d8d2">== player count</text>
+
+  <path class="line" d="M246 221H326"/><path class="line" d="M246 309H326"/>
+  <path class="line" d="M578 200H658"/><path class="line" d="M578 344H658"/>
+  <path class="line" d="M882 200H922V244H962"/><path class="line" d="M882 344H922V300H962"/>
+
+  <path class="line" d="M1053 358V452H598"/>
+  <rect class="box" x="314" y="438" width="568" height="86" rx="18"/>
+  <text class="label" x="346" y="477">broadcast completion → remove loading UI → unlock input</text>
+  <text class="small" x="346" y="504">Both players enter the same stage after the readiness check.</text>
+</svg>

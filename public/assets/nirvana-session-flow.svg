@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+  <title id="title">Nirvana online session flow</title>
+  <desc id="desc">Host creation and guest matchmaking flows converge in a two-player lobby.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#242522"/>
+    </marker>
+    <style>
+      .bg{fill:#fafaf7}.box{fill:#fff;stroke:#c9cbc4;stroke-width:2}.dark{fill:#20211f}.line{fill:none;stroke:#242522;stroke-width:2.5;marker-end:url(#arrow)}
+      .dash{fill:none;stroke:#9a9d95;stroke-width:2;stroke-dasharray:6 7}.eyebrow{font:700 18px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:2px;fill:#666962}
+      .title{font:800 31px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#171817}.label{font:750 19px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#20211f}
+      .small{font:500 15px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#686b65}.inverse{font:750 19px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#fff}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="560"/>
+  <text class="eyebrow" x="56" y="58">ONLINE SESSION FLOW</text>
+  <text class="title" x="56" y="98">Create, find, join, then enter the shared lobby</text>
+
+  <rect class="box" x="56" y="150" width="220" height="260" rx="18"/>
+  <text class="label" x="84" y="192">Main menu</text>
+  <text class="small" x="84" y="222">UMainMenu</text>
+  <rect class="dark" x="84" y="260" width="164" height="48" rx="10"/>
+  <text class="inverse" x="116" y="291">Create room</text>
+  <rect class="box" x="84" y="328" width="164" height="48" rx="10"/>
+  <text class="label" x="121" y="359">Find room</text>
+
+  <rect class="box" x="352" y="142" width="480" height="132" rx="18"/>
+  <text class="eyebrow" x="380" y="174">HOST</text>
+  <text class="label" x="380" y="211">CreateSession</text>
+  <path class="line" d="M 502 205 H 580"/>
+  <text class="label" x="603" y="211">OnCreateSession</text>
+  <text class="small" x="380" y="246">OpenLevel(Lobby, listen)</text>
+
+  <rect class="box" x="352" y="294" width="480" height="160" rx="18"/>
+  <text class="eyebrow" x="380" y="326">GUEST</text>
+  <text class="label" x="380" y="363">FindSessions</text>
+  <path class="line" d="M 500 357 H 568"/>
+  <text class="label" x="591" y="363">JoinSession</text>
+  <text class="small" x="380" y="402">GetResolvedConnectString</text>
+  <path class="line" d="M 590 397 H 656"/>
+  <text class="small" x="678" y="402">ClientTravel</text>
+  <text class="small" x="380" y="431">A failed search returns to a retryable state.</text>
+
+  <path class="line" d="M 276 284 H 326 V 208 H 352"/>
+  <path class="line" d="M 276 352 H 326 V 374 H 352"/>
+  <path class="line" d="M 832 208 H 912"/>
+  <path class="line" d="M 832 374 H 912"/>
+
+  <rect class="dark" x="912" y="205" width="232" height="184" rx="18"/>
+  <text class="eyebrow" x="944" y="243" style="fill:#bfc1ba">RESULT</text>
+  <text class="inverse" x="944" y="286">2-player lobby</text>
+  <text class="small" x="944" y="320" style="fill:#d7d8d2">character selection</text>
+  <text class="small" x="944" y="347" style="fill:#d7d8d2">ready state sync</text>
+
+  <path class="dash" d="M 56 494 H 1144"/>
+  <text class="small" x="56" y="527">Steam identity</text>
+  <text class="small" x="250" y="527">OnlineSubsystem delegates</text>
+  <text class="small" x="544" y="527">EOSPlus configuration</text>
+  <text class="small" x="824" y="527">UE 5.3 listen server</text>
+</svg>

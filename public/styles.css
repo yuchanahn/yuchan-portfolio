@@ -1136,6 +1136,54 @@ button.tag-chip:hover {
   object-fit: contain;
 }
 
+.case-code {
+  margin: 38px 0 0;
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+}
+
+.case-code-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px 15px;
+  border-bottom: 1px solid var(--border);
+}
+
+.case-code-label,
+.case-code-source {
+  font-family: var(--mono);
+  font-size: 9px;
+}
+
+.case-code-label {
+  color: var(--text-soft);
+  font-weight: 760;
+}
+
+.case-code-source {
+  overflow: hidden;
+  color: var(--muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.case-code-pre {
+  overflow-x: auto;
+  margin: 0;
+  padding: 18px;
+}
+
+.case-code-content {
+  color: var(--text-soft);
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.7;
+  tab-size: 2;
+  white-space: pre;
+}
+
 .case-copy {
   display: grid;
   gap: 0;
@@ -1149,6 +1197,17 @@ button.tag-chip:hover {
   font-size: 15px;
   line-height: 1.9;
   word-break: keep-all;
+}
+
+.inline-code {
+  padding: 0.08em 0.28em;
+  border-radius: 0.22em;
+  background: var(--surface-soft);
+  color: inherit;
+  font-family: var(--mono);
+  font-size: 0.9em;
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
 .case-paragraph + .case-paragraph {
@@ -1713,6 +1772,7 @@ a:focus-visible {
   }
 
   .case-visual,
+  .case-code,
   .case-flow,
   .metric-grid,
   .case-bullets,
@@ -1731,6 +1791,23 @@ a:focus-visible {
 
   .case-visual.is-gallery > img {
     height: 70mm;
+  }
+
+  .case-code {
+    margin-top: 6mm;
+  }
+
+  .case-code-caption {
+    padding: 2mm 2.5mm;
+  }
+
+  .case-code-pre {
+    padding: 3mm;
+  }
+
+  .case-code-content {
+    font-size: 2.45mm;
+    line-height: 1.48;
   }
 
   .case-flow {

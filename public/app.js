@@ -256,6 +256,18 @@ function element(tagName, className, text) {
   return node;
 }
 
+function richTextElement(tagName, className, text) {
+  const node = element(tagName, className);
+  String(text ?? "").split(/(`[^`]+`)/g).forEach((part) => {
+    if (part.startsWith("`") && part.endsWith("`") && part.length > 2) {
+      node.append(element("code", "inline-code", part.slice(1, -1)));
+    } else {
+      node.append(document.createTextNode(part));
+    }
+  });
+  return node;
+}
+
 function createTagChip(tagId, options = {}) {
   const { interactive = false, selected = false, compact = false } = options;
   const chip = element(interactive ? "button" : "span", `tag-chip${selected ? " is-selected" : ""}${compact ? " compact" : ""}`);
@@ -513,6 +525,22 @@ function renderFlow(module) {
   return flow;
 }
 
+function renderCode(module) {
+  if (!module.code?.text) return null;
+  const figure = element("figure", "case-code");
+  const caption = element("figcaption", "case-code-caption");
+  caption.append(
+    element("span", "case-code-label", localized(module.code.caption) || "Code"),
+    element("span", "case-code-source", module.code.source || module.code.language || ""),
+  );
+  const pre = element("pre", "case-code-pre");
+  const code = element("code", "case-code-content", module.code.text.trim());
+  if (module.code.language) code.dataset.language = module.code.language;
+  pre.append(code);
+  figure.append(caption, pre);
+  return figure;
+}
+
 function renderCase(module, index) {
   const project = projectDetails(module.project);
   const section = element("section", "case-study");
@@ -525,21 +553,23 @@ function renderCase(module, index) {
     element("span", "case-category", localized(module.category)),
   );
   const title = element("h2", "case-title", localized(module.title));
-  const lead = element("p", "case-lead", localized(module.lead));
+  const lead = richTextElement("p", "case-lead", localized(module.lead));
   const flow = renderFlow(module);
   const visual = renderImages(module);
+  const code = renderCode(module);
   const copy = element("div", "case-copy");
-  localized(module.paragraphs).forEach((paragraph) => copy.append(element("p", "case-paragraph", paragraph)));
+  localized(module.paragraphs).forEach((paragraph) => copy.append(richTextElement("p", "case-paragraph", paragraph)));
 
   section.append(meta, title, lead);
   if (module.metrics) section.append(renderMetrics(module.metrics));
   if (flow) section.append(flow);
   if (visual) section.append(visual);
+  if (code) section.append(code);
   section.append(copy);
 
   if (module.bullets) {
     const list = element("ul", "case-bullets");
-    localized(module.bullets).forEach((bullet) => list.append(element("li", "", bullet)));
+    localized(module.bullets).forEach((bullet) => list.append(richTextElement("li", "", bullet)));
     section.append(list);
   }
 

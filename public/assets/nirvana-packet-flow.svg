@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 590" role="img" aria-labelledby="title desc">
+  <title id="title">Nirvana gameplay packet flow</title>
+  <desc id="desc">Client input and UI actions are serialized, passed through Unreal RPCs, handled by server state, and reflected back to client world and UI.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#242522"/></marker>
+    <style>
+      .bg{fill:#fafaf7}.box{fill:#fff;stroke:#c9cbc4;stroke-width:2}.server{fill:#20211f}.line{fill:none;stroke:#242522;stroke-width:2.5;marker-end:url(#arrow)}
+      .return{fill:none;stroke:#74776f;stroke-width:2;stroke-dasharray:7 7;marker-end:url(#arrow)}.eyebrow{font:700 18px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:2px;fill:#666962}
+      .title{font:800 31px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#171817}.label{font:750 18px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#20211f}
+      .small{font:500 14px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#686b65}.inverse{font:750 18px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#fff}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="590"/>
+  <text class="eyebrow" x="56" y="58">GAMEPLAY PACKET FLOW</text>
+  <text class="title" x="56" y="98">Server decisions are reflected in both clients and their UI</text>
+
+  <rect class="box" x="56" y="162" width="180" height="220" rx="18"/>
+  <text class="eyebrow" x="82" y="197">CLIENT</text>
+  <text class="label" x="82" y="239">Input</text>
+  <text class="small" x="82" y="265">skill · movement</text>
+  <text class="label" x="82" y="311">UI action</text>
+  <text class="small" x="82" y="337">item · inventory</text>
+
+  <rect class="box" x="296" y="162" width="188" height="220" rx="18"/>
+  <text class="eyebrow" x="322" y="197">MESSAGE</text>
+  <text class="label" x="322" y="239">FPac_* USTRUCT</text>
+  <text class="small" x="322" y="270">packet id binding</text>
+  <text class="small" x="322" y="298">FMemoryWriter</text>
+  <text class="small" x="322" y="326">serialization</text>
+
+  <rect class="box" x="544" y="162" width="190" height="220" rx="18"/>
+  <text class="eyebrow" x="570" y="197">TRANSPORT</text>
+  <text class="label" x="570" y="239">ANetPC</text>
+  <text class="small" x="570" y="270">reliable Server RPC</text>
+  <text class="small" x="570" y="298">reliable Client RPC</text>
+  <text class="small" x="570" y="326">dispatch queue</text>
+
+  <rect class="server" x="794" y="142" width="350" height="260" rx="18"/>
+  <text class="eyebrow" x="824" y="179" style="fill:#bfc1ba">AUTHORITATIVE FLOW</text>
+  <text class="inverse" x="824" y="221">FServer state and handlers</text>
+  <text class="small" x="824" y="258" style="fill:#d7d8d2">entity health / shield</text>
+  <text class="small" x="824" y="287" style="fill:#d7d8d2">inventory drag / item reward</text>
+  <text class="small" x="824" y="316" style="fill:#d7d8d2">mission / stage / revive</text>
+  <text class="small" x="824" y="345" style="fill:#d7d8d2">loading / game over</text>
+
+  <path class="line" d="M236 270H296"/><path class="line" d="M484 270H544"/><path class="line" d="M734 270H794"/>
+  <path class="return" d="M969 402V470H146V382"/>
+  <text class="label" x="384" y="463">response packet → client world / HUD</text>
+
+  <rect class="box" x="56" y="510" width="1088" height="44" rx="12"/>
+  <text class="small" x="82" y="538">The common packet layer was team code; gameplay packet definitions and server/client handlers were extended for the features above.</text>
+</svg>

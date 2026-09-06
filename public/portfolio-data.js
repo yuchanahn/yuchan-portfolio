@@ -70,7 +70,7 @@ window.PORTFOLIO_DATA = {
     unity: { ko: "Unity", en: "Unity" },
     csharp: { ko: "C#", en: "C#" },
     rust: { ko: "Rust", en: "Rust" },
-    pathfinding: { ko: "JPS·길찾기", en: "JPS/Pathfinding" },
+    pathfinding: { ko: "길찾기", en: "Pathfinding" },
     network: { ko: "네트워크", en: "Networking" },
     operations: { ko: "서비스 운영", en: "Service Operations" },
     performance: { ko: "성능 개선", en: "Performance" },
@@ -186,8 +186,8 @@ window.PORTFOLIO_DATA = {
       period: "2019",
       type: { ko: "대학교 1학년 Unity 팀 프로젝트", en: "First-year university Unity team project" },
       summary: {
-        ko: "몬스터 AI와 상태 관리, JPS 길찾기와 움직이는 장애물을 반영하는 비동기 경로 계산을 맡았습니다.",
-        en: "Worked on monster AI and state, JPS pathfinding, and asynchronous path rebuilding for moving obstacles.",
+        ko: "몬스터 AI와 상태 관리를 구현하고, 오픈소스 JPS 코드를 프로젝트에 적용하면서 반복 계산을 별도 스레드로 옮겼습니다.",
+        en: "Implemented monster AI and state management, then adapted an open-source JPS implementation and moved repeated rebuild work off the main thread.",
       },
       links: [
         { label: { ko: "프로젝트", en: "Project" }, href: "https://github.com/yuchanahn/Tower_Of_Ukani", value: "GitHub" },
@@ -655,35 +655,230 @@ window.PORTFOLIO_DATA = {
       ],
     },
     {
-      id: "nirvana-network",
+      id: "nirvana-overview",
       order: 300,
       project: "nirvana",
-      category: { ko: "UE5 멀티플레이", en: "UE5 Multiplayer" },
+      category: { ko: "프로젝트 개요", en: "Project Overview" },
       tags: ["game-client", "game-server", "cpp", "unreal", "network", "realtime", "collaboration"],
       title: {
-        ko: "Nirvana에서 온라인 세션, 네트워크 구조와 C++ UI를 맡았습니다",
-        en: "Worked on online sessions, networking structure, and C++ UI in Nirvana",
+        ko: "22명 팀에서 2인 협동 액션 게임을 만들었습니다",
+        en: "Built a two-player co-op action game in a 22-person team",
       },
       lead: {
-        ko: "Unreal Engine 5.3 기반 2인 멀티 액션 로그라이크를 22명 팀, 프로그래머 4명과 함께 만들었습니다.",
-        en: "Built a two-player multiplayer action roguelike in Unreal Engine 5.3 with a 22-person team and four programmers.",
+        ko: "Nirvana는 Unreal Engine 5.3으로 제작한 액션 로그라이크 졸업 프로젝트이며, 프로그래머 4명이 약 8개월 동안 함께 개발했습니다.",
+        en: "Nirvana is an Unreal Engine 5.3 action-roguelike capstone built over roughly eight months by a four-programmer team within a 22-person production.",
       },
       paragraphs: {
         ko: [
-          "Online Subsystem 문서를 분석하고 Steam 로그인과 EOS Plus 기반 크로스 플랫폼 구조를 검토했습니다. RPC와 권한 확인이 액터 코드에 섞여 읽기 어려웠던 흐름을 클라이언트 로직과 서버 처리 흐름이 구분되는 패킷 기반 형태로 바꿨습니다.",
-          "인게임 UI, 로딩과 게임오버 화면은 C++ 기반 Slate/UMG 연결로 제작했습니다. 멀티캐스트 애니메이션에서는 몽타주 섹션 점프와 위치 보정으로 동기화를 다뤘습니다.",
-          "팀 프로젝트이므로 게임 전체를 혼자 만들었다고 표현하지 않습니다. 제 담당 범위는 온라인 세션 검토, 네트워크 구조 일부, UI와 작업 자동화 도구입니다.",
+          "제가 담당한 범위는 온라인 세션과 로비, 서버·클라이언트의 게임 진행 처리, 스테이지 로딩, 인벤토리·미션·부활·게임오버 UI 연결입니다. 플레이어 전투와 몬스터 AI는 다른 프로그래머가 주도했고, 저는 이 기능들이 2인 네트워크 흐름 안에서 함께 작동하도록 서버 처리와 UI 접점을 연결했습니다.",
+          "작업 후반에는 각 파트에서 만든 기능을 2인 플레이 흐름에 합치면서 세션 접속 실패, 두 명이 접속했을 때 발생하는 크래시, 몬스터 체력과 쉴드 동기화, 로딩 완료 시점, 인벤토리 조작 충돌 같은 문제를 반복해서 수정했습니다. 기능 하나를 만드는 것보다 서로 다른 시스템이 한 판의 시작과 종료까지 끊기지 않게 연결하는 일이 더 많았습니다.",
+          "이 프로젝트는 현재의 코드 기준으로 보면 책임 분리가 부족한 부분도 많습니다. 다만 여러 명이 동시에 만드는 Unreal 프로젝트에서 네트워크 권한, 비동기 콜백, UI 상태와 레벨 수명을 함께 다뤄 본 첫 장기 팀 개발 경험이었습니다.",
         ],
         en: [
-          "I studied Online Subsystem documentation and reviewed Steam sign-in and an EOS Plus cross-platform path. Actor code had mixed RPC and authority checks, so I moved part of the flow toward packet-oriented handling that made client and server responsibilities easier to follow.",
-          "I built in-game, loading, and game-over UI through C++ Slate/UMG integration. Multiplayer animation work used montage section jumps and position correction.",
-          "This was a team project, not a solo game. My scope covered online-session research, part of the networking structure, UI, and a workflow automation tool.",
+          "My scope covered online sessions and the lobby, server/client gameplay flow, stage loading, and the UI paths for inventory, missions, revival, and game over. Other programmers led player combat and monster AI; I connected those systems to the shared two-player server flow and UI.",
+          "Late in development, much of my work was integrating features from different programmers into a complete two-player run. I fixed session-join failures, two-player crashes, monster health and shield synchronization, loading-completion timing, and conflicting inventory interactions.",
+          "The project still has responsibility and coupling issues by my current standards. It was nevertheless my first long team project that required handling network authority, asynchronous callbacks, UI state, and level lifetime together in Unreal.",
         ],
+      },
+      image: { src: "./assets/nirvana-gameplay.png", alt: "Nirvana two-player combat gameplay" },
+    },
+    {
+      id: "nirvana-session",
+      order: 305,
+      project: "nirvana",
+      category: { ko: "온라인 세션", en: "Online Sessions" },
+      tags: ["game-client", "game-server", "cpp", "unreal", "network", "realtime"],
+      title: {
+        ko: "방 생성·검색·합류 흐름을 Online Subsystem으로 연결했습니다",
+        en: "Connected room creation, discovery, and joining through Online Subsystem",
+      },
+      lead: {
+        ko: "메인 메뉴에서 방을 만들거나 검색한 뒤, 두 플레이어가 같은 로비에 들어오기까지 필요한 비동기 콜백과 화면 전환을 구현했습니다.",
+        en: "Implemented the asynchronous callbacks and travel flow required to create or find a room and bring both players into the same lobby.",
+      },
+      paragraphs: {
+        ko: [
+          "`UOSS`에서 세션 생성·검색·합류·삭제와 로그인, 초대 수락, 네트워크 오류 delegate를 한곳에 연결했습니다. 게임 전용 `UNrvOss`에서는 `Init → Searching → Found → Joining → Joined` 상태를 두고 메인 메뉴가 현재 진행 상황을 표시하고 중복 요청을 막도록 했습니다.",
+          "호스트는 `CreateSession` 완료 후 로비 맵을 listen server로 열고, 게스트는 검색 결과를 검증한 뒤 `JoinSession`을 호출했습니다. 합류 callback에서 `GetResolvedConnectString`으로 접속 주소를 받은 다음 `ClientTravel`을 실행하도록 순서를 고쳤습니다. 검색 결과가 없을 때는 실패 상태에서 다시 검색할 수 있게 메뉴 조건도 수정했습니다.",
+          "프로젝트 설정은 EOSPlus를 기본 서비스, Steam을 native platform으로 두고 Steam 계정 ID를 외부 자격 정보로 넘기도록 구성했습니다. 당시 목표는 상용 크로스플랫폼 출시가 아니라 Steam 로그인 정보를 EOSPlus 세션 흐름에 연결해 보는 것이었고, 구현도 해당 범위까지 진행했습니다.",
+        ],
+        en: [
+          "`UOSS` centralizes delegates for create, find, join, destroy, login, invite acceptance, and network failures. The game-specific `UNrvOss` tracks an `Init → Searching → Found → Joining → Joined` state so the main menu can show progress and avoid duplicate requests.",
+          "The host opens the lobby as a listen server after `CreateSession` completes. A guest validates the search result, calls `JoinSession`, resolves the connect string inside the join callback, and then performs `ClientTravel`. I also made a failed search return to a state from which the user could search again.",
+          "The project configured EOSPlus as the default service and Steam as the native platform, passing the Steam account ID into the external-credential path. The implementation explored connecting Steam identity to the EOSPlus session flow; it was not a commercial cross-platform release.",
+        ],
+      },
+      image: { src: "./assets/nirvana-session-flow.svg", alt: "Nirvana online session creation and join flow" },
+      code: {
+        language: "cpp",
+        caption: { ko: "세션 합류 후 실제 접속까지의 순서", en: "Join callback to client travel" },
+        source: "YC/OSS/NrvOss.cpp",
+        text: `void UNrvOss::OnJoinSession(FName Name, EOnJoinSessionCompleteResult::Type) {
+  SessionName = Name.ToString();
+  SessionState = EOnlineSessionStateEx::Joined;
+
+  auto Address = GetAddr();
+  if (Address.IsErr()) return;
+  GInst->GetWorld()->GetFirstPlayerController()
+       ->ClientTravel(Address.Unwrap(), TRAVEL_Absolute);
+}`,
+      },
+    },
+    {
+      id: "nirvana-gameplay-network",
+      order: 310,
+      project: "nirvana",
+      category: { ko: "게임 진행 동기화", en: "Gameplay Synchronization" },
+      tags: ["game-client", "game-server", "cpp", "unreal", "network", "realtime"],
+      title: {
+        ko: "서버가 게임 진행을 판단하고 두 클라이언트에 같은 상태를 전달했습니다",
+        en: "Kept both clients aligned around server-owned gameplay decisions",
+      },
+      lead: {
+        ko: "팀에서 만든 공통 패킷 계층을 사용해 인벤토리, 체력·쉴드, 미션, 부활과 게임 종료에 필요한 패킷과 처리 코드를 확장했습니다.",
+        en: "Extended the team's shared packet layer with the messages and handlers required for inventory, health and shields, missions, revival, and game over.",
+      },
+      paragraphs: {
+        ko: [
+          "패킷 직렬화와 ID binding의 기반 코드는 팀원이 먼저 만들었습니다. 저는 이 공통 계층 위에 기능별 `FPac_*` USTRUCT를 추가하고, `Server.cpp`와 `Client.cpp`에서 인벤토리와 전투 보조 상태, 미션, 부활처럼 실제 게임 진행이 바뀌는 handler를 작성·수정했습니다.",
+          "클라이언트의 입력과 UI 조작은 `ANetPC`의 reliable RPC를 거쳐 서버 dispatch queue로 들어갑니다. 서버에서는 아이템을 누가 드래그 중인지 확인하고, 아이템 선택 결과와 엔티티의 체력·쉴드, 남은 몬스터 수, 영혼 게이지와 부활 여부를 판단한 뒤 필요한 클라이언트 또는 전체에 결과 패킷을 보냅니다. 클라이언트는 수신한 결과로 로컬 world 상태와 HUD를 갱신합니다.",
+          "이 방식으로 Unreal RPC가 여러 액터에 흩어지는 것을 일부 줄이고, 게임 진행 관련 처리를 서버 쪽에서 따라가기 쉽게 만들었습니다. 반면 `FServer`의 정적 상태와 큰 tick 함수에 로직이 많이 모여 있어, 지금 다시 만든다면 도메인별 subsystem과 명시적인 command handler로 나눌 부분도 분명합니다.",
+        ],
+        en: [
+          "A teammate created the packet serialization and ID-binding foundation. On top of that shared layer, I added feature-specific `FPac_*` USTRUCT messages and wrote or revised gameplay handlers in `Server.cpp` and `Client.cpp` for inventory, supporting combat state, missions, revival, and other run-state changes.",
+          "Client input and UI actions travel through reliable RPCs on `ANetPC` into the server dispatch queue. The server checks item-drag ownership and decides item rewards, entity health and shields, remaining monsters, soul gauge, revival, and game-over state before sending the result to one or both clients. Each client applies the response to its local world state and HUD.",
+          "This reduced some RPC logic scattered across actors and made server-owned gameplay flow easier to trace. The trade-off is that static `FServer` state and a large tick function accumulated too many responsibilities; today I would separate them into domain-focused subsystems and explicit command handlers.",
+        ],
+      },
+      image: { src: "./assets/nirvana-packet-flow.svg", alt: "Nirvana gameplay packet and server state flow" },
+    },
+    {
+      id: "nirvana-loading-ui",
+      order: 315,
+      project: "nirvana",
+      category: { ko: "스테이지·UI", en: "Stages & UI" },
+      tags: ["game-client", "game-server", "cpp", "unreal", "network", "collaboration"],
+      title: {
+        ko: "두 플레이어의 로딩 완료를 확인한 뒤 다음 스테이지를 시작했습니다",
+        en: "Started the next stage only after both players finished loading",
+      },
+      lead: {
+        ko: "한쪽 클라이언트만 먼저 게임을 시작하지 않도록 로딩 화면, 진행률, 서버 확인과 입력 잠금을 하나의 전환 흐름으로 연결했습니다.",
+        en: "Connected loading UI, progress, server readiness checks, and input locking so one client could not start the stage ahead of the other.",
+      },
+      paragraphs: {
+        ko: [
+          "서버가 다음 레벨을 정하면 `FPac_NextLevelLoadStart`를 전송하고 두 클라이언트의 입력을 잠급니다. 클라이언트는 로딩 위젯을 생성하고 맵과 진행률이 모두 준비됐을 때 `FPac_GameLoadingEnded`를 서버로 보냅니다. 서버는 각 `PlayerController`의 `StageLoaded` 값을 세어 현재 플레이어 수와 같아진 뒤에만 완료 패킷을 방송하고 입력을 다시 엽니다.",
+          "스테이지별 몬스터 구성은 CSV와 DataTable에서 읽어 spawn queue를 만들었고, 서버가 남은 몬스터 수를 기준으로 미션과 다음 battle page를 진행하도록 연결했습니다. 레벨업 아이템 선택, 공동 인벤토리 조작, 맵 화면, 사망한 플레이어의 영혼 게이지와 부활, 두 명 모두 사망했을 때의 게임오버 화면도 같은 서버·클라이언트 흐름에서 처리했습니다.",
+          "UI는 단순히 화면을 배치하는 작업으로 끝나지 않았습니다. 로딩 중 스킬 입력이 되는 문제, 한 명이 인벤토리를 닫았을 때 다른 플레이어의 상태와 어긋나는 문제, 재실행 시 남은 상태, 사망 상태에서 UI를 열고 닫을 때의 예외처럼 네트워크와 화면 수명이 맞물린 버그를 실제 2인 플레이로 확인하며 수정했습니다.",
+        ],
+        en: [
+          "When the server selects the next level, it sends `FPac_NextLevelLoadStart` and locks input on both clients. A client creates its loading widget and sends `FPac_GameLoadingEnded` only after the map and progress are ready. The server counts each controller's `StageLoaded` flag and broadcasts completion only when that count matches the active player count.",
+          "Stage monster composition is loaded from CSV and DataTable data into spawn queues, while the server advances missions and battle pages from the remaining-monster count. Level-up rewards, shared inventory interactions, map UI, soul-gauge revival, and game over are handled through the same server/client flow.",
+          "The UI work was not just screen layout. Two-player testing exposed input during loading, inventory-close disagreement, stale state after restarting a run, and dead-player UI edge cases that required changes across both network state and widget lifetime.",
+        ],
+      },
+      image: { src: "./assets/nirvana-loading-flow.svg", alt: "Nirvana synchronized level loading flow" },
+      code: {
+        language: "cpp",
+        caption: { ko: "두 클라이언트의 로딩 완료를 기다리는 부분", en: "Waiting for both clients to finish loading" },
+        source: "YC/Core/Server/Server.cpp",
+        text: `CP->StageLoaded = true;
+int ReadyCount = 0;
+
+for (const auto PC : FServer::PCs)
+  if (IsValid(PC)) ReadyCount += PC->StageLoaded;
+
+if (ReadyCount >= GetPcNum(GetWorld())) {
+  Server_SendAll(FPac_GameLoadingEnded{});
+  // remove input lock for every connected player
+}`,
+      },
+    },
+    {
+      id: "nirvana-animation",
+      order: 320,
+      project: "nirvana",
+      category: { ko: "애니메이션 동기화", en: "Animation Synchronization" },
+      tags: ["game-client", "cpp", "unreal", "network", "realtime", "collaboration"],
+      title: {
+        ko: "멀티플레이에서 몽타주 재생 상태가 어긋나는 문제를 수정했습니다",
+        en: "Fixed multiplayer montage state drifting out of sync",
+      },
+      lead: {
+        ko: "공동으로 만든 `NetAnim` 컴포넌트에서 몽타주와 섹션 전환, 재생·정지 상태를 두 클라이언트에 전달하는 부분을 수정했습니다.",
+        en: "Revised the shared `NetAnim` component that propagates montage, section, play, pause, and resume state to both clients.",
+      },
+      paragraphs: {
+        ko: [
+          "서버의 애니메이션 인스턴스에서 현재 몽타주와 section을 확인하고 값이 달라질 때 multicast RPC를 보내는 구조였습니다. 저는 section jump와 resume 호출, 몽타주 play rate 전달을 수정했고, 현재 몽타주를 다시 전송하는 replay 경로를 추가했습니다.",
+          "클라이언트와 서버의 시간 차이는 `FPac_TimeSync`로 계산한 offset을 사용했습니다. 일시정지 후 재개할 때는 공유 시간과 재개 시작 시점의 차이로 재생 위치를 계산해 `Montage_SetPosition`을 호출합니다. section 변경에서는 해당 section의 시작 위치로 이동하도록 처리돼 있습니다.",
+          "이 컴포넌트는 액터 좌표를 보정하거나 root-motion 위치를 다시 계산하지 않습니다. 제가 수정한 범위는 몽타주 재생 상태가 서로 달라지는 조건을 찾고, 섹션 이동과 일시정지·재개·재전송 흐름을 보완한 부분입니다.",
+        ],
+        en: [
+          "The server observes the active montage and section and sends a multicast RPC when either changes. I revised section-jump and resume calls, passed montage play rate through the RPC, and added a replay path that resends the current montage.",
+          "Client/server time difference is derived from an offset calculated with `FPac_TimeSync`. On resume, the client calculates playback time from the shared clock and calls `Montage_SetPosition`; a section change moves to that section's start.",
+          "This component does not correct actor coordinates or reconstruct root-motion position. My changes focused on conditions where montage state diverged and on section changes, pause/resume, and replay paths.",
+        ],
+      },
+      code: {
+        language: "cpp",
+        caption: { ko: "몽타주 section 변경 감지와 전달", en: "Detecting and propagating a montage section change" },
+        source: "YC/NetAnim.cpp",
+        text: `if (CurrentMontage == NET_Montage &&
+    CurrentSectionIdx != NET_SectionIdx) {
+  CurrentStartTime = GetTime();
+  NET_SectionIdx = CurrentSectionIdx;
+  NMC_JumpSectionMontage(
+    CurrentMontage, CurrentSectionIdx, CurrentStartTime);
+}`,
+      },
+    },
+    {
+      id: "nirvana-cpp",
+      order: 325,
+      project: "nirvana",
+      category: { ko: "Unreal C++", en: "Unreal C++" },
+      tags: ["game-client", "game-server", "cpp", "unreal", "network"],
+      title: {
+        ko: "Unreal 객체 시스템과 표준 C++ 기능을 함께 사용했습니다",
+        en: "Combined Unreal's object system with standard C++ features",
+      },
+      lead: {
+        ko: "UObject와 RPC 규칙 안에서 코드를 작성하면서 `std::variant`, ranges, concept, generic lambda와 오류 반환형을 게임 진행 코드에 적용했습니다.",
+        en: "Worked within UObject and RPC constraints while applying `std::variant`, ranges, concepts, generic lambdas, and explicit error-return types to gameplay code.",
+      },
+      paragraphs: {
+        ko: [
+          "네트워크에 전달할 데이터는 `USTRUCT`와 `UPROPERTY`로 정의해 Unreal 직렬화를 사용하고, `UFUNCTION(Server/Client/NetMulticast, Reliable)`로 전송 경계를 만들었습니다. 액터와 위젯 수명은 `IsValid`, `TObjectPtr`, `TArray`, `TMap` 같은 Unreal 타입과 규칙을 따라 처리했습니다.",
+          "서버·클라이언트 처리 코드에서는 packet channel을 `std::variant`로 묶고 타입별 lambda를 실행했습니다. `std::views::filter`로 유효한 entity를 순회하고, packet concept과 generic lambda로 전송 함수를 공통화했으며, 포인터나 조회 실패는 `ErrorOr`로 호출자에게 넘기는 방식을 사용했습니다. 공통 유틸리티의 일부는 팀 코드이고, 저는 이를 기능 코드에서 사용하고 필요한 packet과 handler를 확장했습니다.",
+          "당시에는 pipe 형태의 함수 조합과 정적 상태를 많이 사용해 코드를 짧게 만드는 데 관심이 있었습니다. 지금 보면 팀원이 처음 읽기 어렵고 디버깅 경로가 길어지는 단점도 분명합니다. 이 경험 이후에는 문법적인 압축보다 책임과 데이터 흐름이 바로 보이는 구조를 우선하게 됐습니다.",
+        ],
+        en: [
+          "Network payloads use `USTRUCT` and `UPROPERTY` so Unreal serialization can handle them, while `UFUNCTION(Server/Client/NetMulticast, Reliable)` defines transport boundaries. Actor and widget lifetime follows Unreal types and checks such as `IsValid`, `TObjectPtr`, `TArray`, and `TMap`.",
+          "Server and client handlers group packet channels with `std::variant` and invoke type-specific lambdas. `std::views::filter` selects valid entities, packet concepts and generic lambdas share send paths, and `ErrorOr` carries pointer or lookup failures to the caller. Some utilities are shared team code; my work used them in gameplay and expanded the packet and handler set.",
+          "At the time I favored pipe-style composition and static state to make code concise. In retrospect, this also made the flow harder for teammates to read and debug. The project shifted my priority from syntactic compression toward explicit responsibility and visible data flow.",
+        ],
+      },
+      code: {
+        language: "cpp",
+        caption: { ko: "타입이 정해진 패킷을 서버 handler로 분기", en: "Dispatching a typed packet into a server handler" },
+        source: "YC/Core/Server/Server.cpp",
+        text: `auto SendTo = [Client]<is_packet T>(T Packet) {
+  return Server_Send(Packet, Client);
+};
+
+Packet | Unpack<FPac_Input2Server> | [](FPac_Input2Server Input) {
+  auto Entity = GetEtt(Input.EttIdx);
+  if (Entity.IsErr()) return;
+  Entity.Unwrap().AChrPtr.Unwrap()
+        ->ExecuteInput(Input.Input, Input.Type);
+};`,
       },
     },
     {
       id: "team-retrospective",
-      order: 310,
+      order: 330,
       project: "nirvana",
       category: { ko: "협업 회고", en: "Team Retrospective" },
       tags: ["game-client", "game-server", "cpp", "unreal", "network", "collaboration"],
@@ -773,30 +968,26 @@ window.PORTFOLIO_DATA = {
       id: "tower-dynamic-jps",
       order: 420,
       project: "tower",
-      category: { ko: "몬스터 AI·길찾기", en: "Monster AI & Pathfinding" },
+      category: { ko: "몬스터 AI", en: "Monster AI" },
       tags: ["game-client", "unity", "csharp", "pathfinding", "performance", "collaboration"],
       title: {
-        ko: "움직이는 장애물에 맞춰 JPS 경로를 다시 계산했습니다",
-        en: "Rebuilt JPS paths around moving obstacles",
+        ko: "몬스터 행동을 구성하고 길찾기 계산을 메인 스레드에서 분리했습니다",
+        en: "Built monster behavior and moved pathfinding rebuild work off the main thread",
       },
       lead: {
-        ko: "고정 grid에서 동작하던 길찾기에 움직이는 발판을 반영하고 반복 계산을 작업 queue로 옮겼습니다.",
-        en: "Extended static-grid pathfinding for moving platforms and moved repeated calculations into a work queue.",
-      },
-      flow: {
-        ko: ["고정 JPS grid", "움직이는 지형\n경로 불일치", "비동기 grid 갱신", "계산 시간 기반\n미래 위치 반영"],
-        en: ["Static JPS grid", "Moving ground\nStale path", "Async grid rebuild", "Future position from\ncalculation time"],
+        ko: "행동 트리와 상태 관리가 주 작업이었고, JPS는 공개 구현을 가져와 게임에 연결한 뒤 반복 계산에 별도 작업 스레드를 붙였습니다.",
+        en: "Behavior trees and state management were the main work. JPS came from an open implementation that I integrated into the game and supplemented with a worker thread for rebuilds.",
       },
       paragraphs: {
         ko: [
-          "대학교 1학년 팀 프로젝트에서 몬스터 AI, 상태 관리와 길찾기를 맡았습니다. 초기 JPS는 정적인 맵에서는 동작했지만 발판과 장애물이 움직이면 이전 grid와 실제 지형이 달라졌습니다.",
-          "움직이는 지형을 반영해 grid를 다시 만들고 JPS builder 계산을 concurrent queue로 보냈습니다. 비동기 계산을 추가한 뒤에는 길찾기 결과가 적용되는 시점과 몬스터 상태가 어긋나는 문제가 생겨, 계산 시간을 재고 장애물의 미래 위치를 반영했습니다.",
-          "학생 때 만든 코드라 현재 기준의 구조적 한계는 그대로 밝힙니다. 정적 알고리즘을 움직이는 게임 환경에 적용하며 상태와 계산 시점 문제를 처음 경험한 사례입니다.",
+          "대학교 1학년 팀 프로젝트에서 몬스터별 Blackboard와 행동 트리, 추적·공격·도망·대기 같은 task, 피격·기절·감속 상태를 구현했습니다. 지상형과 비행형 몬스터의 이동 조건을 나누고, 몬스터 종류마다 필요한 행동을 조합하는 방식으로 구성했습니다.",
+          "길찾기 알고리즘은 제가 직접 구현한 것이 아니라 공개된 JPS 코드를 프로젝트에 가져와 수정한 것입니다. 저는 Unity 좌표와 grid 변환, 몬스터 이동 코드 연결, 움직이는 발판이 차지하는 node 갱신을 붙였고, jump-point rebuild가 메인 스레드에서 반복되지 않도록 `ConcurrentQueue<Action>`과 단일 작업 스레드를 추가했습니다.",
+          "현재 기준으로 보면 worker가 쉬지 않고 queue를 확인하는 구조이고 종료·동기화 처리도 단순합니다. 이 작업의 핵심은 JPS 알고리즘 개발이 아니라, 공개 코드를 읽어 Unity 프로젝트의 grid와 이동 로직에 연결하고 반복 계산을 메인 스레드 밖으로 옮겨 본 경험입니다.",
         ],
         en: [
-          "In a first-year university team project, I worked on monster AI, state, and pathfinding. The initial JPS grid worked on static maps but became stale when platforms and obstacles moved.",
-          "I rebuilt the grid around moving ground and sent JPS builder work through a concurrent queue. Async calculation then exposed timing issues between path results and monster state, so I measured build time and used it to estimate the obstacle's future position.",
-          "The student code has structural limitations by today's standards. Its value is the first hands-on lesson that applying a static algorithm to a moving game world creates state and timing problems.",
+          "In a first-year university team project, I implemented per-monster blackboards and behavior trees, tasks for following, attacking, fleeing, and idling, plus hit, stun, and slow states. Ground and flying monsters used different movement conditions and composed the behavior they needed.",
+          "I did not implement the JPS algorithm itself. I adapted an open implementation by connecting Unity coordinates to its grid, wiring results into monster movement, and updating nodes occupied by moving platforms. I then added a `ConcurrentQueue<Action>` and a single worker thread so jump-point rebuild work would not repeatedly run on the main thread.",
+          "By current standards, the worker busy-polls the queue and shutdown and synchronization are minimal. The useful part of this work was reading and adapting external code to the Unity grid and movement model, then moving repeated rebuild work off the main thread—not authoring JPS itself.",
         ],
       },
       links: [
