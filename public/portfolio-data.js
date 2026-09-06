@@ -199,8 +199,8 @@ window.PORTFOLIO_DATA = {
       period: "2022–2023",
       type: { ko: "Unity 팀 프로젝트", en: "Unity team project" },
       summary: {
-        ko: "플레이어 FSM과 전투, 입력·UI, 컷신 데이터와 저장 기능을 연결한 2D 횡스크롤 액션 게임입니다.",
-        en: "A 2D side-scrolling action game connecting a player FSM, combat, input and UI, cutscene data, and save files.",
+        ko: "플레이어 전투, 입력·UI, 컷신 데이터와 저장 기능을 연결한 2D 횡스크롤 액션 게임입니다.",
+        en: "A 2D side-scrolling action game connecting player combat, input and UI, cutscene data, and save files.",
       },
       links: [
         { label: { ko: "프로젝트", en: "Project" }, href: "https://github.com/yuchanahn/CK2022CapstoneDesign", value: "GitHub" },
@@ -1169,58 +1169,14 @@ SetValue(SE_Obj.StatusEffect_NoTask, true);`,
       },
       paragraphs: {
         ko: [
-          "플레이어 이동·점프·공격·차지·방어·회피·피격·사망 상태와 전환 조건을 구현하고, 일반 공격·콤보·차지 공격·패링을 애니메이션 이벤트와 충돌 판정에 연결했습니다. 입력은 이름과 태그를 가진 mapping으로 모아 플레이어와 UI가 같은 경로를 사용하게 했습니다.",
+          "플레이어 이동·점프·공격·차지·방어·회피·피격·사망 동작을 구현하고, 일반 공격·콤보·차지 공격·패링을 애니메이션 이벤트와 충돌 판정에 연결했습니다. 입력은 이름과 태그를 가진 mapping으로 모아 플레이어와 UI가 같은 경로를 사용하게 했습니다.",
           "설정 화면에서는 키 변경, 음량과 전체 화면 설정을 저장했고, 씬 이동 시 체력·스태미나·포션과 다음 씬 정보를 파일로 남겼습니다. Google Sheets에서 컷신과 NPC 대사를 CSV로 받아 dictionary로 변환하고, 타이핑 연출과 튜토리얼 이벤트에서 사용했습니다.",
-          "한 파일에 플레이어의 상태와 전환 조건이 많이 모이고 문자열로 연결한 이벤트가 많아 수정할 때 여러 지점을 함께 확인해야 하는 구조도 남아 있습니다. 반면 실제 게임 한 편을 완성하면서 조작, 전투, UI, 데이터와 씬 전환이 서로 어떻게 영향을 주는지 폭넓게 다뤘습니다.",
+          "플레이어 코드에 여러 동작의 조건이 모이고 문자열로 연결한 애니메이션 이벤트가 많아 수정할 때 여러 지점을 함께 확인해야 하는 구조도 남아 있습니다. 반면 실제 게임 한 편을 완성하면서 조작, 전투, UI, 데이터와 씬 전환이 서로 어떻게 영향을 주는지 폭넓게 다뤘습니다.",
         ],
         en: [
-          "I implemented player movement, jump, attack, charge, defense, roll, hit, and death states and connected normal attacks, combos, charged attacks, and parries to animation events and collision handling. Named and tagged input mappings allowed gameplay and UI to share one input path.",
+          "I implemented player movement, jump, attack, charge, defense, roll, hit, and death behavior and connected normal attacks, combos, charged attacks, and parries to animation events and collision handling. Named and tagged input mappings allowed gameplay and UI to share one input path.",
           "Settings persist key bindings, audio, and fullscreen choice, while scene changes store health, stamina, potions, and the next scene. Cutscene and NPC text is downloaded from Google Sheets as CSV, converted into dictionaries, and used by typing effects and tutorial events.",
-          "The player file still contains many states and transition guards, and string-based event connections require checking several points for each change. The project nevertheless provided broad experience connecting controls, combat, UI, data, and scene transitions in a complete game.",
-        ],
-      },
-    },
-    {
-      id: "vapor-player-fsm",
-      order: 442,
-      project: "vapor",
-      category: { ko: "플레이어 FSM", en: "Player FSM" },
-      tags: ["game-client", "unity", "csharp"],
-      title: {
-        ko: "플레이어 행동을 상태별로 나누고 전이 조건을 한곳에서 확인했습니다",
-        en: "Separated player behavior into states with transitions visible in one place",
-      },
-      lead: {
-        ko: "제네릭 FSM을 직접 만들고 이동·공격·차지·점프·방어·회피·피격·사망 상태를 플레이어 코드에 적용했습니다.",
-        en: "Implemented a generic FSM and applied it to movement, attack, charge, jump, defense, roll, hit, and death states.",
-      },
-      image: { src: "./assets/vapor-player-fsm.svg", alt: "Vapor player state machine" },
-      code: {
-        language: "csharp",
-        caption: { ko: "상태와 다음 전이 조건을 함께 등록", en: "Registering a state with its transition guards" },
-        source: "Assets/Scripts/Player/PC.cs",
-        text: `normal_fw
-  .Do(name: "move", _ => move_st, _ => {
-  if (is_die) return "die";
-  if (is_hit) return "hit";
-  if (is_attack) return "attack";
-  if (is_defance) return "defence";
-  if (GetComponent<ChargingAttack>().IsCharging) return "charge";
-  if (is_roll) return "roll";
-  if (in_move_x == 0) return "idle";
-  return null;
-});`,
-      },
-      paragraphs: {
-        ko: [
-          "`Fsm.State<D>`는 `OnEnter`, `OnExit`, `OnUpdate`, `OnFixedUpdate`를 제공하고, `Flow<D>`가 상태 이름과 다음 상태를 판단하는 함수를 보관합니다. FSM은 현재 상태가 달라질 때만 이전 상태의 종료 처리와 새 상태의 진입 처리를 호출합니다. 강제 전이를 위한 `ForceDo`와 다른 flow로 이동하는 `To`도 구현했습니다.",
-          "플레이어에는 idle, move, attack, charge, charge attack, jump, fall, roll, defence, hit, die 상태를 등록했습니다. 예를 들어 방어 상태에 들어가면 대미지 계산 함수를 바꾸고, 회피 중에는 대미지를 0으로 처리하며, 피격 시에는 공격 collider를 끄고 combo를 초기화했습니다.",
-          "상태 자체는 분리됐지만 전이 조건이 각 상태 등록부에서 반복되고 문자열 이름으로 다음 상태를 찾습니다. 조건 하나를 바꿀 때 여러 transition을 함께 확인해야 했고 잘못된 이름은 실행 중에야 드러납니다. 상태를 나눈 효과와 전이 규칙의 중복이라는 한계를 동시에 경험한 코드입니다.",
-        ],
-        en: [
-          "`Fsm.State<D>` provides `OnEnter`, `OnExit`, `OnUpdate`, and `OnFixedUpdate`, while `Flow<D>` stores state names and functions that select the next state. Exit and enter logic runs only when the state object changes. I also implemented `ForceDo` for forced transitions and `To` for switching flows.",
-          "The player registers idle, move, attack, charge, charge attack, jump, fall, roll, defense, hit, and death. Entering defense changes the damage function, rolling makes damage zero, and hit state disables attack collision and resets the combo.",
-          "Although behavior is split by state, transition guards are repeated in each registration and the next state is addressed by string. A single condition change can require edits in several transitions, while a misspelled state appears only at runtime.",
+          "The player file still contains conditions for many behaviors, and string-based animation event connections require checking several points for each change. The project nevertheless provided broad experience connecting controls, combat, UI, data, and scene transitions in a complete game.",
         ],
       },
     },
