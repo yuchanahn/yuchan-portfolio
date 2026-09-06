@@ -63,7 +63,7 @@ window.PORTFOLIO_DATA = {
     redis: { ko: "Redis", en: "Redis" },
     payment: { ko: "결제·정합성", en: "Payments" },
     llm: { ko: "LLM", en: "LLM" },
-    realtime: { ko: "SSE·WebSocket", en: "SSE/WebSocket" },
+    realtime: { ko: "실시간 통신", en: "Realtime" },
     devops: { ko: "배포·인프라", en: "Deployment/Infra" },
     testing: { ko: "부하 테스트", en: "Load Testing" },
     unreal: { ko: "Unreal Engine", en: "Unreal Engine" },
@@ -110,12 +110,12 @@ window.PORTFOLIO_DATA = {
     },
     {
       id: "game-client",
-      title: { ko: "Unreal·Unity 게임 개발", en: "Unreal & Unity Game Development" },
+      title: { ko: "게임 프로그래밍·네트워크", en: "Game Programming & Networking" },
       description: {
-        ko: "Nirvana 팀 프로젝트, UE5 C++, 멀티플레이와 Unity 경험",
-        en: "Nirvana, UE5 C++, multiplayer systems, and Unity experience",
+        ko: "UE5 C++ 멀티플레이, Rust rollback 실험과 Unity 게임 코드",
+        en: "UE5 C++ multiplayer, a Rust rollback experiment, and Unity gameplay code",
       },
-      tags: ["game-client", "cpp", "unreal", "unity", "network", "collaboration"],
+      tags: ["game-client", "game-server", "cpp", "unreal", "unity", "csharp", "rust", "network", "realtime", "performance", "collaboration"],
     },
     {
       id: "ai-fullstack",
@@ -173,8 +173,8 @@ window.PORTFOLIO_DATA = {
       period: { ko: "개인 학습 기록", en: "Independent study record" },
       type: { ko: "개인 학습·실험", en: "Study and experiments" },
       summary: {
-        ko: "소켓과 IOCP부터 P2P·롤백 실험까지 직접 구현하며 네트워크 프로그래밍을 공부했습니다.",
-        en: "Networking studies ranging from sockets and IOCP to P2P and rollback experiments.",
+        ko: "소켓과 Windows IOCP를 직접 구현하며 연결·패킷·동시성의 기초를 공부했습니다.",
+        en: "Studied connection handling, packets, and concurrency by implementing sockets and Windows IOCP.",
       },
       links: [
         { label: { ko: "공개 코드 모음", en: "Code samples" }, href: "https://github.com/yuchanahn/-", value: "GitHub" },
@@ -212,8 +212,8 @@ window.PORTFOLIO_DATA = {
       period: "2025",
       type: { ko: "Godot·Rust 개인 실험", en: "Godot and Rust personal experiment" },
       summary: {
-        ko: "UDP 기반 delay netcode를 먼저 만든 뒤 snapshot과 재시뮬레이션을 추가해 rollback 구조까지 비교했습니다.",
-        en: "Built UDP delay netcode first, then added snapshots and resimulation to compare a rollback approach.",
+        ko: "Godot와 Rust로 UDP 연결, 입력 동기화와 rollback 재시뮬레이션을 직접 실험한 2인 P2P 액션 게임입니다.",
+        en: "A two-player P2P action-game experiment built with Godot and Rust to explore UDP connections, input synchronization, and rollback resimulation.",
       },
       links: [
         { label: { ko: "프로젝트", en: "Project" }, href: "https://github.com/yuchanahn/p2pactiongame", value: "GitHub" },
@@ -730,6 +730,7 @@ window.PORTFOLIO_DATA = {
       project: "nirvana",
       category: { ko: "게임 진행 동기화", en: "Gameplay Synchronization" },
       tags: ["game-client", "game-server", "cpp", "unreal", "network", "realtime"],
+      featured: true,
       title: {
         ko: "서버가 게임 진행을 판단하고 두 클라이언트에 같은 상태를 전달했습니다",
         en: "Kept both clients aligned around server-owned gameplay decisions",
@@ -840,6 +841,7 @@ if (ReadyCount >= GetPcNum(GetWorld())) {
       project: "nirvana",
       category: { ko: "Unreal C++", en: "Unreal C++" },
       tags: ["game-client", "game-server", "cpp", "unreal", "network"],
+      featured: true,
       title: {
         ko: "Unreal 객체 시스템과 표준 C++ 기능을 함께 사용했습니다",
         en: "Combined Unreal's object system with standard C++ features",
@@ -931,37 +933,228 @@ Packet | Unpack<FPac_Input2Server> | [](FPac_Input2Server Input) {
       },
     },
     {
-      id: "p2p-netcode",
+      id: "p2p-overview",
       order: 410,
       project: "p2p",
-      category: { ko: "Rollback 넷코드 실험", en: "Rollback Netcode Experiment" },
+      category: { ko: "프로젝트 개요", en: "Project Overview" },
       tags: ["game-server", "game-client", "rust", "network", "realtime", "performance"],
       title: {
-        ko: "delay netcode에서 rollback 구조까지 직접 비교했습니다",
-        en: "Compared delay netcode with a rollback design through direct implementation",
+        ko: "입력 지연 방식부터 rollback까지 같은 게임으로 비교했습니다",
+        en: "Compared input-delay and rollback approaches in the same game",
       },
       lead: {
-        ko: "입력을 기다리는 구조의 지연을 확인한 뒤 world snapshot, 입력 기록과 재시뮬레이션을 추가했습니다.",
-        en: "After seeing the latency cost of waiting for input, I added world snapshots, input history, and resimulation.",
-      },
-      flow: {
-        ko: ["UDP tick·입력 packet", "delay 방식\n입력 대기", "world snapshot\n입력 기록", "rollback\n재시뮬레이션"],
-        en: ["UDP ticks\nInput packets", "Delay model\nWait for input", "World snapshots\nInput history", "Rollback\nResimulation"],
+        ko: "Godot의 화면과 입력은 그대로 두고, Rust GDExtension에서 UDP 통신과 tick 단위 게임 계산을 구현했습니다.",
+        en: "Kept Godot for presentation and input while implementing UDP transport and tick-based game simulation in a Rust GDExtension.",
       },
       paragraphs: {
         ko: [
-          "Godot와 Rust GDExtension으로 UDP tick, ping과 입력 packet을 만들고 먼저 정해진 tick의 입력을 기다리는 delay 방식으로 동기화했습니다. 구조는 단순했지만 네트워크 지연이 그대로 조작 지연으로 느껴졌습니다.",
-          "다음 구현에서는 먼저 예측해 실행하고 늦은 입력이 도착하면 과거 world snapshot으로 돌아가 같은 입력을 다시 실행하도록 바꿨습니다. 재실행 결과를 맞추기 위해 엔진 node 상태 의존을 줄이고 data-only world, 자체 collision type과 고정 PRNG를 추가했습니다.",
-          "상용 넷코드라고 표현하지 않습니다. 두 동기화 방식에서 지연을 어디에 부담하는지 작은 코드로 직접 비교한 프로젝트입니다.",
+          "첫 버전은 왕복 지연을 tick으로 환산해 입력을 미래 tick에 예약하고, 양쪽 입력 확인이 끝난 tick만 실행하는 delay 방식이었습니다. 구현은 단순했지만 네트워크 지연이 커질수록 내 조작도 늦게 반응했습니다.",
+          "rollback 브랜치에서는 입력을 먼저 예측해 현재 tick을 진행하고, 나중에 받은 입력이 예측과 다르면 저장한 world로 돌아가 현재 tick까지 다시 계산했습니다. 이를 위해 입력 기록, world snapshot과 일정한 tick 기반 시뮬레이션을 추가했습니다.",
+          "실험 범위는 두 클라이언트의 연결과 입력 동기화까지입니다. NAT 환경별 연결 성공률, 장시간 세션과 여러 플랫폼에서 같은 결과가 유지되는지는 별도로 검증하지 않았습니다.",
         ],
         en: [
-          "Using Godot and a Rust GDExtension, I implemented UDP ticks, ping, and input packets, starting with a delay model that waits for the required tick's input. It was simple, but network latency became input latency.",
-          "The next version predicted ahead and returned to an earlier world snapshot when late input arrived. To make resimulation more repeatable, I reduced direct engine-node state, introduced a data-only world, custom collision types, and a fixed PRNG.",
-          "This is not presented as production netcode. It is a small implementation used to compare where delay and rollback place their costs.",
+          "The first version converted round-trip latency into ticks, scheduled input in a future tick, and advanced only after both inputs were acknowledged. It was simple, but higher network latency directly delayed local control.",
+          "The rollback branch predicts missing input and advances immediately. If a later packet differs from the prediction, it restores a stored world and simulates forward to the current tick using recorded input.",
+          "The experiment covers two-client connection and input synchronization. It does not validate connection success across NAT types, long-running sessions, or deterministic results across platforms.",
         ],
       },
       links: [
-        { label: { ko: "프로젝트 코드", en: "Project code" }, href: "https://github.com/yuchanahn/p2pactiongame", value: "GitHub" },
+        { label: { ko: "프로젝트 코드", en: "Project code" }, href: "https://github.com/yuchanahn/p2pactiongame/tree/rollback", value: "GitHub · rollback" },
+      ],
+    },
+    {
+      id: "p2p-udp-session",
+      order: 412,
+      project: "p2p",
+      category: { ko: "UDP 연결", en: "UDP Connection" },
+      tags: ["game-server", "game-client", "rust", "network", "realtime"],
+      title: {
+        ko: "등록 서버에서 상대 주소를 받은 뒤 UDP 직접 연결을 시도했습니다",
+        en: "Attempted a direct UDP connection after receiving the peer endpoint",
+      },
+      lead: {
+        ko: "상대방의 내부·외부 주소를 전달받아 같은 공유기 안의 주소, 공인 주소, 중계 주소 순서로 연결 경로를 바꿨습니다.",
+        en: "Received the peer's private and public endpoints, then changed the connection path from LAN to public and finally relay fallback.",
+      },
+      image: { src: "./assets/p2p-session-flow.svg", alt: "P2P endpoint registration and UDP connection attempts" },
+      code: {
+        language: "rust",
+        caption: { ko: "내부 주소를 먼저 시도한 뒤 다음 연결 후보로 전환", en: "Trying the private endpoint before moving to the next candidate" },
+        source: "src/network_controller.rs",
+        text: `PacketType::GetEndpoint => {
+  let (ep, _) = unpack::<Endpoint>(&buffer[1..]).unwrap();
+  let mut packet = pack::<u8>(&0, PacketType::HolePunch);
+  packet.insert(0, (packet.len() + 1) as u8);
+  let sock = net_data.socket.as_ref();
+  sock.unwrap().connect(ep.local_addr).expect("Failed to connect");
+  send_bytes(sock, &packet, ep.local_addr.to_string().as_str());
+
+  self.peer_addr = Some(ep.clone());
+  self.time_out1 = timestamp + 3000;
+}`,
+      },
+      paragraphs: {
+        ko: [
+          "클라이언트는 UDP socket을 임의 port에 열고 등록 서버에 자신의 endpoint를 보냈습니다. 서버에서 상대방의 local address와 public address를 받으면 내부 주소로 먼저 hole-punch packet을 보내고, 응답이 없으면 일정 시간 뒤 공인 주소를 다시 시도했습니다. 마지막에는 등록 서버 주소를 중계 경로로 사용하도록 전환했습니다.",
+          "수신은 별도 thread에서 담당하고, 주소별 packet queue를 `Mutex<HashMap<SocketAddr, Vec<Vec<u8>>>>`에 넣었습니다. Godot의 physics loop에서는 queue를 비운 뒤 packet type에 따라 연결, ping·pong, 입력과 시간 동기화를 처리했습니다. 여러 packet은 1byte 길이를 앞에 붙여 하나의 UDP payload로 묶었습니다.",
+          "시간 보정은 한 차례 측정한 RTT의 절반을 편도 지연으로 가정하는 단순한 방식이고, NAT 종류별 성공 여부와 실제 relay 동작을 체계적으로 검증한 단계는 아닙니다. 또한 Rust struct의 메모리를 그대로 복사하는 `unsafe` 직렬화라 padding, endian과 잘못된 packet 길이에 취약합니다.",
+        ],
+        en: [
+          "The client opens a UDP socket on an ephemeral port and registers its endpoint. After receiving the peer's private and public addresses, it first sends a hole-punch packet to the LAN address, retries through the public address after a timeout, and finally switches to the registration server address as a relay fallback.",
+          "A receive thread groups packets by sender in a mutex-protected queue. The Godot physics loop drains the queue and handles connection, ping/pong, input, and time synchronization. Multiple packets are concatenated into one UDP payload with a one-byte length prefix.",
+          "Clock offset uses a single half-RTT estimate, and NAT behavior or the relay path was not tested as a production service. Serialization also copies Rust struct memory through `unsafe`, leaving padding, endian, and malformed-length risks.",
+        ],
+      },
+      links: [
+        { label: { ko: "연결 코드", en: "Connection code" }, href: "https://github.com/yuchanahn/p2pactiongame/blob/rollback/src/network_controller.rs", value: "network_controller.rs" },
+        { label: { ko: "패킷 코드", en: "Packet code" }, href: "https://github.com/yuchanahn/p2pactiongame/blob/rollback/src/udp_net.rs", value: "udp_net.rs" },
+      ],
+    },
+    {
+      id: "p2p-input-history",
+      order: 414,
+      project: "p2p",
+      category: { ko: "입력 동기화", en: "Input Synchronization" },
+      tags: ["game-server", "game-client", "rust", "network", "realtime"],
+      title: {
+        ko: "한 tick의 조작을 6bit로 묶고 최근 30tick을 함께 보냈습니다",
+        en: "Packed one tick of controls into six bits and resent 30 ticks of history",
+      },
+      lead: {
+        ko: "UDP packet 하나가 유실돼도 다음 packet으로 최근 입력을 다시 받을 수 있도록 입력 기록을 겹쳐 전송했습니다.",
+        en: "Overlapped input history so a later UDP packet could recover recent input after packet loss.",
+      },
+      image: { src: "./assets/p2p-input-history.svg", alt: "P2P bit-packed input history packet" },
+      code: {
+        language: "rust",
+        caption: { ko: "키 상태를 bit flag로 만들고 tick별로 기록", en: "Encoding key state as bit flags per tick" },
+        source: "src/input_controller.rs",
+        text: `let mut input2send: u8 = 0;
+if input.is_action_pressed("d".into())      { input2send |= 0b0001; }
+if input.is_action_pressed("a".into())      { input2send |= 0b0010; }
+if input.is_action_pressed("w".into())      { input2send |= 0b0100; }
+if input.is_action_pressed("attack".into()) { input2send |= 0b1000; }
+if input.is_action_pressed("roll".into())   { input2send |= 0b10000; }
+if input.is_action_pressed("guard".into())  { input2send |= 0b100000; }
+
+self.inputs.insert(tick, input2send);`,
+      },
+      paragraphs: {
+        ko: [
+          "좌우 이동, 점프, 공격, 회피와 방어를 `u8`의 각 bit에 배치했습니다. 로컬 입력은 현재 game tick보다 3tick 뒤의 key로 저장하고, `InputPacket`에는 기준 tick과 `[u8; 30]` 배열을 넣었습니다.",
+          "매 tick 새 입력만 보내는 대신 보관 중인 최근 30tick을 packet에 다시 채웠습니다. 별도의 신뢰성 계층이나 매 packet 재전송 요청 없이도 다음 UDP packet이 도착하면 직전에 빠진 입력을 함께 복구할 수 있게 한 방식입니다.",
+          "30tick이라는 크기와 3tick 지연은 실험용 고정값이며 RTT와 손실률에 따라 조정되지 않습니다. 입력 packet의 중복 전송량, 오래된 `player_input`과 snapshot의 보관 한도도 실제 서비스 기준으로 측정하거나 제한하지 않았습니다.",
+        ],
+        en: [
+          "Left, right, jump, attack, roll, and guard occupy individual bits in a `u8`. Local input is stored three ticks ahead, and each `InputPacket` carries a reference tick plus a `[u8; 30]` history array.",
+          "Instead of sending only the newest input, every packet overlaps the latest 30 ticks. A later UDP packet can therefore recover recently lost input without a separate reliable channel or per-packet retransmission request.",
+          "The 30-tick window and three-tick delay are fixed experiment values rather than adaptive settings. Bandwidth overhead and lifetime limits for the accumulated input and snapshot maps were not measured for production use.",
+        ],
+      },
+      links: [
+        { label: { ko: "입력 코드", en: "Input code" }, href: "https://github.com/yuchanahn/p2pactiongame/blob/rollback/src/input_controller.rs", value: "input_controller.rs" },
+      ],
+    },
+    {
+      id: "p2p-rollback",
+      order: 416,
+      project: "p2p",
+      category: { ko: "Rollback", en: "Rollback" },
+      tags: ["game-server", "game-client", "rust", "network", "realtime", "performance"],
+      featured: true,
+      title: {
+        ko: "늦은 입력이 예측과 다르면 해당 tick으로 돌아가 다시 계산했습니다",
+        en: "Returned to the mismatched tick and simulated again when late input differed",
+      },
+      lead: {
+        ko: "원격 입력이 없을 때는 직전 입력을 사용해 게임을 먼저 진행하고, 실제 입력을 받은 뒤 가장 이른 불일치 시점을 찾았습니다.",
+        en: "Advanced with the previous remote input when data was missing, then found the earliest mismatch after the real input arrived.",
+      },
+      image: { src: "./assets/p2p-rollback-flow.svg", alt: "P2P input prediction, mismatch detection, and rollback resimulation" },
+      code: {
+        language: "rust",
+        caption: { ko: "원격 입력이 없으면 snapshot 저장 후 직전 입력으로 예측", en: "Saving a snapshot and predicting with the previous remote input" },
+        source: "src/network_controller.rs",
+        text: `if !target_player_input.contains_key(&cur_tick) {
+  self.world_snapshot.insert(cur_tick, self.world.clone());
+  let remote = player_input.get_mut(&(port as u64)).unwrap();
+  remote.insert(
+    cur_tick,
+    remote.get(&(cur_tick - 1)).or(Some(&0)).unwrap().clone()
+  );
+}
+
+self.world = simulate_world(self.world.clone(), current_inputs, cur_tick);`,
+      },
+      paragraphs: {
+        ko: [
+          "현재 tick의 상대 입력이 없으면 계산 전 world를 snapshot으로 저장하고 상대의 직전 입력을 이번 tick에도 유지했습니다. 그래서 packet을 기다리지 않고 로컬 화면은 계속 진행됐습니다.",
+          "나중에 30tick 입력 packet을 받으면 이미 기록된 예측값과 실제값을 비교해 첫 번째 불일치 tick을 찾았습니다. 해당 snapshot을 가져와 `simulate_world_range`로 그 tick부터 현재까지 두 플레이어의 입력을 다시 적용한 뒤 현재 world와 snapshot 목록을 교체했습니다.",
+          "예측 기준은 단순히 이전 입력을 반복하는 방식이고, snapshot 조회와 입력 map 접근에도 `unwrap()`이 많아 packet 순서나 기록 누락에 안전하지 않습니다. rollback 횟수, 재시뮬레이션 시간과 최대 복구 거리도 별도로 측정하지 않았습니다.",
+        ],
+        en: [
+          "When remote input is missing for the current tick, the world is snapshotted before simulation and the previous remote input is repeated. The local game therefore keeps moving without waiting for the packet.",
+          "When a 30-tick input packet arrives, predicted values are compared with actual input to find the earliest mismatch. The code restores that snapshot, reapplies both players' input through `simulate_world_range`, and replaces the current world and snapshot history.",
+          "Prediction is only last-input repetition, and snapshot and input-map access relies heavily on `unwrap()`, so reordering or missing history is not handled safely. Rollback count, resimulation time, and maximum recovery distance were not instrumented.",
+        ],
+      },
+      links: [
+        { label: { ko: "Rollback 코드", en: "Rollback code" }, href: "https://github.com/yuchanahn/p2pactiongame/blob/rollback/src/network_controller.rs", value: "network_controller.rs" },
+      ],
+    },
+    {
+      id: "p2p-world-simulation",
+      order: 418,
+      project: "p2p",
+      category: { ko: "재시뮬레이션", en: "Resimulation" },
+      tags: ["game-server", "game-client", "rust", "network", "realtime"],
+      featured: true,
+      title: {
+        ko: "되돌려 실행할 상태와 한 tick의 게임 계산을 별도 구조로 모았습니다",
+        en: "Collected rewindable state and one-tick simulation into dedicated structures",
+      },
+      lead: {
+        ko: "위치·속도·체력·애니메이션 tick을 `WorldData`에 모으고 같은 입력으로 과거 구간을 반복 계산하도록 만들었습니다.",
+        en: "Collected position, velocity, health, and animation tick state in `WorldData` and replayed past ranges from recorded input.",
+      },
+      image: { src: "./assets/p2p-world-simulation.svg", alt: "P2P world snapshot and resimulation boundary" },
+      code: {
+        language: "rust",
+        caption: { ko: "저장한 world와 tick별 입력으로 구간 재계산", en: "Recomputing a tick range from stored world and input" },
+        source: "src/world.rs",
+        text: `for tick in start_tick..end_tick {
+  if tick > real_input_tick {
+    snapshot.insert(tick, world_data.clone());
+  }
+
+  for (id, input) in input_data.iter() {
+    let player = world_data.players.get_mut(id).unwrap();
+    let (next, action, cols) = simulate_player(
+      player.clone(), &world_data.collision, input[&tick], tick, 1.0 / 60.0
+    );
+    world_data.players.insert(*id, next);
+    world_data.collision = cols;
+    if let Some(action) = action {
+      action_process(vec![action], &mut world_data, tick);
+    }
+  }
+}`,
+      },
+      paragraphs: {
+        ko: [
+          "플레이어의 위치·속도·체력·공격 대기 시간과 애니메이션 시작 tick을 복제 가능한 `WorldData`와 `PlayerData`에 모았습니다. 한 tick 계산은 1/60초 고정 delta를 받고 이동, 점프, 공격·회피·방어, 충돌과 대미지 적용 결과를 다음 world로 돌려줬습니다.",
+          "Godot physics query 대신 Box·Circle 충돌 자료형과 cast 함수를 만들었고, 공격 대미지는 동일 tick에서 같은 값이 나오도록 tick을 seed로 한 Xorshift 난수를 사용했습니다. 애니메이션 frame도 경과 시간 대신 시작 tick과 현재 tick으로 계산했습니다.",
+          "다만 완전히 결정적인 순수 시뮬레이션으로 분리된 것은 아닙니다. `PlayerData`에 Godot object 참조가 남고 계산 중 `AnimatedSprite2D`를 읽으며, `HashMap` 순회 순서와 부동소수점 연산도 결과 차이를 만들 수 있습니다. rollback의 핵심 개념을 구현했지만 멀티 플랫폼 결정성까지 보장한 구조는 아닙니다.",
+        ],
+        en: [
+          "`WorldData` and `PlayerData` hold cloneable position, velocity, health, attack cooldown, and animation-start tick. One simulation tick uses a fixed 1/60 delta and produces the next state after movement, jump, attack, roll, guard, collision, and damage handling.",
+          "Custom box and circle collision helpers replace Godot physics queries for these interactions. Damage uses an Xorshift generator seeded from the tick, while animation frames are derived from start and current tick instead of elapsed wall time.",
+          "The simulation is not a fully deterministic pure core. `PlayerData` still contains a Godot object reference, simulation reads `AnimatedSprite2D`, and `HashMap` iteration plus floating-point math can diverge across peers. It implements the rollback concept but does not guarantee cross-platform determinism.",
+        ],
+      },
+      links: [
+        { label: { ko: "시뮬레이션 코드", en: "Simulation code" }, href: "https://github.com/yuchanahn/p2pactiongame/blob/rollback/src/world.rs", value: "world.rs" },
+        { label: { ko: "충돌 코드", en: "Collision code" }, href: "https://github.com/yuchanahn/p2pactiongame/blob/rollback/src/col2d.rs", value: "col2d.rs" },
       ],
     },
     {
@@ -997,6 +1190,7 @@ Packet | Unpack<FPac_Input2Server> | [](FPac_Input2Server Input) {
       project: "tower",
       category: { ko: "행동 트리", en: "Behavior Tree" },
       tags: ["game-client", "unity", "csharp", "collaboration"],
+      featured: true,
       title: {
         ko: "Selector·Decorator·Task를 조합하는 행동 트리를 직접 만들었습니다",
         en: "Implemented a behavior tree composed from selectors, decorators, and tasks",
@@ -1080,6 +1274,7 @@ SetValue(SE_Obj.StatusEffect_NoTask, true);`,
       project: "tower",
       category: { ko: "길찾기 적용", en: "Pathfinding Integration" },
       tags: ["game-client", "unity", "csharp", "pathfinding", "performance"],
+      featured: true,
       title: {
         ko: "공개 JPS 코드를 게임 좌표와 움직이는 지형에 연결했습니다",
         en: "Connected an open JPS implementation to game coordinates and moving terrain",
@@ -1186,6 +1381,7 @@ SetValue(SE_Obj.StatusEffect_NoTask, true);`,
       project: "vapor",
       category: { ko: "전투 구현", en: "Combat" },
       tags: ["game-client", "unity", "csharp"],
+      featured: true,
       title: {
         ko: "콤보·차지·패링을 입력과 애니메이션 타이밍에 맞춰 연결했습니다",
         en: "Connected combos, charged attacks, and parries to input and animation timing",
@@ -1239,6 +1435,7 @@ SetValue(SE_Obj.StatusEffect_NoTask, true);`,
       project: "vapor",
       category: { ko: "입력·UI", en: "Input & UI" },
       tags: ["game-client", "unity", "csharp"],
+      featured: true,
       title: {
         ko: "입력 이름과 태그로 플레이어 조작과 UI 조작을 전환했습니다",
         en: "Switched gameplay and UI control through named, tagged input mappings",
@@ -1362,7 +1559,7 @@ public void Save<T>(T data) where T : struct {
         ko: [
           "`save_ingame_data_t`에는 포션 수, 체력, 스태미나, 다음 scene과 새 게임 여부를 저장했습니다. scene이 바뀔 때 현재 값을 기록하고, 다음 scene에서 파일을 읽어 플레이어와 인벤토리에 다시 적용했습니다.",
           "키 mapping은 이름별 `KeyCode[]` dictionary로 저장했고, 사운드 master·BGM·SFX와 전체 화면 여부도 각각 별도 struct로 관리했습니다. 저장 파일이 없으면 nullable 결과를 받아 기본 설정이나 새 게임 흐름으로 넘어가게 했습니다.",
-          "실제 코드는 inspector에서 받은 경로에 바로 파일을 쓰며 버전, 임시 파일 교체와 손상 복구가 없습니다. 예외도 모두 같은 ‘저장 파일 없음’으로 처리해 원인을 구분하지 못합니다. 졸업 프로젝트 범위에서는 동작했지만 저장 형식 변경과 실패 복구까지 생각하려면 구조를 더 보완해야 했습니다.",
+          "실제 코드는 inspector에서 받은 경로에 바로 파일을 쓰며 버전, 임시 파일 교체와 손상 복구가 없습니다. 예외도 모두 같은 ‘저장 파일 없음’으로 처리해 원인을 구분하지 못합니다. 팀 프로젝트에서 필요한 저장 기능은 동작했지만 저장 형식 변경과 실패 복구까지 생각하려면 구조를 더 보완해야 했습니다.",
         ],
         en: [
           "`save_ingame_data_t` stores potion count, health, stamina, the next scene, and new-game state. Values are written during a scene change and applied back to the player and inventory in the following scene.",

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">World snapshot and simulation boundary</title>
+  <desc id="desc">World state and recorded input are passed into fixed-tick simulation, then the result is applied to Godot nodes.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#1d1d1b"/></marker>
+    <style>
+      .bg{fill:#f4f3ef}.card{fill:#fff;stroke:#cbc9c2;stroke-width:2}.dark{fill:#1d1d1b}.line{fill:none;stroke:#1d1d1b;stroke-width:3;marker-end:url(#arrow)}.k{font:700 17px Arial,sans-serif;letter-spacing:2px;fill:#6f6c65}.h{font:700 30px Arial,sans-serif;fill:#1d1d1b}.t{font:700 20px Arial,sans-serif;fill:#1d1d1b}.s{font:15px Arial,sans-serif;fill:#6f6c65}.w{font:700 20px Arial,sans-serif;fill:#fff}.ws{font:14px Arial,sans-serif;fill:#d9d8d2}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="620"/>
+  <text class="k" x="60" y="65">SIMULATION BOUNDARY</text><text class="h" x="60" y="108">Clone state, run fixed ticks, then update the scene</text>
+  <rect class="card" x="60" y="180" width="270" height="240" rx="18"/>
+  <text class="t" x="95" y="230">WorldData snapshot</text><text class="s" x="95" y="272">position · velocity</text><text class="s" x="95" y="302">health · cooldown</text><text class="s" x="95" y="332">animation start tick</text><text class="s" x="95" y="362">box / circle collision</text>
+  <rect class="dark" x="465" y="165" width="270" height="270" rx="18"/>
+  <text class="w" x="505" y="220">simulate_world</text><text class="ws" x="505" y="260">fixed delta: 1 / 60</text><text class="ws" x="505" y="290">recorded input by tick</text><text class="ws" x="505" y="320">movement + combat</text><text class="ws" x="505" y="350">collision + actions</text><text class="ws" x="505" y="380">tick-seeded damage</text>
+  <rect class="card" x="870" y="180" width="270" height="240" rx="18"/>
+  <text class="t" x="905" y="230">Godot presentation</text><text class="s" x="905" y="272">Node2D position</text><text class="s" x="905" y="302">AnimatedSprite2D</text><text class="s" x="905" y="332">health UI · effects</text><text class="s" x="905" y="376">engine references remain</text>
+  <path class="line" d="M330 300H445"/><path class="line" d="M735 300H850"/>
+  <text class="k" x="60" y="520">KNOWN LIMITS</text><text class="s" x="60" y="555">Godot object references · HashMap iteration order · floating-point behavior</text>
+</svg>

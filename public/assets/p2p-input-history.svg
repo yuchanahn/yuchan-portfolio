@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">Bit-packed input history</title>
+  <desc id="desc">Six controls are stored in one byte and thirty ticks of overlapping history are transmitted.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#1d1d1b"/></marker>
+    <style>
+      .bg{fill:#f4f3ef}.card{fill:#fff;stroke:#cbc9c2;stroke-width:2}.dark{fill:#1d1d1b}.line{fill:none;stroke:#1d1d1b;stroke-width:3;marker-end:url(#arrow)}.k{font:700 17px Arial,sans-serif;letter-spacing:2px;fill:#6f6c65}.h{font:700 30px Arial,sans-serif;fill:#1d1d1b}.t{font:700 19px Arial,sans-serif;fill:#1d1d1b}.s{font:15px Arial,sans-serif;fill:#6f6c65}.bit{font:700 17px Consolas,monospace;fill:#fff}.ws{font:14px Arial,sans-serif;fill:#d9d8d2}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="620"/>
+  <text class="k" x="60" y="65">INPUT PACKET</text><text class="h" x="60" y="108">One-byte control state with overlapping tick history</text>
+  <rect class="dark" x="70" y="180" width="440" height="170" rx="18"/>
+  <text class="bit" x="105" y="225">bit 5  bit 4  bit 3  bit 2  bit 1  bit 0</text>
+  <text class="bit" x="105" y="270">guard  roll  attack  jump   left   right</text>
+  <text class="ws" x="105" y="315">u8 input value for one simulation tick</text>
+  <path class="line" d="M510 265H635"/>
+  <rect class="card" x="655" y="175" width="475" height="180" rx="18"/>
+  <text class="t" x="690" y="220">InputPacket</text><text class="s" x="690" y="258">tick: u64</text><text class="s" x="690" y="292">inputs: [u8; 30]</text><text class="s" x="690" y="326">latest input + recent history</text>
+  <text class="k" x="70" y="430">OVERLAPPING DELIVERY</text>
+  <rect class="card" x="70" y="458" width="455" height="92" rx="14"/><text class="t" x="102" y="495">Packet N</text><text class="s" x="102" y="525">ticks 101 ··· 130</text>
+  <rect class="card" x="675" y="458" width="455" height="92" rx="14"/><text class="t" x="707" y="495">Packet N + 1</text><text class="s" x="707" y="525">ticks 102 ··· 131</text>
+  <path class="line" d="M525 505H655"/><text class="s" x="548" y="485">recovers recent loss</text>
+</svg>

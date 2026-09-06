@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">Rollback resimulation flow</title>
+  <desc id="desc">Missing input is predicted, then a mismatch restores a snapshot and resimulates to the current tick.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#1d1d1b"/></marker>
+    <style>
+      .bg{fill:#f4f3ef}.card{fill:#fff;stroke:#cbc9c2;stroke-width:2}.dark{fill:#1d1d1b}.line{fill:none;stroke:#1d1d1b;stroke-width:3;marker-end:url(#arrow)}.dash{fill:none;stroke:#85827a;stroke-width:2;stroke-dasharray:8 8;marker-end:url(#arrow)}.k{font:700 17px Arial,sans-serif;letter-spacing:2px;fill:#6f6c65}.h{font:700 30px Arial,sans-serif;fill:#1d1d1b}.t{font:700 18px Arial,sans-serif;fill:#1d1d1b}.s{font:14px Arial,sans-serif;fill:#6f6c65}.w{font:700 18px Arial,sans-serif;fill:#fff}.ws{font:14px Arial,sans-serif;fill:#d9d8d2}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="620"/>
+  <text class="k" x="60" y="65">ROLLBACK FLOW</text><text class="h" x="60" y="108">Predict now, correct from the first mismatched tick</text>
+  <rect class="card" x="60" y="190" width="225" height="125" rx="16"/><text class="t" x="90" y="235">Remote input missing</text><text class="s" x="90" y="270">save world snapshot</text><text class="s" x="90" y="294">repeat previous input</text>
+  <rect class="card" x="355" y="190" width="205" height="125" rx="16"/><text class="t" x="385" y="235">Simulate tick</text><text class="s" x="385" y="270">do not wait</text><text class="s" x="385" y="294">show predicted world</text>
+  <rect class="dark" x="630" y="190" width="225" height="125" rx="16"/><text class="w" x="660" y="235">Late packet arrives</text><text class="ws" x="660" y="270">compare prediction</text><text class="ws" x="660" y="294">find first mismatch</text>
+  <rect class="card" x="925" y="190" width="215" height="125" rx="16"/><text class="t" x="955" y="235">Restore snapshot</text><text class="s" x="955" y="270">replay tick range</text><text class="s" x="955" y="294">replace current world</text>
+  <path class="line" d="M285 252H335"/><path class="line" d="M560 252H610"/><path class="line" d="M855 252H905"/>
+  <path class="dash" d="M1032 335C1032 500 458 525 458 335"/>
+  <text class="s" x="680" y="493">simulate_world_range(snapshot, recorded input, mismatch tick → current tick)</text>
+</svg>

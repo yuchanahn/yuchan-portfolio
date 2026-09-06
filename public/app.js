@@ -37,7 +37,7 @@ const translations = {
     switchLight: "라이트 모드로 전환",
     portfolioTitles: {
       fintech: "금융·웹 백엔드 포트폴리오",
-      "game-client": "Unreal·Unity 게임 개발 포트폴리오",
+      "game-client": "게임 프로그래밍·네트워크 포트폴리오",
       cpp: "C++ 시스템·네트워크 포트폴리오",
       "game-server": "게임 서비스 백엔드 포트폴리오",
       ai: "AI 서비스 개발 포트폴리오",
@@ -49,7 +49,7 @@ const translations = {
       fintech:
         "결제 승인·취소·웹훅, 포인트 지급과 환불, 데이터 정합성 및 부하 테스트 경험을 중심으로 구성했습니다.",
       "game-client":
-        "Unreal Engine과 Unity 프로젝트, C++ UI, 멀티플레이 네트워크 및 팀 개발 회고를 중심으로 구성했습니다.",
+        "Unreal Engine 멀티플레이, Rust rollback 실험과 Unity 게임 코드에서 확인한 문제 해결 경험을 중심으로 구성했습니다.",
       cpp:
         "C++ 소켓·IOCP, UE5 네트워크와 거래소 REST·WebSocket 구현까지 직접 만들며 배운 시스템 경험을 중심으로 구성했습니다.",
       "game-server":
@@ -98,7 +98,7 @@ const translations = {
     switchLight: "Switch to light mode",
     portfolioTitles: {
       fintech: "Fintech & Web Backend Portfolio",
-      "game-client": "Unreal & Unity Game Development Portfolio",
+      "game-client": "Game Programming & Networking Portfolio",
       cpp: "C++ Systems & Networking Portfolio",
       "game-server": "Game Service Backend Portfolio",
       ai: "AI Service Development Portfolio",
@@ -110,7 +110,7 @@ const translations = {
       fintech:
         "Focused on payment approval, cancellation, webhooks, credit grants and refunds, data consistency, and load testing.",
       "game-client":
-        "Focused on Unreal Engine and Unity projects, C++ UI, multiplayer networking, and lessons from team development.",
+        "Focused on Unreal Engine multiplayer, a Rust rollback experiment, and problem-solving in Unity gameplay code.",
       cpp:
         "Focused on hands-on systems learning across C++ sockets and IOCP, UE5 networking, and exchange REST/WebSocket integration.",
       "game-server":
@@ -217,6 +217,8 @@ function moduleScore(module, tags = selectedTags) {
     else if (["operations", "performance", "admin", "mobile", "localization", "collaboration"].includes(tag)) score += 1;
     else score += 2;
   });
+  if (!requestedProjectId && tags.has("game-client") && module.featured) score += 4;
+  if (!requestedProjectId && module.id.endsWith("-overview")) score -= 2;
   return score;
 }
 
@@ -239,7 +241,17 @@ function matchingModules(tags = selectedTags) {
     })
     .sort((a, b) => moduleScore(b, tags) - moduleScore(a, tags) || a.order - b.order);
 
-  const maxCases = selectedRoles.length > 0 ? 8 : 10;
+  const maxCases = tags.has("game-client") ? 9 : selectedRoles.length > 0 ? 8 : 10;
+  if (tags.has("game-client")) {
+    const projectCounts = new Map();
+    const diverse = candidates.filter((module) => {
+      const count = projectCounts.get(module.project) || 0;
+      if (count >= 2) return false;
+      projectCounts.set(module.project, count + 1);
+      return true;
+    });
+    return diverse.slice(0, maxCases).sort((a, b) => a.order - b.order);
+  }
   return candidates.slice(0, maxCases).sort((a, b) => a.order - b.order);
 }
 

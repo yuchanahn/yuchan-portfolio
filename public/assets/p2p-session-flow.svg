@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">P2P UDP connection attempts</title>
+  <desc id="desc">Clients register endpoints, try local and public addresses, and fall back to a relay address.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#1d1d1b"/></marker>
+    <style>
+      .bg{fill:#f4f3ef}.card{fill:#fff;stroke:#cbc9c2;stroke-width:2}.dark{fill:#1d1d1b}.line{fill:none;stroke:#1d1d1b;stroke-width:3;marker-end:url(#arrow)}.dash{fill:none;stroke:#85827a;stroke-width:2;stroke-dasharray:8 8;marker-end:url(#arrow)}.k{font:700 17px Arial,sans-serif;letter-spacing:2px;fill:#6f6c65}.h{font:700 30px Arial,sans-serif;fill:#1d1d1b}.t{font:700 20px Arial,sans-serif;fill:#1d1d1b}.s{font:15px Arial,sans-serif;fill:#6f6c65}.w{font:700 20px Arial,sans-serif;fill:#fff}.ws{font:14px Arial,sans-serif;fill:#d9d8d2}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="620"/>
+  <text class="k" x="60" y="65">UDP CONNECTION PATH</text>
+  <text class="h" x="60" y="108">Try the closest endpoint first, then change the route</text>
+  <rect class="card" x="70" y="195" width="245" height="130" rx="18"/>
+  <text class="t" x="105" y="242">Client A</text><text class="s" x="105" y="278">private + public endpoint</text>
+  <rect class="dark" x="478" y="165" width="245" height="190" rx="18"/>
+  <text class="w" x="518" y="220">Endpoint server</text><text class="ws" x="518" y="255">register address</text><text class="ws" x="518" y="282">exchange peer endpoint</text><text class="ws" x="518" y="309">relay fallback address</text>
+  <rect class="card" x="885" y="195" width="245" height="130" rx="18"/>
+  <text class="t" x="920" y="242">Client B</text><text class="s" x="920" y="278">private + public endpoint</text>
+  <path class="line" d="M315 235H458"/><path class="line" d="M885 285H743"/>
+  <text class="s" x="338" y="220">register</text><text class="s" x="780" y="310">register</text>
+  <rect class="card" x="88" y="425" width="300" height="110" rx="16"/><text class="t" x="120" y="468">01 Private address</text><text class="s" x="120" y="500">same-LAN attempt</text>
+  <rect class="card" x="450" y="425" width="300" height="110" rx="16"/><text class="t" x="482" y="468">02 Public address</text><text class="s" x="482" y="500">UDP hole-punch retry</text>
+  <rect class="card" x="812" y="425" width="300" height="110" rx="16"/><text class="t" x="844" y="468">03 Relay address</text><text class="s" x="844" y="500">timeout fallback</text>
+  <path class="dash" d="M388 480H430"/><path class="dash" d="M750 480H792"/>
+</svg>
