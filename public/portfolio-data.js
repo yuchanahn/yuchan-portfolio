@@ -186,8 +186,8 @@ window.PORTFOLIO_DATA = {
       period: "2019",
       type: { ko: "대학교 1학년 Unity 팀 프로젝트", en: "First-year university Unity team project" },
       summary: {
-        ko: "몬스터 AI와 상태 관리를 구현하고, 오픈소스 JPS 코드를 프로젝트에 적용하면서 반복 계산을 별도 스레드로 옮겼습니다.",
-        en: "Implemented monster AI and state management, then adapted an open-source JPS implementation and moved repeated rebuild work off the main thread.",
+        ko: "행동 트리와 몬스터별 행동, 상태이상, 오브젝트 재사용 구조를 구현하고 공개 JPS 코드를 게임의 이동 구조에 연결했습니다.",
+        en: "Implemented behavior trees, per-monster actions, status effects, and object reuse, then connected an open JPS implementation to the game's movement model.",
       },
       links: [
         { label: { ko: "프로젝트", en: "Project" }, href: "https://github.com/yuchanahn/Tower_Of_Ukani", value: "GitHub" },
@@ -196,11 +196,11 @@ window.PORTFOLIO_DATA = {
     vapor: {
       portfolioType: "game-client",
       name: "Vapor",
-      period: "2023",
+      period: "2022–2023",
       type: { ko: "Unity 팀 프로젝트", en: "Unity team project" },
       summary: {
-        ko: "공통 입력 구조를 전투 기능과 키 설정 저장까지 확장하고 게임 데이터를 CSV로 분리했습니다.",
-        en: "Expanded a shared input layer into combat and persisted key bindings, while moving game data into CSV files.",
+        ko: "플레이어 FSM과 전투, 입력·UI, 컷신 데이터와 저장 기능을 연결한 2D 횡스크롤 액션 게임입니다.",
+        en: "A 2D side-scrolling action game connecting a player FSM, combat, input and UI, cutscene data, and save files.",
       },
       links: [
         { label: { ko: "프로젝트", en: "Project" }, href: "https://github.com/yuchanahn/CK2022CapstoneDesign", value: "GitHub" },
@@ -965,66 +965,455 @@ Packet | Unpack<FPac_Input2Server> | [](FPac_Input2Server Input) {
       ],
     },
     {
-      id: "tower-dynamic-jps",
+      id: "tower-overview",
       order: 420,
       project: "tower",
-      category: { ko: "몬스터 AI", en: "Monster AI" },
+      category: { ko: "프로젝트 개요", en: "Project Overview" },
       tags: ["game-client", "unity", "csharp", "pathfinding", "performance", "collaboration"],
       title: {
-        ko: "몬스터 행동을 구성하고 길찾기 계산을 메인 스레드에서 분리했습니다",
-        en: "Built monster behavior and moved pathfinding rebuild work off the main thread",
+        ko: "몬스터가 각자의 규칙으로 움직이고 싸우는 구조를 만들었습니다",
+        en: "Built the systems that let each monster move and fight by its own rules",
       },
       lead: {
-        ko: "행동 트리와 상태 관리가 주 작업이었고, JPS는 공개 구현을 가져와 게임에 연결한 뒤 반복 계산에 별도 작업 스레드를 붙였습니다.",
-        en: "Behavior trees and state management were the main work. JPS came from an open implementation that I integrated into the game and supplemented with a worker thread for rebuilds.",
+        ko: "대학교 1학년 팀 프로젝트에서 몬스터 AI를 중심으로 행동 트리, 이동, 피격과 상태이상, 사망 뒤 처리까지 맡았습니다.",
+        en: "In a first-year university team project, I focused on monster AI, behavior trees, movement, hit and status handling, and post-death behavior.",
       },
       paragraphs: {
         ko: [
-          "대학교 1학년 팀 프로젝트에서 몬스터별 Blackboard와 행동 트리, 추적·공격·도망·대기 같은 task, 피격·기절·감속 상태를 구현했습니다. 지상형과 비행형 몬스터의 이동 조건을 나누고, 몬스터 종류마다 필요한 행동을 조합하는 방식으로 구성했습니다.",
-          "길찾기 알고리즘은 제가 직접 구현한 것이 아니라 공개된 JPS 코드를 프로젝트에 가져와 수정한 것입니다. 저는 Unity 좌표와 grid 변환, 몬스터 이동 코드 연결, 움직이는 발판이 차지하는 node 갱신을 붙였고, jump-point rebuild가 메인 스레드에서 반복되지 않도록 `ConcurrentQueue<Action>`과 단일 작업 스레드를 추가했습니다.",
-          "현재 기준으로 보면 worker가 쉬지 않고 queue를 확인하는 구조이고 종료·동기화 처리도 단순합니다. 이 작업의 핵심은 JPS 알고리즘 개발이 아니라, 공개 코드를 읽어 Unity 프로젝트의 grid와 이동 로직에 연결하고 반복 계산을 메인 스레드 밖으로 옮겨 본 경험입니다.",
+          "지상형과 비행형 몬스터의 공통 코드를 각각 `GroundMob_Base`와 `FlyingMob_Base`로 나누고, 슬라임·꽃잎박쥐·우는안개가 필요한 행동을 별도 컴포넌트와 Blackboard로 구성했습니다. 같은 추적·공격 기능을 공유하면서도 박쥐의 도망과 천장 매달리기, 우는안개의 순간이동과 범위 공격처럼 몬스터별 행동을 추가할 수 있게 만들었습니다.",
+          "몬스터가 공격 중인지, 피격됐는지, 스턴이나 넉백 때문에 행동을 멈춰야 하는지를 이동·애니메이션·행동 트리에서 함께 확인했습니다. 사망 뒤에는 아이템 드롭, 시체 조각 생성과 흡수, 체력바와 대미지 텍스트까지 연결했습니다.",
+          "처음 만든 장기 Unity 팀 프로젝트라 공통 기반과 개별 몬스터 코드의 경계가 고르지 않고, 여러 상태를 bool과 컴포넌트 조회로 연결한 부분도 많습니다. 그래도 하나의 몬스터가 인식부터 이동·공격·피격·사망까지 이어지는 전체 흐름을 직접 다뤄 본 프로젝트였습니다.",
         ],
         en: [
-          "In a first-year university team project, I implemented per-monster blackboards and behavior trees, tasks for following, attacking, fleeing, and idling, plus hit, stun, and slow states. Ground and flying monsters used different movement conditions and composed the behavior they needed.",
-          "I did not implement the JPS algorithm itself. I adapted an open implementation by connecting Unity coordinates to its grid, wiring results into monster movement, and updating nodes occupied by moving platforms. I then added a `ConcurrentQueue<Action>` and a single worker thread so jump-point rebuild work would not repeatedly run on the main thread.",
-          "By current standards, the worker busy-polls the queue and shutdown and synchronization are minimal. The useful part of this work was reading and adapting external code to the Unity grid and movement model, then moving repeated rebuild work off the main thread—not authoring JPS itself.",
+          "Shared ground and flying behavior was separated into `GroundMob_Base` and `FlyingMob_Base`, while Slime, Flower Bat, and Weeping Mist composed their own actions through components and blackboards. Common follow and attack behavior could be reused while adding monster-specific actions such as fleeing, ceiling hanging, teleporting, and area attacks.",
+          "Movement, animation, and behavior-tree code all checked whether a monster was attacking, hurt, stunned, or being knocked back. The same flow connected item drops, pooled corpse pieces, health bars, and damage text after death.",
+          "As an early long-running Unity team project, the boundary between shared foundations and individual monster code is uneven, and many states are linked through booleans and component lookups. It still gave me end-to-end experience with a monster's perception, movement, combat, damage, and death flow.",
         ],
       },
-      links: [
-        { label: { ko: "프로젝트 코드", en: "Project code" }, href: "https://github.com/yuchanahn/Tower_Of_Ukani", value: "GitHub" },
-      ],
     },
     {
-      id: "vapor-input-system",
-      order: 430,
-      project: "vapor",
-      category: { ko: "입력·게임 데이터", en: "Input & Game Data" },
+      id: "tower-behavior-tree",
+      order: 422,
+      project: "tower",
+      category: { ko: "행동 트리", en: "Behavior Tree" },
       tags: ["game-client", "unity", "csharp", "collaboration"],
       title: {
-        ko: "공통 입력 구조를 전투와 키 설정 저장까지 확장했습니다",
-        en: "Extended a shared input layer into combat and persisted key bindings",
+        ko: "Selector·Decorator·Task를 조합하는 행동 트리를 직접 만들었습니다",
+        en: "Implemented a behavior tree composed from selectors, decorators, and tasks",
       },
       lead: {
-        ko: "입력 처리를 한곳에 모은 뒤 차징·콤보·패링과 사용자 키 설정을 같은 흐름에 연결했습니다.",
-        en: "Centralized input handling, then connected charged attacks, combos, parries, and user key bindings through the same path.",
+        ko: "몬스터마다 거대한 조건문을 작성하지 않고, 조건과 행동의 우선순위를 트리 모양으로 조립했습니다.",
+        en: "Composed each monster's condition and action priority as a tree instead of one large conditional block.",
       },
-      flow: {
-        ko: ["Unity Input System", "YCInputSystem", "차징·콤보·패링", "키 설정 저장"],
-        en: ["Unity Input System", "YCInputSystem", "Charge·combo·parry", "Persisted bindings"],
+      image: { src: "./assets/tower-behavior-tree.svg", alt: "Tower of Ukani Flower Bat behavior tree" },
+      code: {
+        language: "csharp",
+        caption: { ko: "꽃잎박쥐 행동 우선순위 구성", en: "Flower Bat behavior priority" },
+        source: "Assets/Devs/Yuchan/Mob/__FlowerBat/BT_FlowerBat.cs",
+        text: `root.node
+  .AddNode(new Selector())
+    .AddNode(new Decorator(Bb.BTStop))
+      .AddNode(new Task(() => true)).End().End()
+    .AddNode(new Decorator(Bb.IsTargetInAttackRange))
+      .AddNode(new Task(Bb.Attack)).End().End()
+    .AddNode(new Decorator(Bb.IsTargetInFleeRange))
+      .AddNode(new Task(Bb.Flee)).End().End()
+    .AddNode(new Decorator(Bb.AgroCheck))
+      .AddNode(new Task(Bb.Follow)).End().End()
+    .AddNode(new Task(Bb.RandomMove)).End();`,
       },
       paragraphs: {
         ko: [
-          "프로젝트 초기에 Unity Input System을 도입하고 게임 코드가 직접 입력 장치를 읽지 않도록 YCInputSystem을 만들었습니다. 이후 차징 공격, 콤보와 패링을 이 공통 입력 경로에 연결했습니다.",
-          "사용자가 키를 바꿀 수 있는 UI와 설정 저장까지 추가해 다음 실행에도 binding이 유지되도록 했습니다. 게임 수치는 sheet를 역할별로 나누고 CSV parser를 추가해 코드 밖에서 조정할 수 있게 했습니다.",
+          "`BT_Base` 안에 Root, Selector, Sequence, Decorator, Service와 Task를 구현했습니다. 각 노드는 `Process()` 결과로 다음 노드를 계속 볼지 결정하고, `AddNode()`와 `End()`를 이어서 트리 구조를 코드에서 바로 읽을 수 있게 구성했습니다. Service는 노드별 시간을 기록해 일정 간격으로 조건을 갱신할 수 있게 했습니다.",
+          "Blackboard는 몬스터 본체와 행동 컴포넌트를 연결했습니다. 예를 들어 꽃잎박쥐는 행동 정지, 공격, 도망, 추적, 천장 매달리기, 임의 이동 순서로 조건을 확인합니다. 슬라임은 피격·공격·추적·임의 이동을 사용하고, 우는안개는 순간이동과 스턴을 더 높은 우선순위로 처리했습니다.",
+          "현재 구현은 성공·실패·실행 중을 구분하는 상태 대신 bool만 반환합니다. 여러 프레임에 걸리는 행동은 각 컴포넌트의 flag와 timer가 따로 진행 상태를 기억해야 했고, 행동 수가 늘수록 Blackboard와 컴포넌트 사이를 함께 확인해야 했습니다.",
         ],
         en: [
-          "I introduced Unity's Input System early and created YCInputSystem so gameplay code would not read devices directly. Charged attacks, combos, and parries were then connected through that shared path.",
-          "I added rebinding UI and persistence so bindings survived a restart. Game values were split into role-specific sheets and loaded through a CSV parser for editing outside the code.",
+          "`BT_Base` implements Root, Selector, Sequence, Decorator, Service, and Task nodes. Each node uses its `Process()` result to decide whether traversal continues, while chained `AddNode()` and `End()` calls keep the tree visible in code. Services track per-node time for periodic work.",
+          "Blackboards connect the tree to monster components. Flower Bat checks stop, attack, flee, follow, ceiling-hang, and random-move behavior in order. Slime uses hurt, attack, follow, and random movement, while Weeping Mist gives teleport and stun higher priority.",
+          "The implementation returns booleans rather than explicit success, failure, and running states. Multi-frame actions therefore keep progress in separate flags and timers, so larger behavior sets require reading both the blackboard and its components.",
         ],
       },
-      links: [
-        { label: { ko: "프로젝트 코드", en: "Project code" }, href: "https://github.com/yuchanahn/CK2022CapstoneDesign", value: "GitHub" },
-      ],
+    },
+    {
+      id: "tower-status-effects",
+      order: 424,
+      project: "tower",
+      category: { ko: "피격·상태이상", en: "Damage & Status Effects" },
+      tags: ["game-client", "unity", "csharp"],
+      title: {
+        ko: "스턴·슬로우·넉백이 행동과 이동을 함께 바꾸도록 연결했습니다",
+        en: "Connected stun, slow, and knockback to both behavior and movement",
+      },
+      lead: {
+        ko: "상태이상이 속도만 바꾸고 끝나지 않도록 공격 가능 여부, 방향 전환, 애니메이션과 행동 트리 정지를 함께 제어했습니다.",
+        en: "Status effects control attack permission, turning, animation, and behavior-tree suspension as well as movement speed.",
+      },
+      image: { src: "./assets/tower-status-effects.svg", alt: "Tower of Ukani status effect property flow" },
+      code: {
+        language: "csharp",
+        caption: { ko: "스턴이 몬스터 상태에 적용하는 값", en: "Values applied by stun" },
+        source: "Assets/Devs/Yuchan/Mob/Core/StatusEffect/StatusEffect_Stunned.cs",
+        text: `SetValue(SE_Obj.StatusEffect_Ani, eMobAniST.Stunned);
+SetValue(SE_Obj.StatusEffect_SpeedMult, 0);
+SetValue(SE_Obj.StatusEffect_AttackAble, false);
+SetValue(SE_Obj.StatusEffect_FollowAble, false);
+SetValue(SE_Obj.StatusEffect_ChangeDirAble, false);
+SetValue(SE_Obj.StatusEffect_NoTask, true);`,
+      },
+      paragraphs: {
+        ko: [
+          "`StatusEffect_Object`가 속도 배율, 이동 방향, 공격·추적·방향 전환 가능 여부, 행동 정지, 애니메이션과 넉백 곡선을 한곳에 보관합니다. `GroundMob_Base`와 `FlyingMob_Base`는 이 값을 읽어 Rigidbody 속도, 현재 애니메이션과 행동 가능 여부를 결정합니다.",
+          "스턴은 이동과 공격, 추적을 멈추고 스턴 애니메이션을 적용했습니다. 슬로우는 동시에 들어온 감속 값을 목록으로 관리했고, 넉백은 방향과 `AnimationCurve`를 전달해 시간에 따라 속도가 줄어드는 움직임을 만들었습니다. 효과 컴포넌트는 실행 중에 추가되고 timer가 끝나면 제거됩니다.",
+          "우선순위가 높은 효과의 값을 먼저 적용하려고 `SE_Stat<T>`에 priority를 넣었지만, 높은 효과가 사라졌을 때 남은 효과의 우선순위를 다시 계산하는 구조까지는 만들지 못했습니다. 여러 상태가 겹치는 경우를 안정적으로 처리하려면 활성 효과 전체를 매번 합산하거나 정렬하는 방식이 필요했습니다.",
+        ],
+        en: [
+          "`StatusEffect_Object` stores speed, effect direction, attack and follow permission, turning, behavior suspension, animation, and knockback curves. `GroundMob_Base` and `FlyingMob_Base` read those values when deciding Rigidbody velocity, animation, and available actions.",
+          "Stun stops movement, attack, and follow behavior and selects a stunned animation. Slow keeps a list of active reductions, while knockback passes a direction and `AnimationCurve` to produce decaying velocity. Effect components are added at runtime and removed when their timer ends.",
+          "`SE_Stat<T>` uses priority so stronger effects can win, but it does not fully recompute priority after a stronger effect disappears. Robust stacking would require aggregating or sorting the complete set of active effects each time.",
+        ],
+      },
+    },
+    {
+      id: "tower-pathfinding-worker",
+      order: 426,
+      project: "tower",
+      category: { ko: "길찾기 적용", en: "Pathfinding Integration" },
+      tags: ["game-client", "unity", "csharp", "pathfinding", "performance"],
+      title: {
+        ko: "공개 JPS 코드를 게임 좌표와 움직이는 지형에 연결했습니다",
+        en: "Connected an open JPS implementation to game coordinates and moving terrain",
+      },
+      lead: {
+        ko: "JPS 알고리즘 자체를 만든 작업은 아니며, Unity 월드·Grid 변환과 몬스터 이동을 붙이고 반복 계산을 작업 스레드로 옮겼습니다.",
+        en: "I did not author JPS itself; I connected Unity world/grid conversion and monster movement, then moved repeated rebuild work to a worker thread.",
+      },
+      image: { src: "./assets/tower-pathfinding-worker.svg", alt: "Tower of Ukani JPS integration and worker thread flow" },
+      code: {
+        language: "csharp",
+        caption: { ko: "Grid 재계산을 전달하는 단일 작업 스레드", en: "Single worker used for grid rebuilds" },
+        source: "Assets/Devs/Yuchan/System/Thread/YCThreadPool.cs",
+        text: `while (!t1_stop) {
+  while (!Works.IsEmpty) {
+    Works.TryDequeue(out act);
+    act.Invoke();
+  }
+}`,
+      },
+      paragraphs: {
+        ko: [
+          "프로젝트에 포함된 JPS 구현의 `GridView`와 `Grid`를 읽고 월드 좌표를 grid point로 변환하는 코드, 맵 이름과 대상 크기별 pathfinder 등록, 계산된 point를 몬스터 이동 벡터로 바꾸는 코드를 연결했습니다. 꽃잎박쥐의 추적과 임의 이동에서 이 경로를 사용했습니다.",
+          "움직이는 발판이 차지하던 node를 해제하고 새 위치의 node를 장애물로 표시하도록 갱신했습니다. 장애물 변경 뒤 jump-point를 다시 만드는 작업은 `ConcurrentQueue<Action>`에 넣고 단일 worker가 처리하도록 만들어 메인 스레드에서 반복 계산하는 구간을 분리했습니다.",
+          "worker는 일이 없을 때도 queue를 계속 확인하고, 종료 시 thread join을 하지 않으며, 계산 중인 grid를 메인 스레드가 읽는 시점도 엄격하게 통제하지 않습니다. 당시에는 스레드를 붙여 계산을 분리하는 데 집중했지만, 지금 보면 신호 기반 대기와 결과 교환 경계를 함께 설계했어야 합니다.",
+        ],
+        en: [
+          "I read the included JPS `GridView` and `Grid` code and connected world-to-grid conversion, per-map and object-size pathfinder registration, and conversion of returned points into monster movement. Flower Bat used this path for follow and random-move behavior.",
+          "Moving platforms clear their previous nodes and mark nodes at the new position as blocked. Rebuilding jump points after obstacle changes is queued through `ConcurrentQueue<Action>` and processed by a single worker instead of repeatedly running on the main thread.",
+          "The worker busy-polls when idle, does not join on shutdown, and does not strictly guard when the main thread reads a grid being rebuilt. The experiment separated computation, but it also showed that waiting and result-exchange boundaries must be designed alongside the thread itself.",
+        ],
+      },
+    },
+    {
+      id: "tower-object-reuse",
+      order: 428,
+      project: "tower",
+      category: { ko: "오브젝트 재사용", en: "Object Reuse" },
+      tags: ["game-client", "unity", "csharp", "performance"],
+      title: {
+        ko: "시체 조각과 반복 UI를 매번 생성하지 않고 다시 사용했습니다",
+        en: "Reused corpse pieces and repeated UI instead of recreating them",
+      },
+      lead: {
+        ko: "전투 중 반복되는 시체, 대미지 텍스트와 체력바의 생성·제거 비용을 줄이기 위해 간단한 오브젝트 풀을 만들었습니다.",
+        en: "Built a small object pool for corpse pieces, damage text, and health bars that appear repeatedly during combat.",
+      },
+      code: {
+        language: "csharp",
+        caption: { ko: "필요할 때 pool에서 꺼내고 부족하면 확장", en: "Take from the pool and expand when empty" },
+        source: "Assets/Devs/Yuchan/System/ObjectPool/ObjectPool.cs",
+        text: `public static GameObject create(int id, Vector2 pos) {
+  if (Inst.objects[id].Count == 0)
+    Inst.CreateObj(id);
+
+  GameObject obj = Inst.objects[id].Dequeue();
+  obj.GetComponent<Object_ObjectPool_Base>().SetOn(pos);
+  return obj;
+}`,
+      },
+      paragraphs: {
+        ko: [
+          "시작할 때 prefab별 개수만큼 만들어 queue에 넣고, 필요할 때 꺼내 `SetOn()`으로 위치와 상태를 초기화했습니다. pool이 비면 같은 설정 개수만큼 추가 생성하고, 사용이 끝난 오브젝트는 `SetOff()`에서 다시 queue로 돌려보냈습니다.",
+          "몬스터가 죽으면 `CorpseMgr`가 시체 조각을 pool에서 가져와 흩뿌리고, 흡수 상태가 되면 플레이어 쪽으로 이동시키면서 크기를 줄인 뒤 다시 반환했습니다. 대미지 텍스트와 몬스터 체력바도 짧은 시간 동안 재사용하는 흐름으로 연결했습니다.",
+          "pool ID와 prefab 설정이 배열 순서에 묶여 있고 타입별 초기화 규칙도 각 컴포넌트가 직접 알고 있어 규모가 커지면 관리하기 어렵습니다. 작은 팀 프로젝트에서 반복 생성되는 전투 오브젝트의 수명과 초기화 문제를 처음 정리해 본 구현입니다.",
+        ],
+        en: [
+          "The pool instantiates a configured count per prefab, dequeues an object, and resets its position and state through `SetOn()`. When empty it grows by the same configured amount, while `SetOff()` returns finished objects to the queue.",
+          "On monster death, `CorpseMgr` takes corpse pieces from the pool and scatters them. Absorption moves them toward the player, shrinks them, and then returns them. Damage text and monster health bars follow similar short-lived reuse paths.",
+          "Pool IDs depend on array order and each component owns its own reset rules, which would become difficult at larger scale. It was an early implementation for learning object lifetime and initialization around repeated combat objects.",
+        ],
+      },
+    },
+    {
+      id: "vapor-overview",
+      order: 440,
+      project: "vapor",
+      category: { ko: "프로젝트 개요", en: "Project Overview" },
+      tags: ["game-client", "unity", "csharp", "collaboration"],
+      title: {
+        ko: "플레이어 조작부터 UI와 데이터까지 게임 전반을 연결했습니다",
+        en: "Connected player control, UI, and data across the game",
+      },
+      lead: {
+        ko: "Unity 2021.3 기반 2D 횡스크롤 액션 게임에서 플레이어 코드와 전투, 입력·UI, 컷신 데이터와 저장 기능을 맡았습니다.",
+        en: "In a Unity 2021.3 2D side-scrolling action game, I worked on the player, combat, input and UI, cutscene data, and save flow.",
+      },
+      paragraphs: {
+        ko: [
+          "플레이어 이동·점프·공격·차지·방어·회피·피격·사망 상태와 전환 조건을 구현하고, 일반 공격·콤보·차지 공격·패링을 애니메이션 이벤트와 충돌 판정에 연결했습니다. 입력은 이름과 태그를 가진 mapping으로 모아 플레이어와 UI가 같은 경로를 사용하게 했습니다.",
+          "설정 화면에서는 키 변경, 음량과 전체 화면 설정을 저장했고, 씬 이동 시 체력·스태미나·포션과 다음 씬 정보를 파일로 남겼습니다. Google Sheets에서 컷신과 NPC 대사를 CSV로 받아 dictionary로 변환하고, 타이핑 연출과 튜토리얼 이벤트에서 사용했습니다.",
+          "한 파일에 플레이어의 상태와 전환 조건이 많이 모이고 문자열로 연결한 이벤트가 많아 수정할 때 여러 지점을 함께 확인해야 하는 구조도 남아 있습니다. 반면 실제 게임 한 편을 완성하면서 조작, 전투, UI, 데이터와 씬 전환이 서로 어떻게 영향을 주는지 폭넓게 다뤘습니다.",
+        ],
+        en: [
+          "I implemented player movement, jump, attack, charge, defense, roll, hit, and death states and connected normal attacks, combos, charged attacks, and parries to animation events and collision handling. Named and tagged input mappings allowed gameplay and UI to share one input path.",
+          "Settings persist key bindings, audio, and fullscreen choice, while scene changes store health, stamina, potions, and the next scene. Cutscene and NPC text is downloaded from Google Sheets as CSV, converted into dictionaries, and used by typing effects and tutorial events.",
+          "The player file still contains many states and transition guards, and string-based event connections require checking several points for each change. The project nevertheless provided broad experience connecting controls, combat, UI, data, and scene transitions in a complete game.",
+        ],
+      },
+    },
+    {
+      id: "vapor-player-fsm",
+      order: 442,
+      project: "vapor",
+      category: { ko: "플레이어 FSM", en: "Player FSM" },
+      tags: ["game-client", "unity", "csharp"],
+      title: {
+        ko: "플레이어 행동을 상태별로 나누고 전이 조건을 한곳에서 확인했습니다",
+        en: "Separated player behavior into states with transitions visible in one place",
+      },
+      lead: {
+        ko: "제네릭 FSM을 직접 만들고 이동·공격·차지·점프·방어·회피·피격·사망 상태를 플레이어 코드에 적용했습니다.",
+        en: "Implemented a generic FSM and applied it to movement, attack, charge, jump, defense, roll, hit, and death states.",
+      },
+      image: { src: "./assets/vapor-player-fsm.svg", alt: "Vapor player state machine" },
+      code: {
+        language: "csharp",
+        caption: { ko: "상태와 다음 전이 조건을 함께 등록", en: "Registering a state with its transition guards" },
+        source: "Assets/Scripts/Player/PC.cs",
+        text: `normal_fw
+  .Do(name: "move", _ => move_st, _ => {
+  if (is_die) return "die";
+  if (is_hit) return "hit";
+  if (is_attack) return "attack";
+  if (is_defance) return "defence";
+  if (GetComponent<ChargingAttack>().IsCharging) return "charge";
+  if (is_roll) return "roll";
+  if (in_move_x == 0) return "idle";
+  return null;
+});`,
+      },
+      paragraphs: {
+        ko: [
+          "`Fsm.State<D>`는 `OnEnter`, `OnExit`, `OnUpdate`, `OnFixedUpdate`를 제공하고, `Flow<D>`가 상태 이름과 다음 상태를 판단하는 함수를 보관합니다. FSM은 현재 상태가 달라질 때만 이전 상태의 종료 처리와 새 상태의 진입 처리를 호출합니다. 강제 전이를 위한 `ForceDo`와 다른 flow로 이동하는 `To`도 구현했습니다.",
+          "플레이어에는 idle, move, attack, charge, charge attack, jump, fall, roll, defence, hit, die 상태를 등록했습니다. 예를 들어 방어 상태에 들어가면 대미지 계산 함수를 바꾸고, 회피 중에는 대미지를 0으로 처리하며, 피격 시에는 공격 collider를 끄고 combo를 초기화했습니다.",
+          "상태 자체는 분리됐지만 전이 조건이 각 상태 등록부에서 반복되고 문자열 이름으로 다음 상태를 찾습니다. 조건 하나를 바꿀 때 여러 transition을 함께 확인해야 했고 잘못된 이름은 실행 중에야 드러납니다. 상태를 나눈 효과와 전이 규칙의 중복이라는 한계를 동시에 경험한 코드입니다.",
+        ],
+        en: [
+          "`Fsm.State<D>` provides `OnEnter`, `OnExit`, `OnUpdate`, and `OnFixedUpdate`, while `Flow<D>` stores state names and functions that select the next state. Exit and enter logic runs only when the state object changes. I also implemented `ForceDo` for forced transitions and `To` for switching flows.",
+          "The player registers idle, move, attack, charge, charge attack, jump, fall, roll, defense, hit, and death. Entering defense changes the damage function, rolling makes damage zero, and hit state disables attack collision and resets the combo.",
+          "Although behavior is split by state, transition guards are repeated in each registration and the next state is addressed by string. A single condition change can require edits in several transitions, while a misspelled state appears only at runtime.",
+        ],
+      },
+    },
+    {
+      id: "vapor-combat",
+      order: 444,
+      project: "vapor",
+      category: { ko: "전투 구현", en: "Combat" },
+      tags: ["game-client", "unity", "csharp"],
+      title: {
+        ko: "콤보·차지·패링을 입력과 애니메이션 타이밍에 맞춰 연결했습니다",
+        en: "Connected combos, charged attacks, and parries to input and animation timing",
+      },
+      lead: {
+        ko: "버튼을 누르고 떼는 시간, 현재 플레이어 상태와 애니메이션 이벤트를 함께 사용해 공격 종류와 판정 시점을 결정했습니다.",
+        en: "Used press and release timing, player state, and animation events together to select attacks and their hit timing.",
+      },
+      code: {
+        language: "csharp",
+        caption: { ko: "공격 버튼을 뗄 때 일반 공격과 차지 공격을 구분", en: "Choosing normal or charged attack on release" },
+        source: "Assets/Scripts/Player/PC.cs",
+        text: `input.key.get_event_of_name("Attack").unpress_ev = x => {
+  if (!is_grounded || is_attack) {
+    is_attack_start = false;
+    return;
+  }
+
+  if (is_attack_start) {
+    is_attack_start = false;
+    if (!(stamina.value > atk_stamina)) return;
+    is_attack = true;
+    normal_attack_timer.Reset();
+    stamina.value -= atk_stamina;
+  }
+  else if (chargingAttack.IsCharging &&
+           chargingAttack.IsChargeAttackReady) {
+    chargingAttack.end_charge();
+    if (!(stamina.value > charge_atk_stamina)) return;
+    stamina.value -= charge_atk_stamina;
+    is_charging_attack = true;
+  }
+};`,
+      },
+      paragraphs: {
+        ko: [
+          "공격 버튼을 짧게 눌렀다 떼면 일반 공격 상태로 들어가고, 일정 시간 이상 누르면 `ChargingAttack`의 timer가 끝나 차지 상태로 전환됩니다. combo 횟수에 따라 애니메이션과 대미지 배율, 이펙트를 바꾸고 제한 시간이 지나면 combo를 초기화했습니다.",
+          "`NormalAttack`이 피격 callback을 등록하고 `ComboAttack`, `ChargingAttack`, `ParringAttack`이 필요한 판정만 override했습니다. 패링 가능한 공격이 collider에 들어오면 적의 패링 상태를 확인하고 적에게 대미지와 `OnParriedHit()`을 적용한 뒤 플레이어의 성공 이벤트를 호출했습니다.",
+          "공격 collider의 시작·종료, 이동 곡선과 이펙트는 `AnimEvBind`의 이름으로 애니메이션 이벤트와 연결했습니다. 애니메이션 프레임과 실제 판정을 맞추기 편했지만 문자열 이름이 prefab 설정과 코드 양쪽에 흩어져 있어, 이름을 바꾸거나 이벤트를 빠뜨리면 실행 중에 문제가 발생하는 구조였습니다.",
+        ],
+        en: [
+          "A short press and release enters normal attack, while holding beyond the timer switches to charge. Combo count selects animation, damage multiplier, and effect, then resets after a timeout.",
+          "`NormalAttack` registers hit callbacks and `ComboAttack`, `ChargingAttack`, and `ParringAttack` override only their specific rules. A parry checks the enemy's parry state, applies damage and `OnParriedHit()`, and then notifies the player controller of success.",
+          "Attack collision windows, movement curves, and effects are connected to animation events through names in `AnimEvBind`. This aligns hit timing with frames, but the string contract is spread across prefabs and code, so missing or renamed events fail at runtime.",
+        ],
+      },
+    },
+    {
+      id: "vapor-input-ui",
+      order: 446,
+      project: "vapor",
+      category: { ko: "입력·UI", en: "Input & UI" },
+      tags: ["game-client", "unity", "csharp"],
+      title: {
+        ko: "입력 이름과 태그로 플레이어 조작과 UI 조작을 전환했습니다",
+        en: "Switched gameplay and UI control through named, tagged input mappings",
+      },
+      lead: {
+        ko: "Unity의 기존 `Input.GetKey` 위에 자체 mapping을 만들고, 화면이 열릴 때 플레이어 입력을 막고 UI 입력만 받도록 구성했습니다.",
+        en: "Built a custom mapping layer over legacy `Input.GetKey` and switched input context when a UI screen opens.",
+      },
+      image: { src: "./assets/vapor-input-flow.svg", alt: "Vapor named input and UI context flow" },
+      code: {
+        language: "csharp",
+        caption: { ko: "이름으로 입력 callback을 연결", en: "Binding input callbacks by name" },
+        source: "Assets/Scripts/System/YCInputSystem.cs",
+        text: `foreach (var i in key) {
+  if (ignore.Any(t => t.is_ignore && t.tag.Equals(i.tag)))
+    continue;
+
+  bool state = i.state
+    ? !i.key.Any(Input.GetKeyUp)
+    : i.key.Any(Input.GetKeyDown);
+
+  if (i.state != state) {
+    if (state) i.press_ev?.Invoke(true);
+    else i.unpress_ev?.Invoke(false);
+  }
+  i.state = state;
+}`,
+      },
+      paragraphs: {
+        ko: [
+          "1차원·2차원 axis와 key mapping에 이름, player 또는 UI 태그, 현재 상태와 callback을 저장했습니다. 플레이어 코드는 `Move`, `Jump`, `Attack`, `Defence` 같은 이름으로 callback을 연결하고, 상호작용과 포션 사용, 설정 화면도 같은 입력 목록을 사용했습니다.",
+          "`UIView`가 열리면 player 태그를 막고 UI 태그를 활성화한 뒤 `Time.timeScale`을 0으로 바꿨습니다. UI 이동은 `Time.unscaledDeltaTime`으로 처리해 일시정지 중에도 포인터와 slider가 움직이게 했습니다. 키 변경 화면은 다음에 눌린 `KeyCode`를 mapping에 반영하고 JSON 저장 파일에 남겼습니다.",
+          "이 코드는 Unity의 새 Input System action을 사용한 구현은 아닙니다. callback 필드가 하나뿐이라 서로 다른 화면이 같은 입력을 쓰면 덮어쓸 수 있고 중복 키 검사와 mouse rebinding도 없습니다. 당시 프로젝트에 필요한 입력 문맥과 키 저장을 직접 묶은 구조입니다.",
+        ],
+        en: [
+          "One- and two-dimensional axes and key mappings store a name, player or UI tag, current state, and callback. Player code binds names such as `Move`, `Jump`, `Attack`, and `Defence`, while interactions, potions, and settings use the same list.",
+          "Opening `UIView` blocks the player tag, enables the UI tag, and sets `Time.timeScale` to zero. UI motion uses `Time.unscaledDeltaTime`, so the pointer and sliders keep moving while paused. Rebinding captures the next `KeyCode` and stores the mapping in JSON.",
+          "This is not an implementation of Unity's newer Input System actions. Each mapping has only one callback slot, so screens can overwrite one another, and duplicate-key checks and mouse rebinding are absent. It is a project-specific layer for input context and persistence.",
+        ],
+      },
+    },
+    {
+      id: "vapor-sheet-data",
+      order: 448,
+      project: "vapor",
+      category: { ko: "컷신 데이터", en: "Cutscene Data" },
+      tags: ["game-client", "unity", "csharp", "collaboration"],
+      title: {
+        ko: "Google Sheets의 대사를 CSV로 받아 컷신에서 사용했습니다",
+        en: "Loaded dialogue from Google Sheets as CSV for cutscenes",
+      },
+      lead: {
+        ko: "대사와 NPC 텍스트를 코드와 scene에서 분리하고, sheet 이름·행 key·column으로 찾을 수 있는 데이터로 변환했습니다.",
+        en: "Separated dialogue and NPC text from code and scenes, then indexed it by sheet, row key, and column.",
+      },
+      image: { src: "./assets/vapor-data-flow.svg", alt: "Vapor Google Sheets CSV and cutscene data flow" },
+      code: {
+        language: "csharp",
+        caption: { ko: "CSV 첫 행을 column 이름으로 사용해 dictionary 구성", en: "Building dictionaries from CSV column names" },
+        source: "Assets/Scripts/System/Google/LoadGoogleSheets.cs",
+        text: `var columnNames = row[0]
+  .Where(x => !string.IsNullOrEmpty(x)).ToArray();
+
+foreach (var t in row.Skip(1)) {
+  if (!dic.ContainsKey(t[0].Trim()))
+    dic[t[0].Trim()] = new Dictionary<string, string>();
+
+  for (var i = 0; i < columnNames.Length; ++i)
+    dic[t[0].Trim()].Add(columnNames[i].Trim(), t[i].Trim());
+}`,
+      },
+      paragraphs: {
+        ko: [
+          "`UnityWebRequest`로 Google Sheets의 gviz CSV 응답을 받고, 직접 만든 `CsvParser`가 comma, 줄바꿈, 따옴표로 감싼 값과 이중 따옴표 escape를 처리했습니다. 첫 행을 column 이름으로 삼아 `Dictionary<string, Dictionary<string, string>>` 형태로 변환했습니다.",
+          "`CutsceneView`는 Story, NPC, Intro_Cutscene sheet를 불러오고, `PrintStory`가 key에 해당하는 Text를 한 글자씩 출력했습니다. sheet와 key를 `Sheet@Key` 형태로 전달해 다른 UI에서도 텍스트를 가져올 수 있게 했으며 타이핑 사운드와 종료 이벤트도 연결했습니다.",
+          "데이터를 실행 중에 받아오기 때문에 네트워크나 sheet 형식이 잘못되면 컷신이 시작되지 않을 수 있지만, 오류 표시나 로컬 fallback은 충분히 만들지 못했습니다. 팀이 텍스트를 코드 밖에서 편집할 수 있게 한 대신 외부 데이터 의존성을 함께 관리해야 한다는 점을 배웠습니다.",
+        ],
+        en: [
+          "`UnityWebRequest` downloads the Google Sheets gviz CSV response. My `CsvParser` handles commas, newlines, quoted fields, and escaped double quotes, then the first row becomes column names in a nested dictionary.",
+          "`CutsceneView` loads Story, NPC, and Intro_Cutscene sheets, and `PrintStory` renders the selected Text one character at a time. Other UI can request text with a `Sheet@Key` string, with typing audio and completion events connected to the same flow.",
+          "Because data is downloaded at runtime, a network or schema failure can block a cutscene, and the project lacks a complete error display or local fallback. Moving text out of code improved team editing but introduced an external dependency that also needed operational handling.",
+        ],
+      },
+    },
+    {
+      id: "vapor-save-settings",
+      order: 449,
+      project: "vapor",
+      category: { ko: "저장·설정", en: "Save & Settings" },
+      tags: ["game-client", "unity", "csharp"],
+      title: {
+        ko: "진행 상태와 키·사운드 설정을 타입별 JSON 파일로 저장했습니다",
+        en: "Stored progress, key bindings, and audio settings in typed JSON files",
+      },
+      lead: {
+        ko: "저장할 데이터를 struct로 나누고 타입 이름을 파일 구분자로 사용해 같은 `SaveLoad` 코드로 읽고 썼습니다.",
+        en: "Split saved data into structs and used the type name to read and write each category through one `SaveLoad` path.",
+      },
+      code: {
+        language: "csharp",
+        caption: { ko: "값이 없을 수 있는 제네릭 Load와 JSON Save", en: "Nullable generic load and JSON save" },
+        source: "Assets/Scripts/System/SaveLoad.cs",
+        text: `public T? Load<T>() where T : struct {
+  try {
+    using StreamReader file = new(
+      "\${filepath}/Save_\${typeof(T).Name}.txt");
+    return JsonConvert.DeserializeObject<T>(file.ReadToEnd());
+  } catch {
+    return null;
+  }
+}
+
+public void Save<T>(T data) where T : struct {
+  using StreamWriter file = new(
+    "\${filepath}/Save_\${typeof(T).Name}.txt");
+  file.WriteLine(
+    JsonConvert.SerializeObject(data, Formatting.Indented));
+}`,
+      },
+      paragraphs: {
+        ko: [
+          "`save_ingame_data_t`에는 포션 수, 체력, 스태미나, 다음 scene과 새 게임 여부를 저장했습니다. scene이 바뀔 때 현재 값을 기록하고, 다음 scene에서 파일을 읽어 플레이어와 인벤토리에 다시 적용했습니다.",
+          "키 mapping은 이름별 `KeyCode[]` dictionary로 저장했고, 사운드 master·BGM·SFX와 전체 화면 여부도 각각 별도 struct로 관리했습니다. 저장 파일이 없으면 nullable 결과를 받아 기본 설정이나 새 게임 흐름으로 넘어가게 했습니다.",
+          "실제 코드는 inspector에서 받은 경로에 바로 파일을 쓰며 버전, 임시 파일 교체와 손상 복구가 없습니다. 예외도 모두 같은 ‘저장 파일 없음’으로 처리해 원인을 구분하지 못합니다. 졸업 프로젝트 범위에서는 동작했지만 저장 형식 변경과 실패 복구까지 생각하려면 구조를 더 보완해야 했습니다.",
+        ],
+        en: [
+          "`save_ingame_data_t` stores potion count, health, stamina, the next scene, and new-game state. Values are written during a scene change and applied back to the player and inventory in the following scene.",
+          "Key mappings are stored as a dictionary of named `KeyCode[]` values, while master, BGM, SFX, and fullscreen settings use their own structs. A missing file returns a nullable result so the game can continue with defaults or a new-game path.",
+          "The implementation writes directly to an inspector-provided path without versioning, temporary-file replacement, or corruption recovery. It also catches all exceptions as a missing file. It worked for the project scope but would need stronger migration and failure handling for a released game.",
+        ],
+      },
     },
     {
       id: "cpp-trading-bot",

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 550" role="img" aria-labelledby="title desc">
+  <title id="title">Vapor Google Sheets cutscene data flow</title>
+  <desc id="desc">Google Sheets exports CSV that is parsed into nested dictionaries and consumed by cutscene and dialogue UI.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#242522"/></marker>
+    <style>
+      .bg{fill:#fafaf7}.box{fill:#fff;stroke:#c9cbc4;stroke-width:2}.dark{fill:#20211f}.line{fill:none;stroke:#242522;stroke-width:2.5;marker-end:url(#arrow)}
+      .eyebrow{font:700 18px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:2px;fill:#666962}.title{font:800 31px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#171817}
+      .label{font:750 17px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#20211f}.small{font:500 14px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#686b65}.inverse{font:750 18px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#fff}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="550"/>
+  <text class="eyebrow" x="56" y="58">CUTSCENE DATA FLOW</text>
+  <text class="title" x="56" y="98">Dialogue can change outside the Unity scene and source code</text>
+
+  <rect class="box" x="56" y="178" width="214" height="188" rx="18"/>
+  <text class="eyebrow" x="86" y="216">GOOGLE SHEETS</text><text class="label" x="86" y="258">Story</text><text class="label" x="86" y="292">NPC</text><text class="label" x="86" y="326">Intro_Cutscene</text>
+  <path class="line" d="M270 272H348"/>
+
+  <rect class="box" x="348" y="178" width="218" height="188" rx="18"/>
+  <text class="eyebrow" x="378" y="216">DOWNLOAD</text><text class="label" x="378" y="258">UnityWebRequest</text><text class="small" x="378" y="290">gviz CSV export</text><text class="small" x="378" y="322">sheet by name</text>
+  <path class="line" d="M566 272H644"/>
+
+  <rect class="dark" x="644" y="154" width="252" height="236" rx="18"/>
+  <text class="eyebrow" x="676" y="194" style="fill:#bfc1ba">CSV PARSER</text><text class="inverse" x="676" y="236">Rows → dictionary</text>
+  <text class="small" x="676" y="272" style="fill:#d7d8d2">quoted fields</text><text class="small" x="676" y="302" style="fill:#d7d8d2">escaped quotes</text><text class="small" x="676" y="332" style="fill:#d7d8d2">column names</text><text class="small" x="676" y="362" style="fill:#d7d8d2">sheet / key / value</text>
+  <path class="line" d="M896 226H970"/><path class="line" d="M896 326H970"/>
+
+  <rect class="box" x="970" y="166" width="174" height="128" rx="18"/><text class="eyebrow" x="994" y="204">CUTSCENE</text><text class="label" x="994" y="244">PrintStory</text><text class="small" x="994" y="270">typing effect</text>
+  <rect class="box" x="970" y="318" width="174" height="128" rx="18"/><text class="eyebrow" x="994" y="356">OTHER UI</text><text class="label" x="994" y="396">Sheet@Key</text><text class="small" x="994" y="422">text lookup</text>
+
+  <text class="small" x="56" y="505">Known limitation: runtime network dependency without a complete cache or local fallback.</text>
+</svg>

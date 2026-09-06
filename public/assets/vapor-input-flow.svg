@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 570" role="img" aria-labelledby="title desc">
+  <title id="title">Vapor input and UI context flow</title>
+  <desc id="desc">Legacy keyboard and mouse polling is mapped to named actions, filtered by player or UI context, and persisted after rebinding.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#242522"/></marker>
+    <style>
+      .bg{fill:#fafaf7}.box{fill:#fff;stroke:#c9cbc4;stroke-width:2}.dark{fill:#20211f}.line{fill:none;stroke:#242522;stroke-width:2.5;marker-end:url(#arrow)}
+      .eyebrow{font:700 18px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:2px;fill:#666962}.title{font:800 31px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#171817}
+      .label{font:750 17px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#20211f}.small{font:500 14px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#686b65}.inverse{font:750 18px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#fff}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="570"/>
+  <text class="eyebrow" x="56" y="58">NAMED INPUT + CONTEXT SWITCHING</text>
+  <text class="title" x="56" y="98">The same input path drives gameplay, menus, and rebinding</text>
+
+  <rect class="box" x="56" y="174" width="204" height="192" rx="18"/>
+  <text class="eyebrow" x="84" y="212">RAW INPUT</text><text class="label" x="84" y="254">Input.GetKey</text><text class="small" x="84" y="284">KeyCode[]</text><text class="small" x="84" y="314">mouse button</text><text class="small" x="84" y="344">axis pair</text>
+  <path class="line" d="M260 270H340"/>
+
+  <rect class="dark" x="340" y="146" width="302" height="248" rx="18"/>
+  <text class="eyebrow" x="372" y="186" style="fill:#bfc1ba">YCINPUTSYSTEM</text><text class="inverse" x="372" y="228">Named mappings</text>
+  <text class="small" x="372" y="264" style="fill:#d7d8d2">Move · Jump · Attack · Defence</text><text class="small" x="372" y="296" style="fill:#d7d8d2">UI_Move · UI_Enter</text>
+  <path d="M372 322H610" stroke="#595a56" stroke-width="2"/>
+  <text class="small" x="372" y="354" style="fill:#d7d8d2">tag: player / ui</text>
+  <path class="line" d="M642 230H730"/><path class="line" d="M642 330H730"/>
+
+  <rect class="box" x="730" y="154" width="206" height="132" rx="18"/><text class="eyebrow" x="758" y="192">PLAYER</text><text class="label" x="758" y="230">PC callbacks</text><text class="small" x="758" y="258">combat · movement</text>
+  <rect class="box" x="730" y="310" width="206" height="132" rx="18"/><text class="eyebrow" x="758" y="348">UI</text><text class="label" x="758" y="386">UIView callbacks</text><text class="small" x="758" y="414">pause · pointer · slider</text>
+
+  <path class="line" d="M936 376H1000"/>
+  <rect class="box" x="1000" y="310" width="144" height="132" rx="18"/><text class="eyebrow" x="1024" y="348">REBIND</text><text class="label" x="1024" y="386">KeyCode</text><text class="small" x="1024" y="414">JSON save</text>
+  <path class="line" d="M1072 310V244H936"/>
+
+  <text class="small" x="56" y="518">When a menu opens: ignore player tag → enable UI tag → use unscaled time while paused</text>
+</svg>

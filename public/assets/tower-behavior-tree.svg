@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 580" role="img" aria-labelledby="title desc">
+  <title id="title">Tower of Ukani Flower Bat behavior tree</title>
+  <desc id="desc">A selector checks stop, attack, flee, follow, ceiling hang, and random movement in order.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#242522"/></marker>
+    <style>
+      .bg{fill:#fafaf7}.box{fill:#fff;stroke:#c9cbc4;stroke-width:2}.dark{fill:#20211f}.line{fill:none;stroke:#242522;stroke-width:2.5;marker-end:url(#arrow)}
+      .eyebrow{font:700 18px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:2px;fill:#666962}.title{font:800 31px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#171817}
+      .label{font:750 18px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#20211f}.small{font:500 14px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#686b65}.inverse{font:750 18px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#fff}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="580"/>
+  <text class="eyebrow" x="56" y="58">FLOWER BAT · BEHAVIOR PRIORITY</text>
+  <text class="title" x="56" y="98">The first condition that succeeds controls the current action</text>
+
+  <rect class="dark" x="56" y="220" width="176" height="110" rx="18"/>
+  <text class="inverse" x="94" y="266">Selector</text>
+  <text class="small" x="81" y="298" style="fill:#d7d8d2">checked every frame</text>
+  <path class="line" d="M232 275H288"/>
+
+  <rect class="box" x="288" y="142" width="146" height="82" rx="15"/><text class="label" x="326" y="178">01 Stop</text><text class="small" x="314" y="204">BTStop</text>
+  <rect class="box" x="462" y="142" width="146" height="82" rx="15"/><text class="label" x="492" y="178">02 Attack</text><text class="small" x="489" y="204">in range</text>
+  <rect class="box" x="636" y="142" width="146" height="82" rx="15"/><text class="label" x="673" y="178">03 Flee</text><text class="small" x="660" y="204">flee trigger</text>
+  <rect class="box" x="810" y="142" width="146" height="82" rx="15"/><text class="label" x="839" y="178">04 Follow</text><text class="small" x="843" y="204">aggro check</text>
+  <rect class="box" x="984" y="142" width="160" height="82" rx="15"/><text class="label" x="1016" y="178">05 Hang</text><text class="small" x="1008" y="204">find ceiling</text>
+
+  <path class="line" d="M361 224V276"/><path class="line" d="M535 224V276"/><path class="line" d="M709 224V276"/><path class="line" d="M883 224V276"/><path class="line" d="M1064 224V276"/>
+  <path d="M288 276H1064" fill="none" stroke="#242522" stroke-width="2.5"/>
+
+  <rect class="box" x="288" y="354" width="856" height="116" rx="18"/>
+  <text class="eyebrow" x="322" y="390">FALLBACK TASK</text>
+  <text class="label" x="322" y="429">06 Random move</text>
+  <text class="small" x="502" y="429">uses the movement component after every higher-priority condition fails</text>
+  <path class="line" d="M716 276V354"/>
+
+  <text class="small" x="56" y="535">BT_Base: Root · Selector · Sequence · Decorator · Service · Task</text>
+</svg>

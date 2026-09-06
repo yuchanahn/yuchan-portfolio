@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 580" role="img" aria-labelledby="title desc">
+  <title id="title">Tower of Ukani status effect flow</title>
+  <desc id="desc">Stun, slow, and knockback write shared status properties consumed by movement, animation, and behavior.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#242522"/></marker>
+    <style>
+      .bg{fill:#fafaf7}.box{fill:#fff;stroke:#c9cbc4;stroke-width:2}.dark{fill:#20211f}.line{fill:none;stroke:#242522;stroke-width:2.5;marker-end:url(#arrow)}
+      .eyebrow{font:700 18px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:2px;fill:#666962}.title{font:800 31px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#171817}
+      .label{font:750 18px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#20211f}.small{font:500 14px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#686b65}.inverse{font:750 18px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#fff}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="580"/>
+  <text class="eyebrow" x="56" y="58">MONSTER STATUS EFFECT FLOW</text>
+  <text class="title" x="56" y="98">One effect changes behavior, movement, and animation together</text>
+
+  <rect class="box" x="56" y="165" width="214" height="84" rx="16"/><text class="label" x="105" y="201">Stun</text><text class="small" x="93" y="226">priority 10</text>
+  <rect class="box" x="56" y="271" width="214" height="84" rx="16"/><text class="label" x="105" y="307">Knockback</text><text class="small" x="93" y="332">priority 9 + curve</text>
+  <rect class="box" x="56" y="377" width="214" height="84" rx="16"/><text class="label" x="105" y="413">Slow</text><text class="small" x="93" y="438">priority 8</text>
+
+  <path class="line" d="M270 207H348"/><path class="line" d="M270 313H348"/><path class="line" d="M270 419H348"/>
+  <rect class="dark" x="348" y="144" width="372" height="338" rx="20"/>
+  <text class="eyebrow" x="382" y="184" style="fill:#bfc1ba">STATUSEFFECT_OBJECT</text>
+  <text class="inverse" x="382" y="226">Shared properties</text>
+  <text class="small" x="382" y="265" style="fill:#d7d8d2">SpeedMult · EffectDir2d · VelCurve</text>
+  <text class="small" x="382" y="300" style="fill:#d7d8d2">AttackAble · FollowAble</text>
+  <text class="small" x="382" y="335" style="fill:#d7d8d2">ChangeDirAble · NoTask</text>
+  <text class="small" x="382" y="370" style="fill:#d7d8d2">Animation state</text>
+  <path d="M382 401H686" stroke="#595a56" stroke-width="2"/>
+  <text class="small" x="382" y="436" style="fill:#d7d8d2">SE_Stat&lt;T&gt; chooses a value by priority</text>
+
+  <path class="line" d="M720 230H808"/><path class="line" d="M720 313H808"/><path class="line" d="M720 396H808"/>
+  <rect class="box" x="808" y="173" width="336" height="82" rx="16"/><text class="label" x="842" y="207">Behavior tree</text><text class="small" x="842" y="233">stop or allow tasks</text>
+  <rect class="box" x="808" y="276" width="336" height="82" rx="16"/><text class="label" x="842" y="310">Rigidbody movement</text><text class="small" x="842" y="336">speed, direction, curve</text>
+  <rect class="box" x="808" y="379" width="336" height="82" rx="16"/><text class="label" x="842" y="413">Animator</text><text class="small" x="842" y="439">stun / hit state</text>
+
+  <text class="small" x="56" y="535">Known limitation: priority is not fully recomputed when the strongest effect disappears.</text>
+</svg>

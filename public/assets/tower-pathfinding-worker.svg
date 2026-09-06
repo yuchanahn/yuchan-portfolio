@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+  <title id="title">Tower of Ukani pathfinding integration</title>
+  <desc id="desc">Unity world and moving platform data update the adapted JPS grid through a queued worker rebuild.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#242522"/></marker>
+    <style>
+      .bg{fill:#fafaf7}.box{fill:#fff;stroke:#c9cbc4;stroke-width:2}.dark{fill:#20211f}.line{fill:none;stroke:#242522;stroke-width:2.5;marker-end:url(#arrow)}.dash{fill:none;stroke:#969991;stroke-width:2;stroke-dasharray:7 7;marker-end:url(#arrow)}
+      .eyebrow{font:700 18px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:2px;fill:#666962}.title{font:800 31px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#171817}
+      .label{font:750 18px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#20211f}.small{font:500 14px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#686b65}.inverse{font:750 18px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#fff}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="560"/>
+  <text class="eyebrow" x="56" y="58">PATHFINDING INTEGRATION</text>
+  <text class="title" x="56" y="98">Adapted an open JPS grid to a changing Unity world</text>
+
+  <rect class="box" x="56" y="168" width="234" height="200" rx="18"/>
+  <text class="eyebrow" x="86" y="205">UNITY WORLD</text><text class="label" x="86" y="246">Monster position</text><text class="small" x="86" y="275">WorldToGrid</text>
+  <text class="label" x="86" y="319">Moving platform</text><text class="small" x="86" y="348">clear / mark nodes</text>
+
+  <path class="line" d="M290 268H370"/>
+  <rect class="dark" x="370" y="150" width="280" height="236" rx="18"/>
+  <text class="eyebrow" x="402" y="189" style="fill:#bfc1ba">ADAPTED GRIDVIEW</text>
+  <text class="inverse" x="402" y="232">Grid by map + size</text>
+  <text class="small" x="402" y="267" style="fill:#d7d8d2">obstacle node update</text>
+  <text class="small" x="402" y="298" style="fill:#d7d8d2">point ↔ world position</text>
+  <text class="small" x="402" y="329" style="fill:#d7d8d2">path result → movement vector</text>
+
+  <path class="line" d="M650 268H728"/>
+  <rect class="box" x="728" y="150" width="190" height="236" rx="18"/>
+  <text class="eyebrow" x="756" y="189">WORK QUEUE</text>
+  <text class="label" x="756" y="232">ConcurrentQueue</text>
+  <text class="small" x="756" y="267">jump-point rebuild</text>
+  <text class="small" x="756" y="298">single worker</text>
+  <text class="small" x="756" y="329">busy polling</text>
+
+  <path class="line" d="M918 268H990"/>
+  <rect class="box" x="990" y="184" width="154" height="168" rx="18"/>
+  <text class="eyebrow" x="1016" y="223">RESULT</text>
+  <text class="label" x="1016" y="264">JPS path</text>
+  <text class="small" x="1016" y="296">follow</text><text class="small" x="1016" y="320">random move</text>
+
+  <path class="dash" d="M1067 352V446H510V386"/>
+  <text class="small" x="56" y="515">JPS algorithm source: external/open implementation · integration and worker changes: project code</text>
+</svg>
