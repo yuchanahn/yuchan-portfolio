@@ -540,12 +540,16 @@ function renderProjectIntroduction(projectId, index, total, projectModules) {
       "figure",
       `project-intro-media${imageDefinitions.length > 1 ? " is-gallery" : ""}`,
     );
+    if (imageDefinitions.length === 1 && imageDefinitions[0].background) {
+      media.style.background = imageDefinitions[0].background;
+    }
     imageDefinitions.forEach((imageDefinition) => {
       const image = document.createElement("img");
       image.src = imageDefinition.src;
       image.alt = imageDefinition.alt || "";
       image.decoding = "async";
       if (imageDefinition.position) image.style.objectPosition = imageDefinition.position;
+      if (imageDefinition.fit) image.style.objectFit = imageDefinition.fit;
       media.append(image);
     });
     section.append(media);

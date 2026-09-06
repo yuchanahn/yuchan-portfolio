@@ -261,15 +261,20 @@ window.PORTFOLIO_DATA = {
         en: "A 2D side-scrolling action game connecting player combat, input and UI, cutscene data, and save files.",
       },
       description: {
-        ko: "Unity 2021.3으로 제작한 2D 횡스크롤 액션 게임입니다. 팀 프로젝트에서 플레이어 조작과 전투를 중심으로 설정 화면, 컷신 데이터와 저장 기능까지 한 게임 흐름으로 연결했습니다.",
-        en: "A 2D side-scrolling action game built with Unity 2021.3. In this team project, player control and combat were connected with settings, cutscene data, and save files into one game flow.",
+        ko: "Unity 2021.3으로 제작한 2D 횡스크롤 액션 게임입니다. 2022–2023년 팀 프로젝트에서 플레이어 조작과 전투를 중심으로 설정 화면, 컷신 데이터와 저장 기능까지 한 게임 흐름으로 연결했습니다. 이후 P2P 롤백 실험에서는 이 프로젝트의 화면 리소스 일부만 재사용했습니다.",
+        en: "A 2D side-scrolling action game built with Unity 2021.3. In this 2022–2023 team project, player control and combat were connected with settings, cutscene data, and save files into one game flow. Only some visual assets were later reused in the separate P2P rollback experiment.",
       },
       contribution: {
         ko: "이동·점프·콤보·차지·방어·회피·패링, 입력 매핑과 키 변경 UI, Google Sheets 기반 대사 로딩, 진행 상태와 설정 저장을 구현했습니다.",
         en: "Implemented movement, jumping, combos, charge attacks, defense, rolls and parries, input mapping and rebinding UI, Google Sheets dialogue loading, and progress and settings saves.",
       },
       stack: ["Unity 2021.3", "C#", "Animation Event", "Google Sheets", "JSON"],
-      image: { src: "./assets/vapor-input-flow.svg", alt: "Vapor input and UI control flow" },
+      image: {
+        src: "./assets/vapor-gameplay.png",
+        alt: "Vapor gameplay combat scene",
+        fit: "contain",
+        background: "#0b0b0b",
+      },
       links: [
         { label: { ko: "프로젝트", en: "Project" }, href: "https://github.com/yuchanahn/CK2022CapstoneDesign", value: "GitHub" },
       ],
@@ -280,19 +285,24 @@ window.PORTFOLIO_DATA = {
       period: "2025",
       type: { ko: "Godot·Rust 개인 실험", en: "Godot and Rust personal experiment" },
       summary: {
-        ko: "Godot와 Rust로 UDP 연결, 입력 동기화와 rollback 재시뮬레이션을 직접 실험한 2인 P2P 액션 게임입니다.",
-        en: "A two-player P2P action-game experiment built with Godot and Rust to explore UDP connections, input synchronization, and rollback resimulation.",
+        ko: "Vapor의 화면 리소스 일부를 재사용해 Godot와 Rust의 UDP 입력 동기화와 rollback 재시뮬레이션을 검증한 별도 프로젝트입니다.",
+        en: "A separate Godot and Rust project that reused some Vapor visual assets to test UDP input synchronization and rollback resimulation.",
       },
       description: {
-        ko: "Godot은 화면과 입력에 사용하고 Rust GDExtension에서 UDP 통신과 tick 단위 게임 계산을 구현한 2인 P2P 액션 게임 실험입니다. 입력 지연 방식과 rollback 방식을 같은 게임에서 비교했습니다.",
-        en: "A two-player P2P action-game experiment using Godot for presentation and input while implementing UDP transport and tick-based simulation in a Rust GDExtension. Input delay and rollback were compared in the same game.",
+        ko: "Vapor와는 코드와 목적이 다른 2025년 개인 실험입니다. 화면과 애니메이션을 빠르게 구성하기 위해 Vapor 리소스 일부를 사용했고, Godot은 화면과 입력에, Rust GDExtension은 UDP 통신과 tick 단위 게임 계산에 사용했습니다. 같은 게임에서 입력 지연 방식과 rollback 방식을 비교했습니다.",
+        en: "A 2025 personal experiment with code and goals separate from Vapor. Some Vapor assets were reused to assemble the visuals and animation quickly. Godot handled presentation and input, while a Rust GDExtension implemented UDP transport and tick-based simulation. Input delay and rollback were compared in the same game.",
       },
       contribution: {
         ko: "상대 주소 등록과 UDP 연결 시도, bit 단위 입력 기록, 최근 30tick 중복 전송, 입력 예측, world snapshot과 불일치 시점부터의 재시뮬레이션을 구현했습니다.",
         en: "Implemented peer endpoint registration and UDP connection attempts, bit-packed input history, overlapping 30-tick packets, input prediction, world snapshots, and resimulation from the first mismatched tick.",
       },
       stack: ["Godot", "Rust", "GDExtension", "UDP", "Rollback", "Tick Simulation"],
-      image: { src: "./assets/p2p-rollback-flow.svg", alt: "P2P rollback and resimulation flow" },
+      image: {
+        src: "./assets/p2p-rollback-gameplay.png",
+        alt: "Two P2P rollback game clients running side by side",
+        fit: "contain",
+        background: "#111111",
+      },
       links: [
         { label: { ko: "프로젝트", en: "Project" }, href: "https://github.com/yuchanahn/p2pactiongame", value: "GitHub" },
       ],
