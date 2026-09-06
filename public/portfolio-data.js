@@ -170,7 +170,7 @@ window.PORTFOLIO_DATA = {
     foundations: {
       portfolioType: "cpp",
       name: { ko: "네트워크·시스템 학습", en: "Networking & systems foundations" },
-      period: { ko: "고등학교–현재", en: "High school–present" },
+      period: { ko: "개인 학습 기록", en: "Independent study record" },
       type: { ko: "개인 학습·실험", en: "Study and experiments" },
       summary: {
         ko: "소켓과 IOCP부터 P2P·롤백 실험까지 직접 구현하며 네트워크 프로그래밍을 공부했습니다.",
@@ -740,14 +740,14 @@ window.PORTFOLIO_DATA = {
       },
       paragraphs: {
         ko: [
-          "패킷 직렬화와 ID binding의 기반 코드는 팀원이 먼저 만들었습니다. 저는 이 공통 계층 위에 기능별 `FPac_*` USTRUCT를 추가하고, `Server.cpp`와 `Client.cpp`에서 인벤토리와 전투 보조 상태, 미션, 부활처럼 실제 게임 진행이 바뀌는 handler를 작성·수정했습니다.",
+          "패킷을 바이트로 읽고 쓰는 직렬화 기반은 팀원이 먼저 만들었습니다. 저는 패킷 ID와 `FPac_*` USTRUCT 타입을 연결하는 매핑·바인딩 코드, 기능별 패킷 정의, 그리고 `Server.cpp`와 `Client.cpp`에서 인벤토리와 전투 보조 상태, 미션, 부활처럼 실제 게임 진행이 바뀌는 처리 코드를 작성했습니다.",
           "클라이언트의 입력과 UI 조작은 `ANetPC`의 reliable RPC를 거쳐 서버 dispatch queue로 들어갑니다. 서버에서는 아이템을 누가 드래그 중인지 확인하고, 아이템 선택 결과와 엔티티의 체력·쉴드, 남은 몬스터 수, 영혼 게이지와 부활 여부를 판단한 뒤 필요한 클라이언트 또는 전체에 결과 패킷을 보냅니다. 클라이언트는 수신한 결과로 로컬 world 상태와 HUD를 갱신합니다.",
-          "이 방식으로 Unreal RPC가 여러 액터에 흩어지는 것을 일부 줄이고, 게임 진행 관련 처리를 서버 쪽에서 따라가기 쉽게 만들었습니다. 반면 `FServer`의 정적 상태와 큰 tick 함수에 로직이 많이 모여 있어, 지금 다시 만든다면 도메인별 subsystem과 명시적인 command handler로 나눌 부분도 분명합니다.",
+          "이 방식으로 Unreal RPC가 여러 액터에 흩어지는 것을 일부 줄이고, 게임 진행 처리를 서버 코드에서 이어서 확인할 수 있었습니다. 다만 기능이 늘면서 `FServer`의 정적 상태와 tick 함수에 처리가 계속 붙었고, 나중에는 한 기능을 수정할 때 확인해야 할 범위가 커졌습니다. 서버 기능을 인벤토리, 스테이지, 플레이어 상태처럼 나눠 관리했으면 흐름을 더 쉽게 추적할 수 있었을 것이라는 아쉬움이 남았습니다.",
         ],
         en: [
-          "A teammate created the packet serialization and ID-binding foundation. On top of that shared layer, I added feature-specific `FPac_*` USTRUCT messages and wrote or revised gameplay handlers in `Server.cpp` and `Client.cpp` for inventory, supporting combat state, missions, revival, and other run-state changes.",
+          "A teammate first built the byte-level serialization foundation. I wrote the mapping and binding code that connects packet IDs to `FPac_*` USTRUCT types, added feature-specific packets, and implemented gameplay handling in `Server.cpp` and `Client.cpp` for inventory, supporting combat state, missions, revival, and other run-state changes.",
           "Client input and UI actions travel through reliable RPCs on `ANetPC` into the server dispatch queue. The server checks item-drag ownership and decides item rewards, entity health and shields, remaining monsters, soul gauge, revival, and game-over state before sending the result to one or both clients. Each client applies the response to its local world state and HUD.",
-          "This reduced some RPC logic scattered across actors and made server-owned gameplay flow easier to trace. The trade-off is that static `FServer` state and a large tick function accumulated too many responsibilities; today I would separate them into domain-focused subsystems and explicit command handlers.",
+          "This reduced some RPC logic scattered across actors and kept the gameplay flow visible in the server code. As features accumulated, however, static `FServer` state and the tick function grew, increasing the amount of code that had to be checked for each change. Separating inventory, stage, and player-state handling would have made the flow easier to follow.",
         ],
       },
       image: { src: "./assets/nirvana-packet-flow.svg", alt: "Nirvana gameplay packet and server state flow" },
@@ -893,13 +893,13 @@ Packet | Unpack<FPac_Input2Server> | [](FPac_Input2Server Input) {
       paragraphs: {
         ko: [
           "필요할 때마다 비슷한 자식 클래스를 추가하면서 부모·자식 관계가 역할보다 작업 순서에 따라 만들어졌습니다. 어느 함수가 어느 클래스에 있는지 찾기 어려워졌고, 액터 안에는 서버에서 처리할 코드와 클라이언트에서 실행할 코드가 HasAuthority 조건문으로 섞였습니다.",
-          "프로젝트 종료 후에는 코딩 스타일만 맞추는 것으로 부족했다고 판단했습니다. Unreal 프로젝트라면 GAS 같은 프레임워크를 반드시 써야 한다는 뜻이 아니라, 팀이 따를 상태·능력·네트워크 책임의 공통 구조를 먼저 정하고 같은 방식으로 기능을 추가했어야 했습니다.",
-          "당시 GAS를 사용한 경험으로 꾸미지 않습니다. 사용하지 않았고, 끝난 뒤 구조적인 기준이 필요했다는 결론에 도달한 시행착오입니다.",
+          "기능 추가 일정이 우선되면서 새 코드를 어느 계층에 넣을지, 상태는 누가 소유할지, 서버와 클라이언트가 각각 어디까지 처리할지에 대한 기준을 충분히 맞추지 못했습니다. 같은 종류의 기능도 프로그래머마다 다른 위치와 방식으로 구현되면서 수정 범위가 점점 넓어졌습니다.",
+          "프로젝트를 끝낸 뒤에는 코딩 스타일을 맞추는 것만으로는 부족하다는 점을 배웠습니다. 다음 팀 개발에서는 구현에 들어가기 전에 상태와 네트워크 책임의 경계를 먼저 정하고, 새 기능도 같은 구조를 따르게 만드는 과정을 중요하게 보고 있습니다.",
         ],
         en: [
           "Similar child classes were added whenever a feature needed them, so inheritance reflected implementation order rather than responsibility. Functions became hard to locate, while server and client code mixed inside actors behind repeated HasAuthority checks.",
-          "After the project, I concluded that a shared coding style was not enough. This does not mean every Unreal project must use GAS; it means the team should first agree on a common structure for state, abilities, and network responsibility.",
-          "I do not claim that we used GAS. The value of this experience is the architectural lesson learned after the project.",
+          "Delivery pressure meant the team did not align enough on where new code belonged, who owned each state, or how far server and client responsibilities extended. Similar features ended up in different locations and styles depending on the programmer, so each change touched a wider area over time.",
+          "After the project, I learned that a shared coding style alone is not enough. In future team projects, I want to agree on state ownership and network responsibility before implementation and make new features follow that shared structure.",
         ],
       },
     },
@@ -919,12 +919,12 @@ Packet | Unpack<FPac_Input2Server> | [](FPac_Input2Server Input) {
       },
       paragraphs: {
         ko: [
-          "초등학생 때 RPG Maker로 게임을 만들면서 온라인 게임을 직접 구현할 수 있다는 점에 흥미를 느꼈습니다. 고등학교에서는 Unity와 UNET으로 멀티플레이 게임을 만들고, 게임 학원에서 소켓 프로그래밍과 Windows IOCP를 배웠습니다.",
+          "초등학생 때 RPG Maker로 게임을 만들면서 온라인 게임을 직접 구현할 수 있다는 점에 흥미를 느꼈습니다. 이후 게임 학원에서 소켓 프로그래밍과 Windows IOCP를 배우며 서버가 연결과 패킷을 처리하는 과정을 직접 구현했습니다.",
           "연결 수립, 비동기 입출력, 패킷 경계와 직렬화, 스레드 동기화를 직접 구현해 보며 라이브러리 아래에서 어떤 일이 일어나는지 공부했습니다. C++에서는 RAII와 객체 수명, 포인터·참조, 메모리 소유권을 코드 구조와 함께 이해하려고 했습니다.",
           "락프리나 나노초 단위 최적화를 실무 수준으로 다뤘다고 주장하지 않습니다. Modern C++와 저지연 시스템에 관심이 있고, 측정과 프로파일링을 바탕으로 더 깊게 배우려는 단계입니다.",
         ],
         en: [
-          "I became interested in server development while making games in RPG Maker and realizing online games could be built directly. In high school I built a multiplayer Unity/UNET project, then studied sockets and Windows IOCP at a game academy.",
+          "I became interested in server development while making games in RPG Maker and realizing online games could be built directly. I later studied sockets and Windows IOCP at a game academy and implemented the connection and packet flow myself.",
           "Implementing connection setup, asynchronous I/O, packet framing and serialization, and thread synchronization helped me understand what libraries abstract away. In C++, I focus on RAII, object lifetime, pointers and references, and ownership.",
           "I do not claim production expertise in lock-free structures or nanosecond optimization. I am strongly interested in Modern C++ and low-latency systems and want to deepen that work through measurement and profiling.",
         ],
@@ -1025,31 +1025,6 @@ Packet | Unpack<FPac_Input2Server> | [](FPac_Input2Server Input) {
       links: [
         { label: { ko: "프로젝트 코드", en: "Project code" }, href: "https://github.com/yuchanahn/CK2022CapstoneDesign", value: "GitHub" },
       ],
-    },
-    {
-      id: "unity-unet",
-      order: 440,
-      project: "foundations",
-      category: { ko: "초기 게임 개발", en: "Early Game Development" },
-      tags: ["game-client", "game-server", "unity", "network", "collaboration"],
-      title: {
-        ko: "고등학교 동아리에서 Unity와 UNET으로 멀티플레이 게임을 만들었습니다",
-        en: "Built a multiplayer Unity/UNET game in a high-school club",
-      },
-      lead: {
-        ko: "엔진에서 제공하는 네트워크 기능을 사용하며 클라이언트·서버 역할과 상태 동기화를 처음 경험했습니다.",
-        en: "Using the engine's networking layer introduced me to client/server roles and state synchronization.",
-      },
-      paragraphs: {
-        ko: [
-          "동아리에서 Unity 게임을 함께 만들며 오브젝트 생성, 플레이어 상태와 네트워크 이벤트가 각 클라이언트에서 어떻게 보이는지 다뤘습니다. 이후 더 낮은 수준을 이해하고 싶어 C++ 소켓과 IOCP 학습으로 이어졌습니다.",
-          "현재 기준으로 오래된 기술이며 최근 Unity 네트워크 스택 경험으로 포장하지 않습니다. 온라인 게임 개발에 관심을 갖게 된 출발점으로만 설명합니다.",
-        ],
-        en: [
-          "The club project dealt with object spawning, player state, and how network events appear on each client. Wanting to understand the lower layers led me to C++ sockets and IOCP.",
-          "UNET is now legacy technology, so I present it only as the start of my interest in online games rather than current Unity networking expertise.",
-        ],
-      },
     },
     {
       id: "cpp-trading-bot",
