@@ -823,6 +823,17 @@ async function printPortfolio() {
       image.addEventListener("error", resolve, { once: true });
     }))),
   );
+
+  if (document.fonts) {
+    await Promise.allSettled([
+      document.fonts.load('400 16px "Pretendard Variable"'),
+      document.fonts.load('700 16px "Pretendard Variable"'),
+      document.fonts.load('850 16px "Pretendard Variable"'),
+      document.fonts.ready,
+    ]);
+  }
+
+  await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
   window.print();
 }
 

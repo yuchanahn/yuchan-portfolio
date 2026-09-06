@@ -2,7 +2,7 @@
   font-family: "Pretendard Variable";
   font-style: normal;
   font-weight: 45 920;
-  font-display: swap;
+  font-display: block;
   src: url("./fonts/PretendardVariable.woff2") format("woff2-variations");
 }
 
@@ -1775,6 +1775,11 @@ a:focus-visible {
   margin: 0;
 }
 
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
 @media print {
   :root,
   :root[data-theme="dark"] {
@@ -1825,13 +1830,33 @@ a:focus-visible {
   .portfolio-document {
     width: 100%;
     margin: 0;
+    font-family: "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif;
     box-shadow: none;
   }
 
-  .portfolio-cover {
-    min-height: 297mm;
-    padding: 20mm 17mm 15mm;
+  .portfolio-cover,
+  .document-overview,
+  .project-introduction,
+  .case-study {
+    width: 210mm;
+    height: 297mm;
+    min-height: 0;
+    overflow: hidden;
+    break-before: auto;
     break-after: page;
+    break-inside: avoid;
+    page-break-before: auto;
+    page-break-after: always;
+    page-break-inside: avoid;
+  }
+
+  .portfolio-document > .case-study:last-of-type {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  .portfolio-cover {
+    padding: 20mm 17mm 15mm;
   }
 
   .cover-title {
@@ -1848,17 +1873,11 @@ a:focus-visible {
   }
 
   .document-overview {
-    min-height: 297mm;
     padding: 20mm 17mm 15mm;
-    break-after: page;
   }
 
   .project-introduction {
-    min-height: 297mm;
     padding: 18mm 17mm 14mm;
-    break-before: page;
-    break-after: page;
-    break-inside: avoid-page;
     border-bottom: 0;
   }
 
@@ -1948,11 +1967,7 @@ a:focus-visible {
   }
 
   .case-study {
-    min-height: 297mm;
     padding: 18mm 17mm 14mm;
-    break-before: page;
-    break-after: page;
-    break-inside: avoid-page;
     border-bottom: 0;
   }
 
