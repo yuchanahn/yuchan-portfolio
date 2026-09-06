@@ -23,7 +23,7 @@
   --inverse: #171817;
   --inverse-text: #f7f7f3;
   --shadow: 0 24px 70px rgb(21 22 21 / 9%);
-  --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --mono: "SFMono-Regular", Consolas, "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", "Liberation Mono", monospace;
   --sans: "Pretendard Variable", Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", Arial, sans-serif;
 }
 
