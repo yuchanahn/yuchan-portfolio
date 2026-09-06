@@ -680,7 +680,6 @@ window.PORTFOLIO_DATA = {
           "This was a team project, not a solo game. My scope covered online-session research, part of the networking structure, UI, and a workflow automation tool.",
         ],
       },
-      image: { src: "./assets/game-portfolio-outline.png", alt: "Nirvana game portfolio outline" },
     },
     {
       id: "team-retrospective",
