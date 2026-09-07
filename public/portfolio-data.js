@@ -1657,7 +1657,10 @@ public void Save<T>(T data) where T : struct {
         ko: "대학 과제로 시작한 VRM+LLM 채팅을 캐릭터, 결제, 관리자 기능과 다국어 UI를 갖춘 웹 서비스로 확장했습니다.",
         en: "Expanded a university VRM and LLM chat prototype into a web service with characters, payments, admin tools, and multilingual UI.",
       },
-      image: { src: "./assets/perochat-chat.png", alt: "PeroChat character chat screen" },
+      images: [
+        { src: "./assets/perochat-chat.png", alt: "PeroChat 2D character chat screen" },
+        { src: "./assets/perochat-mobile-live2d.png", alt: "PeroChat Live2D character chat screen on mobile" },
+      ],
       paragraphs: {
         ko: [
           "SvelteKit 프런트엔드와 Go API, PostgreSQL과 Redis를 분리해 구성했습니다. 2D·Live2D·VRM 캐릭터 채팅, Supabase 인증과 이미지 변환, 실제 결제·취소·웹훅, 운영용 관리자 페이지를 직접 개발했습니다.",

@@ -1275,6 +1275,15 @@ button.tag-chip:hover {
   object-fit: contain;
 }
 
+#perochat-service-summary .case-visual.is-gallery {
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 0.75fr);
+  background: #111111;
+}
+
+#perochat-service-summary .case-visual.is-gallery > img {
+  background: #111111;
+}
+
 .case-code {
   margin: 38px 0 0;
   border: 1px solid var(--border);
