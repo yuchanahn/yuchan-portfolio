@@ -198,6 +198,7 @@ if (!translations[language]) language = "ko";
 let themeOverride = storage.get("portfolio-theme");
 let selectedTags = new Set(readRequestedTags());
 let toastTimer = null;
+let pdfLinksPrepared = false;
 
 function localized(value) {
   if (value == null) return "";
@@ -394,10 +395,40 @@ function buildProjectUrl(projectId) {
   return url;
 }
 
+function documentTargetForProject(projectId) {
+  const modules = matchingModules().filter((module) => module.project === projectId);
+  const hasIntroduction = projectDetails(projectId).introPage !== false &&
+    modules.some((module) => !module.skipProjectIntro);
+  return hasIntroduction ? `project-${projectId}` : modules[0]?.id || "";
+}
+
+function prepareInternalPdfLinks() {
+  if (pdfLinksPrepared) return;
+  pdfLinksPrepared = true;
+
+  portfolioDocument.querySelectorAll("a[data-project-id]").forEach((link) => {
+    const target = documentTargetForProject(link.dataset.projectId);
+    if (!target) return;
+    link.dataset.pdfOriginalHref = link.getAttribute("href") || "";
+    link.setAttribute("href", `#${target}`);
+  });
+}
+
+function restoreScreenProjectLinks() {
+  if (!pdfLinksPrepared) return;
+
+  portfolioDocument.querySelectorAll("a[data-pdf-original-href]").forEach((link) => {
+    link.setAttribute("href", link.dataset.pdfOriginalHref);
+    delete link.dataset.pdfOriginalHref;
+  });
+  pdfLinksPrepared = false;
+}
+
 function createProjectContextLink(projectId) {
   const project = projectDetails(projectId);
   const link = element("a", "case-project-link");
   link.href = buildProjectUrl(projectId);
+  link.dataset.projectId = projectId;
   link.append(
     element("span", "case-project-link-label", translations[language].projectLabel),
     element("strong", "case-project-link-value", localized(project.name)),
@@ -509,6 +540,7 @@ function renderProjectSummary(modules) {
     const name = element("h3", "summary-project-name");
     const nameLink = element("a", "summary-project-detail-link", localized(project.name));
     nameLink.href = buildProjectUrl(projectId);
+    nameLink.dataset.projectId = projectId;
     name.append(nameLink);
     const meta = element("p", "summary-project-meta", `${localized(project.period)} · ${localized(project.type)}`);
     const summary = element("p", "summary-project-copy", localized(project.summary));
@@ -852,7 +884,12 @@ async function printPortfolio() {
   }
 
   await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-  window.print();
+  prepareInternalPdfLinks();
+  try {
+    window.print();
+  } finally {
+    restoreScreenProjectLinks();
+  }
 }
 
 function initializeRoute() {
@@ -878,6 +915,8 @@ clearButton.addEventListener("click", () => {
 copyLinkButton.addEventListener("click", copyCurrentUrl);
 printButton.addEventListener("click", printPortfolio);
 themeToggle.addEventListener("click", () => applyTheme(root.dataset.theme === "dark" ? "light" : "dark", true));
+window.addEventListener("beforeprint", prepareInternalPdfLinks);
+window.addEventListener("afterprint", restoreScreenProjectLinks);
 
 languageButtons.forEach((button) => {
   button.addEventListener("click", () => {
