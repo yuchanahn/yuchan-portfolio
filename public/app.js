@@ -246,6 +246,12 @@ function matchingModules(tags = selectedTags) {
   const selectedRoles = [...tags].filter((tag) => roleTags.has(tag));
   const candidates = data.modules
     .filter((module) => {
+      const isGamePortfolio = tags.has("game-client") || tags.has("game-server");
+      const mixesAnotherRole = ["fullstack", "backend", "fintech", "ai"].some((tag) => tags.has(tag));
+      const projectType = data.projects[module.project]?.portfolioType;
+      const belongsToGameProject = projectType === "game-client" || projectType === "game-server";
+      if (isGamePortfolio && !mixesAnotherRole && !belongsToGameProject) return false;
+
       const matched = module.tags.filter((tag) => tags.has(tag));
       if (matched.length === 0) return false;
       if (selectedRoles.length === 0) return true;

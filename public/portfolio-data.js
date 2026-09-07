@@ -200,29 +200,6 @@ window.PORTFOLIO_DATA = {
         { label: { ko: "공개 코드", en: "Public code" }, href: "https://github.com/yuchanahn/-", value: "GitHub" },
       ],
     },
-    foundations: {
-      portfolioType: "cpp",
-      introPage: false,
-      name: { ko: "네트워크·시스템 학습", en: "Networking & systems foundations" },
-      period: { ko: "고등학교 이후", en: "Since high school" },
-      type: { ko: "개인 학습·실험", en: "Study and experiments" },
-      summary: {
-        ko: "소켓과 Windows IOCP를 직접 구현하며 연결·패킷·동시성의 기초를 공부했습니다.",
-        en: "Studied connection handling, packets, and concurrency by implementing sockets and Windows IOCP.",
-      },
-      description: {
-        ko: "온라인 게임 서버를 직접 만들고 싶어 게임 학원에서 소켓 프로그래밍과 Windows IOCP를 배웠고, 이후 프로젝트에서도 패킷과 동시성 코드를 계속 작성했습니다.",
-        en: "Wanting to build online game servers led to studying socket programming and Windows IOCP at a game academy, followed by continued packet and concurrency work in later projects.",
-      },
-      contribution: {
-        ko: "연결 수립, 비동기 입출력, 패킷 경계와 직렬화, 스레드 동기화를 C++로 직접 구현하며 라이브러리 아래의 동작을 공부했습니다.",
-        en: "Implemented connection setup, asynchronous I/O, packet framing and serialization, and thread synchronization in C++ to study the behavior underneath libraries.",
-      },
-      stack: ["C++", "Windows IOCP", "TCP/IP", "Socket", "Multithreading"],
-      links: [
-        { label: { ko: "공개 코드 모음", en: "Code samples" }, href: "https://github.com/yuchanahn/-", value: "GitHub" },
-      ],
-    },
     tower: {
       portfolioType: "game-client",
       name: "Tower of Ukani",
@@ -980,31 +957,6 @@ Packet | Unpack<FPac_Input2Server> | [](FPac_Input2Server Input) {
   Entity.Unwrap().AChrPtr.Unwrap()
         ->ExecuteInput(Input.Input, Input.Type);
 };`,
-      },
-    },
-    {
-      id: "cpp-network-foundations",
-      order: 400,
-      project: "foundations",
-      category: { ko: "C++·네트워크 기초", en: "C++ & Networking Foundations" },
-      tags: ["cpp", "game-server", "network", "realtime", "performance", "collaboration"],
-      title: {
-        ko: "소켓과 Windows IOCP부터 네트워크 프로그래밍을 공부했습니다",
-        en: "Studied network programming from sockets and Windows IOCP",
-      },
-      lead: {
-        ko: "온라인 게임을 직접 만들고 싶어 서버 개발에 관심을 가졌고, C++로 연결·패킷·동시성의 기초를 구현했습니다.",
-        en: "Wanting to build online games led me to server development and implementing connection, packet, and concurrency fundamentals in C++.",
-      },
-      paragraphs: {
-        ko: [
-          "초등학생 때 RPG Maker로 게임을 만들면서 온라인 게임을 직접 구현할 수 있다는 점에 흥미를 느꼈습니다. 이후 게임 학원에서 소켓 프로그래밍과 Windows IOCP를 배우며 서버가 연결과 패킷을 처리하는 과정을 직접 구현했습니다.",
-          "연결 수립, 비동기 입출력, 패킷 경계와 직렬화, 스레드 동기화를 직접 구현해 보며 라이브러리 아래에서 어떤 일이 일어나는지 공부했습니다. C++에서는 RAII와 객체 수명, 포인터·참조, 메모리 소유권을 코드 구조와 함께 이해하려고 했습니다.",
-        ],
-        en: [
-          "I became interested in server development while making games in RPG Maker and realizing online games could be built directly. I later studied sockets and Windows IOCP at a game academy and implemented the connection and packet flow myself.",
-          "Implementing connection setup, asynchronous I/O, packet framing and serialization, and thread synchronization helped me understand what libraries abstract away. In C++, I focus on RAII, object lifetime, pointers and references, and ownership.",
-        ],
       },
     },
     {
