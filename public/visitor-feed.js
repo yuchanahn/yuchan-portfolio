@@ -26,6 +26,7 @@
       const identity = document.createElement("div");
       const name = document.createElement("strong");
       name.textContent = typeof visitor.name === "string" ? visitor.name : "익명 방문";
+      if (visitor.networkRecognized) name.textContent += " 네트워크";
       const detail = document.createElement("span");
       detail.textContent = `${describePath(visitor.path)} · 이 접속 기준 누적 ${Number(visitor.visitCount) || 1}회`;
       identity.append(name, detail);
