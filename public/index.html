@@ -21,7 +21,7 @@
         document.documentElement.dataset.theme = savedTheme || systemTheme;
       })();
     </script>
-    <link rel="stylesheet" href="./styles.css?v=36" />
+    <link rel="stylesheet" href="./styles.css?v=37" />
     <script src="./portfolio-data.js?v=6" defer></script>
     <script src="./app.js?v=37" defer></script>
     <script src="./visitor-tracking.js?v=2" defer></script>
@@ -58,15 +58,7 @@
         </div>
       </header>
 
-      <section class="visitor-feed" aria-labelledby="visitor-feed-title">
-        <div class="visitor-feed-heading">
-          <h2 id="visitor-feed-title">최근 방문 기록</h2>
-          <button id="refresh-visitors" class="text-button" type="button">새로고침</button>
-        </div>
-        <p class="visitor-feed-note">일반 접속은 방문자 번호로 표시합니다. 기업명은 해당 네트워크가 확인된 경우에만 표시하며 소속을 보장하지 않습니다. 최근 30건 · 30초마다 갱신</p>
-        <p id="visitor-feed-status" role="status">방문 기록을 불러오는 중입니다.</p>
-        <ol id="visitor-feed-list" class="visitor-feed-list" aria-label="최근 방문 목록"></ol>
-      </section>
+
 
       <section id="builder-screen" class="builder-screen">
         <div class="builder-hero">
@@ -161,6 +153,15 @@
         <article id="portfolio-document" class="portfolio-document"></article>
       </section>
 
+      <section class="visitor-feed" aria-labelledby="visitor-feed-title">
+        <div class="visitor-feed-heading">
+          <h2 id="visitor-feed-title">최근 방문 기록</h2>
+          <button id="refresh-visitors" class="text-button" type="button">새로고침</button>
+        </div>
+        <p class="visitor-feed-note">최근 30건 · 자동 갱신 · 기업 네트워크 표시는 방문자의 소속을 보장하지 않습니다.</p>
+        <p id="visitor-feed-status" role="status">방문 기록을 불러오는 중입니다.</p>
+        <ol id="visitor-feed-list" class="visitor-feed-list" aria-label="최근 방문 목록"></ol>
+      </section>
     </main>
 
     <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
