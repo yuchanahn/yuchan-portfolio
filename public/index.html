@@ -21,10 +21,11 @@
         document.documentElement.dataset.theme = savedTheme || systemTheme;
       })();
     </script>
-    <link rel="stylesheet" href="./styles.css?v=35" />
+    <link rel="stylesheet" href="./styles.css?v=36" />
     <script src="./portfolio-data.js?v=6" defer></script>
     <script src="./app.js?v=37" defer></script>
-    <script src="./visitor-tracking.js?v=1" defer></script>
+    <script src="./visitor-tracking.js?v=2" defer></script>
+    <script src="./visitor-feed.js?v=1" defer></script>
   </head>
   <body>
     <main class="page-shell">
@@ -148,6 +149,15 @@
         </div>
 
         <article id="portfolio-document" class="portfolio-document"></article>
+      </section>
+      <section class="visitor-feed" aria-labelledby="visitor-feed-title">
+        <div class="visitor-feed-heading">
+          <h2 id="visitor-feed-title">최근 방문 기록</h2>
+          <button id="refresh-visitors" class="text-button" type="button">새로고침</button>
+        </div>
+        <p class="visitor-feed-note">접속 네트워크 기준이며 방문자의 소속 회사를 뜻하지 않습니다. 최근 30건 · 30초마다 갱신</p>
+        <p id="visitor-feed-status" role="status">방문 기록을 불러오는 중입니다.</p>
+        <ol id="visitor-feed-list" class="visitor-feed-list" aria-label="최근 방문 목록"></ol>
       </section>
     </main>
 

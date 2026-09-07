@@ -26,6 +26,8 @@
       credentials: "omit",
       keepalive: true,
       referrerPolicy: "no-referrer",
+    }).then(response => {
+      if (response.ok) document.dispatchEvent?.(new Event("portfolio:visit-recorded"));
     }).catch(() => {
       // Analytics availability must not interrupt the portfolio.
     });
