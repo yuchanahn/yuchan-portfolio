@@ -56,6 +56,9 @@ data.modules.forEach((module) => {
 });
 
 data.presets.forEach((preset) => {
+  assert(Array.isArray(preset.caseIds) && preset.caseIds.length > 0, `preset ${preset.id}: no curated cases`);
+  assert(new Set(preset.caseIds).size === preset.caseIds.length, `preset ${preset.id}: duplicate cases`);
+  preset.caseIds.forEach((id) => assert(moduleIds.has(id), `preset ${preset.id}: unknown case '${id}'`));
   const tags = new Set(preset.tags);
   const matches = data.modules.filter((module) => module.tags.some((tag) => tags.has(tag)));
   assert(matches.length >= 4, `preset ${preset.id}: only ${matches.length} matching modules`);

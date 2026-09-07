@@ -33,7 +33,7 @@ jobs:
         run: node scripts/validate-site.mjs
 
       - name: Test visitor tracking
-        run: node --test scripts/test-visitor-tracking.mjs scripts/test-visitor-feed.mjs
+        run: node --test scripts/test-visitor-tracking.mjs scripts/test-visitor-feed.mjs scripts/test-preset-selection.mjs
 
       - name: Upload static site
         uses: actions/upload-pages-artifact@v4

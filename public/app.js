@@ -8,7 +8,7 @@ const translations = {
       "각 개발 경험을 독립된 기록으로 저장했습니다. 지원 직무와 기술 태그를 조합하면 관련 사례만 골라 한 편의 문서로 이어서 보여줍니다.",
     presetEyebrow: "QUICK START",
     presetTitle: "지원 직무별 기본 조합",
-    presetDescription: "기본 조합을 고른 뒤 태그를 더하거나 뺄 수 있습니다.",
+    presetDescription: "직무별로 사례와 읽는 순서를 골랐습니다. 태그를 바꾸면 관련 사례를 다시 조합합니다.",
     tagEyebrow: "BUILD YOUR VIEW",
     tagTitle: "태그 직접 조합",
     clearTags: "전체 해제",
@@ -58,7 +58,7 @@ const translations = {
       "game-client":
         "Unreal Engine 멀티플레이, Rust rollback 실험과 Unity 게임 코드에서 확인한 문제 해결 경험을 중심으로 구성했습니다.",
       cpp:
-        "C++ 소켓·IOCP, UE5 네트워크와 거래소 REST·WebSocket 구현까지 직접 만들며 배운 시스템 경험을 중심으로 구성했습니다.",
+        "Unreal C++의 게임 상태·로딩·애니메이션 동기화와 거래소 REST·WebSocket 구현 경험을 중심으로 구성했습니다.",
       "game-server":
         "Go API, 실시간 통신, 캐시와 외부 API 제어, 게임 네트워크 경험을 중심으로 구성했습니다.",
       ai: "LLM 호출, 실시간 응답, 캐릭터 표현, 결제와 운영 도구를 연결한 AI 서비스 경험을 중심으로 구성했습니다.",
@@ -76,7 +76,7 @@ const translations = {
       "Each engineering experience is stored as an independent record. Combine role and technology tags to assemble only the relevant cases into one continuous document.",
     presetEyebrow: "QUICK START",
     presetTitle: "Role-based starting points",
-    presetDescription: "Start with a preset, then add or remove tags.",
+    presetDescription: "Each preset has selected cases in a reading order. Change the tags to explore a different selection.",
     tagEyebrow: "BUILD YOUR VIEW",
     tagTitle: "Compose with tags",
     clearTags: "Clear all",
@@ -126,7 +126,7 @@ const translations = {
       "game-client":
         "Focused on Unreal Engine multiplayer, a Rust rollback experiment, and problem-solving in Unity gameplay code.",
       cpp:
-        "Focused on hands-on systems learning across C++ sockets and IOCP, UE5 networking, and exchange REST/WebSocket integration.",
+        "Focused on game-state, loading, and animation synchronization in Unreal C++, and exchange REST/WebSocket integration.",
       "game-server":
         "Focused on Go APIs, real-time communication, caching, external API control, and game-networking experience.",
       ai: "Focused on connecting LLM calls, streaming responses, character presentation, payments, and operations tooling.",
@@ -224,6 +224,12 @@ function orderedTags(tags = selectedTags) {
   );
 }
 
+function matchingPreset(tags = selectedTags) {
+  return data.presets.find((preset) =>
+    preset.tags.length === tags.size && preset.tags.every((tag) => tags.has(tag)),
+  );
+}
+
 function moduleScore(module, tags = selectedTags) {
   let score = 0;
   tags.forEach((tag) => {
@@ -244,6 +250,11 @@ function matchingModules(tags = selectedTags) {
       .sort((a, b) => a.order - b.order);
   }
   if (tags.size === 0) return [];
+  const preset = matchingPreset(tags);
+  if (preset?.caseIds) {
+    const byId = new Map(data.modules.map((module) => [module.id, module]));
+    return preset.caseIds.map((id) => byId.get(id));
+  }
   const selectedRoles = [...tags].filter((tag) => roleTags.has(tag));
   const candidates = data.modules
     .filter((module) => {
