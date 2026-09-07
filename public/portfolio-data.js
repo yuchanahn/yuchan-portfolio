@@ -45,7 +45,7 @@ window.PORTFOLIO_DATA = {
     {
       id: "experience",
       label: { ko: "보여줄 경험", en: "Experience" },
-      tags: ["operations", "performance", "admin", "mobile", "localization", "collaboration"],
+      tags: ["operations", "performance", "admin", "mobile", "localization", "collaboration", "perochat-summary"],
     },
   ],
 
@@ -78,6 +78,7 @@ window.PORTFOLIO_DATA = {
     mobile: { ko: "PWA·모바일", en: "PWA/Mobile" },
     localization: { ko: "다국어", en: "Localization" },
     collaboration: { ko: "협업·회고", en: "Collaboration" },
+    "perochat-summary": { ko: "PeroChat 요약", en: "PeroChat Summary" },
   },
 
   presets: [
@@ -115,7 +116,7 @@ window.PORTFOLIO_DATA = {
         ko: "UE5 C++ 멀티플레이, Rust rollback 실험과 Unity 게임 코드",
         en: "UE5 C++ multiplayer, a Rust rollback experiment, and Unity gameplay code",
       },
-      tags: ["game-client", "game-server", "cpp", "unreal", "unity", "csharp", "rust", "network", "realtime", "performance", "collaboration"],
+      tags: ["game-client", "game-server", "cpp", "unreal", "unity", "csharp", "rust", "network", "realtime", "performance", "collaboration", "perochat-summary"],
     },
     {
       id: "ai-fullstack",
@@ -1111,10 +1112,12 @@ self.world = simulate_world(self.world.clone(), current_inputs, cur_tick);`,
         ko: [
           "현재 tick의 상대 입력이 없으면 계산 전 world를 snapshot으로 저장하고 상대의 직전 입력을 이번 tick에도 유지했습니다. 그래서 packet을 기다리지 않고 로컬 화면은 계속 진행됐습니다.",
           "나중에 30tick 입력 packet을 받으면 이미 기록된 예측값과 실제값을 비교해 첫 번째 불일치 tick을 찾았습니다. 해당 snapshot을 가져와 `simulate_world_range`로 그 tick부터 현재까지 두 플레이어의 입력을 다시 적용한 뒤 현재 world와 snapshot 목록을 교체했습니다.",
+          "이번 구현에서는 fixed tick과 tick을 seed로 한 난수로 같은 입력을 다시 계산할 수 있게 만들었습니다. 다음에는 부동소수점과 자료구조 순회 순서까지 포함해 결정론을 어떻게 검증할지, 긴 rollback 구간을 한 렌더 프레임에서 여러 tick 재실행할 때 생기는 프레임 스파이크를 어떻게 제한할지 더 깊게 연구해보고 싶습니다. state hash 비교와 rollback window별 계산 시간 측정을 다음 실험으로 생각하고 있습니다.",
         ],
         en: [
           "When remote input is missing for the current tick, the world is snapshotted before simulation and the previous remote input is repeated. The local game therefore keeps moving without waiting for the packet.",
           "When a 30-tick input packet arrives, predicted values are compared with actual input to find the earliest mismatch. The code restores that snapshot, reapplies both players' input through `simulate_world_range`, and replaces the current world and snapshot history.",
+          "This implementation uses fixed ticks and tick-seeded randomness so the same input can be simulated again. I want to study deterministic verification across floating-point behavior and collection iteration order, along with controlling frame spikes when a long rollback requires multiple simulation ticks in one render frame. State-hash comparisons and timing different rollback windows are the next experiments I have in mind.",
         ],
       },
       links: [
@@ -1635,6 +1638,39 @@ public void Save<T>(T data) where T : struct {
       links: [
         { label: "Nim", href: "https://github.com/doongjohn/bigmoney", value: "GitHub" },
         { label: "D", href: "https://github.com/doongjohn/bigmoney-d", value: "GitHub" },
+      ],
+    },
+    {
+      id: "perochat-service-summary",
+      order: 990,
+      project: "perochat",
+      category: { ko: "추가 프로젝트", en: "Additional Project" },
+      tags: ["perochat-summary"],
+      crossPortfolio: true,
+      appendixOnly: true,
+      skipProjectIntro: true,
+      title: {
+        ko: "PeroChat을 혼자 개발하고 실제 사용자에게 운영하고 있습니다",
+        en: "Built PeroChat independently and operate it for real users",
+      },
+      lead: {
+        ko: "대학 과제로 시작한 VRM+LLM 채팅을 캐릭터, 결제, 관리자 기능과 다국어 UI를 갖춘 웹 서비스로 확장했습니다.",
+        en: "Expanded a university VRM and LLM chat prototype into a web service with characters, payments, admin tools, and multilingual UI.",
+      },
+      image: { src: "./assets/perochat-chat.png", alt: "PeroChat character chat screen" },
+      paragraphs: {
+        ko: [
+          "SvelteKit 프런트엔드와 Go API, PostgreSQL과 Redis를 분리해 구성했습니다. 2D·Live2D·VRM 캐릭터 채팅, Supabase 인증과 이미지 변환, 실제 결제·취소·웹훅, 운영용 관리자 페이지를 직접 개발했습니다.",
+          "한국어·영어·일본어 UI를 제공하고 Oracle Cloud 인스턴스에 Coolify로 배포해 실제 사용자 대상으로 운영하고 있습니다. 게임 프로젝트와 별개로, 하나의 서비스를 기획부터 배포와 운영까지 이어간 경험입니다.",
+        ],
+        en: [
+          "The service separates a SvelteKit frontend, Go API, PostgreSQL, and Redis. I implemented 2D, Live2D, and VRM character chat, Supabase authentication and image transformation, real payment, cancellation and webhook flows, and an operations admin page.",
+          "It provides Korean, English, and Japanese UI and runs on an Oracle Cloud instance deployed through Coolify. Separate from the game projects, it represents taking one service from planning through deployment and ongoing operation.",
+        ],
+      },
+      links: [
+        { label: { ko: "서비스", en: "Service" }, href: "https://personaxi.com", value: "personaxi.com" },
+        { label: { ko: "공개 코드", en: "Public code" }, href: "https://github.com/yuchanahn/-", value: "GitHub" },
       ],
     },
   ],

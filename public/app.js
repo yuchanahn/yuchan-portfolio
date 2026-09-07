@@ -239,7 +239,7 @@ function moduleScore(module, tags = selectedTags) {
 function matchingModules(tags = selectedTags) {
   if (requestedProjectId) {
     return data.modules
-      .filter((module) => module.project === requestedProjectId)
+      .filter((module) => module.project === requestedProjectId && !module.appendixOnly)
       .sort((a, b) => a.order - b.order);
   }
   if (tags.size === 0) return [];
@@ -250,10 +250,11 @@ function matchingModules(tags = selectedTags) {
       const mixesAnotherRole = ["fullstack", "backend", "fintech", "ai"].some((tag) => tags.has(tag));
       const projectType = data.projects[module.project]?.portfolioType;
       const belongsToGameProject = projectType === "game-client" || projectType === "game-server";
-      if (isGamePortfolio && !mixesAnotherRole && !belongsToGameProject) return false;
+      if (isGamePortfolio && !mixesAnotherRole && !belongsToGameProject && !module.crossPortfolio) return false;
 
       const matched = module.tags.filter((tag) => tags.has(tag));
       if (matched.length === 0) return false;
+      if (module.crossPortfolio) return true;
       if (selectedRoles.length === 0) return true;
       const matchesRole = selectedRoles.some((tag) => module.tags.includes(tag));
       const nonRoleMatches = matched.filter((tag) => !roleTags.has(tag)).length;
@@ -496,7 +497,7 @@ function renderProjectSummary(modules) {
       "h2",
       "overview-title",
       language === "ko"
-        ? `${projectIds.length}개 프로젝트·학습 기록 · ${modules.length}개 기술 사례`
+        ? `${projectIds.length}개 프로젝트 · ${modules.length}개 기술 사례`
         : `${projectIds.length} project records · ${modules.length} case studies`,
     ),
   );
@@ -726,14 +727,21 @@ function renderCase(module, index) {
 function renderDocument() {
   const modules = matchingModules();
   const projectIds = [...new Set(modules.map((module) => module.project))];
-  const introProjectIds = projectIds.filter((projectId) => projectDetails(projectId).introPage !== false);
+  const introProjectIds = projectIds.filter(
+    (projectId) => projectDetails(projectId).introPage !== false &&
+      modules.some((module) => module.project === projectId && !module.skipProjectIntro),
+  );
   const projectOrder = new Map(introProjectIds.map((projectId, index) => [projectId, index]));
   const introducedProjects = new Set();
   portfolioDocument.replaceChildren();
   portfolioDocument.append(renderCover(modules));
   if (projectIds.length > 1) portfolioDocument.append(renderProjectSummary(modules));
   modules.forEach((module, index) => {
-    if (!introducedProjects.has(module.project) && projectDetails(module.project).introPage !== false) {
+    if (
+      !module.skipProjectIntro &&
+      !introducedProjects.has(module.project) &&
+      projectDetails(module.project).introPage !== false
+    ) {
       introducedProjects.add(module.project);
       const projectModules = modules.filter((item) => item.project === module.project);
       portfolioDocument.append(
