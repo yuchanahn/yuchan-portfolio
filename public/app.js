@@ -647,7 +647,7 @@ function renderMetrics(metrics) {
   metrics.forEach((metric) => {
     const item = element("div", "metric-item");
     item.append(
-      element("span", "metric-label", metric.label),
+      element("span", "metric-label", localized(metric.label)),
       element("span", "metric-before", metric.before),
       element("span", "metric-arrow", "→"),
       element("strong", "metric-after", metric.after),

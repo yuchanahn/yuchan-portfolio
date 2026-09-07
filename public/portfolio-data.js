@@ -486,31 +486,51 @@ window.PORTFOLIO_DATA = {
       category: { ko: "캐시·부하 테스트", en: "Caching & Load Testing" },
       tags: ["backend", "game-server", "go", "postgresql", "redis", "testing", "performance", "operations"],
       title: {
-        ko: "k6로 조회와 채팅 저장을 나눠 테스트하고 병목을 수정했습니다",
-        en: "Separated read and chat-write scenarios in k6 and fixed the bottlenecks",
+        "ko": "조회와 채팅 저장의 부하 조건을 나눠 DB 병목을 확인했습니다",
+        "en": "Separated read and chat-write load conditions to identify database bottlenecks"
       },
       lead: {
-        ko: "캐릭터가 늘면서 목록 조회가 느려졌고, 동시 채팅에서는 DB 연결이 빠르게 소진됐습니다.",
-        en: "Character-list reads slowed as content grew, while concurrent chat writes exhausted database connections.",
+        "ko": "캐시 유무를 비교하는 조회 테스트와 채팅 저장 구조의 A/B 테스트를 따로 실행해, 처리량과 DB 연결 점유를 구분해서 확인했습니다.",
+        "en": "Ran separate cache comparisons and chat-persistence A/B tests to distinguish throughput from database connection pressure."
       },
       paragraphs: {
-        ko: [
-          "캐릭터 목록은 자주 조회되지만 수정 빈도는 상대적으로 낮아 Redis에 조회용 데이터를 캐시했습니다. 캐릭터 수정 시 관련 키만 무효화하고, Redis를 사용할 수 없으면 PostgreSQL 조회로 계속 동작하도록 했습니다.",
-          "조회와 실제 2D 채팅 흐름을 별도 k6 시나리오로 만들었습니다. 조회 테스트에서 처리량은 약 590 RPS에서 1,760 RPS로 증가했고 p99는 약 596ms에서 약 239ms로 줄었습니다.",
-          "채팅 시나리오에서는 조회보다 저장 과정의 연결 사용이 더 큰 문제였습니다. 메시지·세션·재화 정산 기록을 함께 처리하도록 수정한 뒤 같은 조건에서 DB 연결 사용량은 79/80에서 10/80으로, 평균 응답 확인 시간은 약 400ms에서 약 2ms로 줄었습니다.",
+        "ko": [
+          "캐릭터 목록은 Redis에 캐시하고 수정 시 관련 키를 무효화했습니다. 100 VU random-key 조회 실험에서는 no-cache와 Redis 경로의 p99가 각각 596.33ms와 239.04ms였고 HTTP 실패는 모두 0%였습니다. 별도의 과부하 실험에서는 대기 시간 없이 요청을 투입하고 응답 본문을 축약해 DB/cache 처리 한계를 확인했습니다. 약 590·1,760 RPS는 각 경로가 포화된 구간의 관측값이며, 요청 투입 누락이 발생한 수치입니다.",
+          "채팅 저장은 외부 LLM을 mock으로 대체하고, 5,000개 가상 사용자에 10~60초 대기 시간을 둔 A/B 실험으로 비교했습니다. 메시지·세션 갱신의 DB 왕복을 줄이고 채팅 환불 원장을 사용자별로 합산한 후보에서 DB pool 최대 사용은 79/80에서 10/80으로, 측정 중 최대 DB ping은 409.32ms에서 2.14ms로 감소했습니다.",
+          "다만 최종 실행의 HTTP 실패율은 1.82%였으므로 이를 5,000명 안정 수용이나 채팅 응답 2ms로 해석하지 않았습니다. 종료 후 가상 사용자 5,000명의 잔액과 원장 합계 불일치가 0건인지 확인했고, 동시 환불의 잠금과 실제 결제 원장 보존을 보강한 뒤 저장 최적화를 실제 채팅 경로에 적용했습니다."
         ],
-        en: [
-          "Character lists are read often and change less frequently, so I cached read models in Redis. Character edits invalidate related keys, and PostgreSQL remains the fallback when Redis is unavailable.",
-          "I created separate k6 scenarios for list reads and a realistic 2D chat flow. Read throughput increased from about 590 to 1,760 RPS, while p99 fell from about 596ms to about 239ms.",
-          "The chat scenario showed a larger issue in the write path. Grouping message, session, and credit-settlement work reduced database connection usage from 79/80 to 10/80 and average response-check time from about 400ms to about 2ms under the same test conditions.",
-        ],
+        "en": [
+          "Character-list reads use Redis with invalidation on edits. A 100-VU random-key experiment measured p99 of 596.33ms without cache and 239.04ms with Redis, both with zero HTTP failures. A separate overload experiment removed think time and shortened response bodies to isolate DB/cache capacity. Roughly 590 and 1,760 RPS were observations in saturated runs with dropped iterations, not stable service capacity.",
+          "Chat persistence was compared using mocked external LLM calls, 5,000 synthetic users, and 10–60-second think times. Reducing database round trips for messages and sessions and coalescing chat-refund ledgers reduced peak pool usage from 79/80 to 10/80 and the maximum observed DB ping from 409.32ms to 2.14ms.",
+          "The final run still had 1.82% HTTP failures, so it did not establish stable capacity for 5,000 users or a 2ms chat response. Credit balances matched ledger totals for all 5,000 synthetic users after the run. I strengthened concurrent-refund locking and preservation of real payment ledgers before promoting the persistence changes to the live chat route."
+        ]
       },
       metrics: [
-        { label: "RPS", before: "590", after: "1,760" },
-        { label: "DB connections", before: "79/80", after: "10/80" },
-        { label: "Response check", before: "~400ms", after: "~2ms" },
+        {
+          "label": {
+            "ko": "100 VU 조회 p99 · 캐시 비교",
+            "en": "100-VU read p99 · cache comparison"
+          },
+          "before": "596.33ms",
+          "after": "239.04ms"
+        },
+        {
+          "label": {
+            "ko": "최대 DB 연결 · 저장 A/B",
+            "en": "Peak DB connections · persistence A/B"
+          },
+          "before": "79/80",
+          "after": "10/80"
+        },
+        {
+          "label": {
+            "ko": "최대 DB ping · 저장 A/B",
+            "en": "Max DB ping · persistence A/B"
+          },
+          "before": "409.32ms",
+          "after": "2.14ms"
+        }
       ],
-      image: { src: "./assets/load-test-comparison.png", alt: "k6 result comparison" },
     },
     {
       id: "llm-gateway",
@@ -608,22 +628,24 @@ window.PORTFOLIO_DATA = {
       category: { ko: "모바일 브라우저", en: "Mobile Browser" },
       tags: ["fullstack", "ai", "game-client", "svelte", "mobile", "realtime", "performance"],
       title: {
-        ko: "iPhone Safari에서 전체 화면 대신 입력창만 움직이게 했습니다",
-        en: "Moved only the input bar instead of the full scene on iPhone Safari",
+        "ko": "iPhone 입력창 문제의 해결 후보를 같은 화면에서 비교했습니다",
+        "en": "Compared candidate fixes for iPhone keyboard behavior in one test screen"
       },
       lead: {
-        ko: "키보드가 열릴 때 캐릭터 canvas 전체가 밀리는 문제를 실제 기기에서 Visual Viewport 변화로 확인했습니다.",
-        en: "On-device testing showed the virtual keyboard pushing the entire character canvas as the Visual Viewport changed.",
+        "ko": "에이전트로 비교용 화면을 빠르게 만들고 iPhone에서 직접 시험해, 화면에 보이는 입력창과 실제 포커스 대상을 분리하는 방식을 선택했습니다.",
+        "en": "Used an agent to build a comparison screen, then tested on an iPhone and selected a design separating the visible input from the actual focus target."
       },
       paragraphs: {
-        ko: [
-          "VRM·Live2D 채팅은 전체 화면 canvas 위에 입력창이 고정됩니다. iPhone Safari와 PWA에서는 키보드가 열릴 때 100dvh와 브라우저 스크롤이 함께 반응해 화면이 흔들렸습니다.",
-          "innerHeight, visualViewport.height와 offsetTop으로 키보드가 차지한 영역을 계산하고, 전체 canvas가 아니라 입력 wrapper만 translateY로 이동했습니다. 키보드가 닫힌 뒤에도 남은 위치 차이를 짧게 확인해 원래 자리로 복귀시켰습니다.",
+        "ko": [
+          "전체 화면 캐릭터 위에 하단 입력창을 배치하자 iPhone 브라우저가 키보드를 열면서 화면 전체를 밀었습니다. 직접 자료를 읽고 에이전트에도 탐색을 맡겨 프로젝트에 적용할 만한 후보 3~4개를 추렸습니다. 각 방식을 탭으로 전환하는 비교 화면을 만들도록 지시해 같은 기기에서 차이를 바로 확인했습니다.",
+          "비교 결과, 표시용 입력창을 누르면 별도의 실제 입력 요소에 포커스를 넘기는 방식이 빠르게 동작했습니다. 구현에서는 `realInput.focus({ preventScroll: true })`로 포커스를 전달하고, `innerHeight`, `visualViewport.height`, `offsetTop`으로 계산한 키보드 영역만큼 입력 wrapper를 이동합니다. 키보드가 닫힌 뒤 남는 위치 차이도 확인해 복귀시켰습니다.",
+          "후보 구현을 빠르게 준비하는 데 에이전트를 사용하고, 실제 기기에서의 비교와 적용 방식 결정, 후속 구현은 직접 진행했습니다. 설명만 읽고 한 가지 해법을 채택하기보다 동작하는 후보를 나란히 놓고 판단한 경험입니다."
         ],
-        en: [
-          "VRM and Live2D chat place an input over a full-screen canvas. In iPhone Safari and installed PWAs, the keyboard changed both 100dvh and browser scroll, causing the scene to jump.",
-          "I calculated the keyboard region from innerHeight, visualViewport.height, and offsetTop, then translated only the input wrapper. A short post-close check returns it to the original position.",
-        ],
+        "en": [
+          "A bottom input over a full-screen character caused the iPhone browser to push the whole scene when opening the keyboard. I read references and used an agent for research, narrowed the options to three or four, and asked it to build a tabbed comparison screen so I could test each on the same device.",
+          "The option that quickly worked transferred focus from a display input to a separate real input. The implementation uses `realInput.focus({ preventScroll: true })` and translates the input wrapper by the keyboard region calculated from `innerHeight`, `visualViewport.height`, and `offsetTop`. A post-close check restores any remaining offset.",
+          "The agent accelerated preparation of the candidate implementations. I tested them on the device, chose the approach, and carried out the subsequent implementation. Comparing working alternatives made the decision more concrete than choosing from written explanations alone."
+        ]
       },
       image: { src: "./assets/perochat-mobile-live2d.png", alt: "Mobile Live2D chat screen" },
     },
@@ -1085,12 +1107,12 @@ self.inputs.insert(tick, input2send);`,
       tags: ["game-server", "game-client", "rust", "network", "realtime", "performance"],
       featured: true,
       title: {
-        ko: "늦은 입력이 예측과 다르면 해당 tick으로 돌아가 다시 계산했습니다",
-        en: "Returned to the mismatched tick and simulated again when late input differed",
+        "ko": "상대만 되돌려서는 해결되지 않아 월드 상태를 복원하도록 바꿨습니다",
+        "en": "Changed rollback from restoring only the remote player to restoring world state"
       },
       lead: {
-        ko: "원격 입력이 없을 때는 직전 입력을 사용해 게임을 먼저 진행하고, 실제 입력을 받은 뒤 가장 이른 불일치 시점을 찾았습니다.",
-        en: "Advanced with the previous remote input when data was missing, then found the earliest mismatch after the real input arrived.",
+        "ko": "처음에는 늦게 받은 입력의 주인인 상대 플레이어만 되돌리면 된다고 생각했습니다. 하지만 상대의 공격이 바뀌면 내 체력과 상태도 함께 달라질 수 있었습니다.",
+        "en": "I initially thought only the remote player needed to rewind. But a changed remote attack could also change my own character’s health and state."
       },
       image: { src: "./assets/p2p-rollback-flow.svg", alt: "P2P input prediction, mismatch detection, and rollback resimulation" },
       code: {
@@ -1109,16 +1131,16 @@ self.inputs.insert(tick, input2send);`,
 self.world = simulate_world(self.world.clone(), current_inputs, cur_tick);`,
       },
       paragraphs: {
-        ko: [
-          "현재 tick의 상대 입력이 없으면 계산 전 world를 snapshot으로 저장하고 상대의 직전 입력을 이번 tick에도 유지했습니다. 그래서 packet을 기다리지 않고 로컬 화면은 계속 진행됐습니다.",
-          "나중에 30tick 입력 packet을 받으면 이미 기록된 예측값과 실제값을 비교해 첫 번째 불일치 tick을 찾았습니다. 해당 snapshot을 가져와 `simulate_world_range`로 그 tick부터 현재까지 두 플레이어의 입력을 다시 적용한 뒤 현재 world와 snapshot 목록을 교체했습니다.",
-          "이번 구현에서는 fixed tick과 tick을 seed로 한 난수로 같은 입력을 다시 계산할 수 있게 만들었습니다. 다음에는 부동소수점과 자료구조 순회 순서까지 포함해 결정론을 어떻게 검증할지, 긴 rollback 구간을 한 렌더 프레임에서 여러 tick 재실행할 때 생기는 프레임 스파이크를 어떻게 제한할지 더 깊게 연구해보고 싶습니다. state hash 비교와 rollback window별 계산 시간 측정을 다음 실험으로 생각하고 있습니다.",
+        "ko": [
+          "처음에는 상대의 과거 입력을 다시 적용하는 데 집중했습니다. 그러나 두 플레이어가 공격과 충돌로 서로에게 영향을 주므로 상대 상태만 복원하면 같은 시점의 게임으로 돌아간 것이 아니었습니다. 복원 대상을 두 플레이어와 충돌 등 전투 계산에 영향을 주는 논리 상태로 넓히고, 이를 복제 가능한 `WorldData`에 모았습니다.",
+          "상대 입력이 없을 때는 계산 전 world를 저장하고 직전 입력으로 예측해 진행했습니다. 이후 받은 최근 30tick 입력과 예측값이 처음 달라진 시점의 snapshot을 복원하고, 두 플레이어의 입력을 `simulate_world_range`에 다시 적용해 현재까지 계산했습니다. 상대 캐릭터의 표시를 보정하는 문제에서 월드의 과거 상태를 복원하는 문제로 이해가 바뀐 것입니다.",
+          "홀펀칭 후 친구 PC와 연결해 실제로 동작을 시험했습니다. 다만 fixed tick과 tick 기반 난수를 사용한 것만으로 결정론이 검증된 것은 아닙니다. 자료구조 순회 순서와 부동소수점 차이를 state hash로 확인하고, 재실행 구간별 계산 시간을 측정해 한 프레임의 롤백 예산을 정하는 작업은 후속 연구로 남겨두었습니다."
         ],
-        en: [
-          "When remote input is missing for the current tick, the world is snapshotted before simulation and the previous remote input is repeated. The local game therefore keeps moving without waiting for the packet.",
-          "When a 30-tick input packet arrives, predicted values are compared with actual input to find the earliest mismatch. The code restores that snapshot, reapplies both players' input through `simulate_world_range`, and replaces the current world and snapshot history.",
-          "This implementation uses fixed ticks and tick-seeded randomness so the same input can be simulated again. I want to study deterministic verification across floating-point behavior and collection iteration order, along with controlling frame spikes when a long rollback requires multiple simulation ticks in one render frame. State-hash comparisons and timing different rollback windows are the next experiments I have in mind.",
-        ],
+        "en": [
+          "I first focused on reapplying the remote player’s past input. Attacks and collisions affect both players, however, so restoring only one player does not restore the game to a consistent past moment. I expanded the snapshot to both players and the logical state involved in combat, including collisions, and collected it in cloneable `WorldData`.",
+          "When remote input was missing, I saved the pre-simulation world and advanced using the previous input. On receiving the recent 30-tick history, I restored the snapshot at the earliest mismatch and reapplied both players’ inputs through `simulate_world_range` to reach the current tick. I came to understand rollback as restoring past world state rather than correcting the remote character’s display.",
+          "I tested the game with a friend’s PC after hole punching. Fixed ticks and tick-based randomness alone do not establish determinism. State-hash checks across collection order and floating-point behavior, and timing replay windows to set a per-frame rollback budget, remain follow-up research."
+        ]
       },
       links: [
         { label: { ko: "Rollback 코드", en: "Rollback code" }, href: "https://github.com/yuchanahn/p2pactiongame/blob/rollback/src/network_controller.rs", value: "network_controller.rs" },
@@ -1299,25 +1321,25 @@ SetValue(SE_Obj.StatusEffect_NoTask, true);`,
       },
       image: { src: "./assets/tower-pathfinding-worker.svg", alt: "Tower of Ukani JPS integration and worker thread flow" },
       code: {
-        language: "csharp",
-        caption: { ko: "Grid 재계산을 전달하는 단일 작업 스레드", en: "Single worker used for grid rebuilds" },
-        source: "Assets/Devs/Yuchan/System/Thread/YCThreadPool.cs",
-        text: `while (!t1_stop) {
-  while (!Works.IsEmpty) {
-    Works.TryDequeue(out act);
-    act.Invoke();
-  }
-}`,
+        "language": "csharp",
+        "caption": {
+          "ko": "당시 단일 worker 구현 · 빈 큐에서 대기하지 않는 한계",
+          "en": "Original single worker · no waiting when the queue is empty"
+        },
+        "source": "Assets/Devs/Yuchan/System/Thread/YCThreadPool.cs",
+        "text": "while (!t1_stop) {\n  while (!Works.IsEmpty) {\n    Works.TryDequeue(out act);\n    act.Invoke();\n  }\n}"
       },
       paragraphs: {
-        ko: [
+        "ko": [
           "프로젝트에 포함된 JPS 구현의 `GridView`와 `Grid`를 읽고 월드 좌표를 grid point로 변환하는 코드, 맵 이름과 대상 크기별 pathfinder 등록, 계산된 point를 몬스터 이동 벡터로 바꾸는 코드를 연결했습니다. 꽃잎박쥐의 추적과 임의 이동에서 이 경로를 사용했습니다.",
           "움직이는 발판이 차지하던 node를 해제하고 새 위치의 node를 장애물로 표시하도록 갱신했습니다. 장애물 변경 뒤 jump-point를 다시 만드는 작업은 `ConcurrentQueue<Action>`에 넣고 단일 worker가 처리하도록 만들어 메인 스레드에서 반복 계산하는 구간을 분리했습니다.",
+          "현재 돌아보면 이 worker는 큐가 비어도 반복하며 CPU를 사용한다는 한계가 있습니다. 메인 스레드에서 작업을 분리한 구현 경험과 효율적인 대기·종료 설계는 구분해야 합니다. 다시 구현한다면 작업 도착을 기다리는 방식과 worker 종료 절차, grid를 읽고 갱신하는 시점의 동기화를 먼저 정리하겠습니다."
         ],
-        en: [
+        "en": [
           "I read the included JPS `GridView` and `Grid` code and connected world-to-grid conversion, per-map and object-size pathfinder registration, and conversion of returned points into monster movement. Flower Bat used this path for follow and random-move behavior.",
           "Moving platforms clear their previous nodes and mark nodes at the new position as blocked. Rebuilding jump points after obstacle changes is queued through `ConcurrentQueue<Action>` and processed by a single worker instead of repeatedly running on the main thread.",
-        ],
+          "Looking back, this worker keeps spinning and consuming CPU when the queue is empty. Moving work off the main thread is distinct from designing efficient waiting and shutdown. A new implementation would first define how the worker waits for work, shuts down, and synchronizes grid reads with updates."
+        ]
       },
     },
     {
@@ -1539,25 +1561,13 @@ foreach (var t in row.Skip(1)) {
         en: "Split saved data into structs and used the type name to read and write each category through one `SaveLoad` path.",
       },
       code: {
-        language: "csharp",
-        caption: { ko: "값이 없을 수 있는 제네릭 Load와 JSON Save", en: "Nullable generic load and JSON save" },
-        source: "Assets/Scripts/System/SaveLoad.cs",
-        text: `public T? Load<T>() where T : struct {
-  try {
-    using StreamReader file = new(
-      "\${filepath}/Save_\${typeof(T).Name}.txt");
-    return JsonConvert.DeserializeObject<T>(file.ReadToEnd());
-  } catch {
-    return null;
-  }
-}
-
-public void Save<T>(T data) where T : struct {
-  using StreamWriter file = new(
-    "\${filepath}/Save_\${typeof(T).Name}.txt");
-  file.WriteLine(
-    JsonConvert.SerializeObject(data, Formatting.Indented));
-}`,
+        "language": "csharp",
+        "caption": {
+          "ko": "값이 없을 수 있는 제네릭 Load와 JSON Save",
+          "en": "Nullable generic load and JSON save"
+        },
+        "source": "Assets/Scripts/System/SaveLoad.cs",
+        "text": "public T? Load<T>() where T : struct {\n  try {\n    using StreamReader file = new(\n      $\"{filepath}/Save_{typeof(T).Name}.txt\");\n    return JsonConvert.DeserializeObject<T>(file.ReadToEnd());\n  } catch {\n    return null;\n  }\n}\n\npublic void Save<T>(T data) where T : struct {\n  using StreamWriter file = new(\n    $\"{filepath}/Save_{typeof(T).Name}.txt\");\n  file.WriteLine(\n    JsonConvert.SerializeObject(data, Formatting.Indented));\n}"
       },
       paragraphs: {
         ko: [
