@@ -32,6 +32,9 @@ jobs:
       - name: Validate portfolio data
         run: node scripts/validate-site.mjs
 
+      - name: Test visitor tracking
+        run: node --test scripts/test-visitor-tracking.mjs
+
       - name: Upload static site
         uses: actions/upload-pages-artifact@v4
         with:

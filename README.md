@@ -26,6 +26,16 @@ scripts/
   validate-site.mjs   # 태그, 프로젝트, 이미지 참조 검사
 ```
 
+## 방문 기록
+
+`public/visitor-tracking.js`가 실제 GitHub Pages 도메인에서 페이지가 처음 보일 때 Cloudflare Worker의 `POST /visit`를 한 번 호출합니다. 새 페이지 열기와 새로고침은 각각 기록되며, 같은 페이지의 언어·테마 변경이나 인쇄는 추가 기록하지 않습니다. 로컬 미리보기는 수집하지 않습니다.
+
+연결 주소: `https://portfolio-visitor-worker.ultrauc123.workers.dev`
+
+전송 데이터는 경로와 `tags`, `project`, `lang` 쿼리만 포함합니다. 임의 쿼리와 URL fragment는 제외하며, 비밀키나 방문자 식별자를 브라우저에 저장하지 않습니다. Worker가 IP의 HMAC으로 방문자를 구분하고 D1에 저장합니다. 네트워크 오류 시 자동 재전송하지 않으며 포트폴리오 이용에는 영향을 주지 않습니다. 최근 방문 목록은 화면에 표시하지 않습니다.
+
+Worker 소스: `C:\YuChan\portfolio-visitor-worker`. `VISITOR_SECRET`은 Worker의 서버 측 secret으로만 관리합니다.
+
 ## 사례 추가
 
 `public/portfolio-data.js`의 `modules`에 다음 정보를 추가합니다.
