@@ -120,7 +120,7 @@ window.PORTFOLIO_DATA = {
         en: "Eight cases led by Nirvana multiplayer and rollback, followed by combat, monster AI, and a service summary",
       },
       tags: ["game-client", "game-server", "cpp", "unreal", "unity", "csharp", "rust", "network", "realtime", "performance", "collaboration", "perochat-summary"],
-      caseIds: ["nirvana-loading-ui", "nirvana-animation", "nirvana-gameplay-network", "p2p-rollback", "p2p-world-simulation", "vapor-combat", "tower-behavior-tree", "perochat-service-summary"],
+      caseIds: ["nirvana-gameplay-network", "p2p-rollback", "p2p-world-simulation", "nirvana-loading-ui", "nirvana-animation", "vapor-combat", "tower-behavior-tree", "perochat-service-summary"],
     },
     {
       id: "ai-fullstack",

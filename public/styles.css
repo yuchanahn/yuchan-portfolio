@@ -2191,3 +2191,5 @@ a:focus-visible {
     text-decoration: none;
   }
 }
+
+.career-ops-link{position:fixed;right:14px;bottom:14px;z-index:30;width:28px;height:28px;display:grid;place-items:center;border:1px solid var(--line,#d8d8d4);border-radius:50%;background:color-mix(in srgb,var(--paper,#f4f4f2) 82%,transparent);color:var(--muted,#777);text-decoration:none;font-size:14px;opacity:.42;transition:.2s}.career-ops-link:hover,.career-ops-link:focus-visible{opacity:1;transform:translateY(-1px)}@media print{.career-ops-link{display:none}}

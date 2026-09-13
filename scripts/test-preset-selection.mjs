@@ -26,7 +26,7 @@ test('submitted tag URLs keep curated selection and order regardless of tag orde
     assert.deepEqual(ids(ctx, [...preset.tags].reverse()), expected);
   }
   const game = ctx.window.PORTFOLIO_DATA.presets.find(p=>p.id==='game-client');
-  assert.deepEqual(ids(ctx,game.tags).slice(0,4),['nirvana-loading-ui','nirvana-animation','nirvana-gameplay-network','p2p-rollback']);
+  assert.deepEqual(ids(ctx,game.tags).slice(0,4),['nirvana-gameplay-network','p2p-rollback','p2p-world-simulation','nirvana-loading-ui']);
   const service = ctx.window.PORTFOLIO_DATA.presets.find(p=>p.id==='game-service');
   assert.ok(ids(ctx,service.tags).some(id=>id.startsWith('nirvana-')));
   assert.ok(ids(ctx,service.tags).includes('redis-k6'));
