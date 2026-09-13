@@ -795,7 +795,7 @@ window.PORTFOLIO_DATA = {
           "The agent accelerated preparation of the candidate implementations. I tested them on the device, chose the approach, and carried out the subsequent implementation. Comparing working alternatives made the decision more concrete than choosing from written explanations alone."
         ]
       },
-      image: { src: "./assets/perochat-mobile-live2d.png", alt: "Mobile Live2D chat screen" },
+      image: { src: "./assets/perochat-chat.png", alt: "PeroChat chat input screen" },
     },
     {
       id: "thumbnail-transform",
