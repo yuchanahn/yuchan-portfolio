@@ -328,7 +328,7 @@ function createTagChip(tagId, options = {}) {
 
 function renderPresets() {
   presetGrid.replaceChildren();
-  data.presets.forEach((preset, index) => {
+  data.presets.filter((preset) => !preset.hidden).forEach((preset, index) => {
     const button = element("button", "preset-card");
     button.type = "button";
     button.dataset.preset = preset.id;
@@ -492,6 +492,7 @@ function appendLinkRow(parent) {
 function renderCover(modules) {
   const type = getPortfolioType();
   const requestedProject = requestedProjectId ? projectDetails(requestedProjectId) : null;
+  const preset = requestedProjectId ? null : matchingPreset();
   const cover = element("header", "portfolio-cover");
   const top = element("div", "cover-topline");
   top.append(
@@ -504,12 +505,18 @@ function renderCover(modules) {
     "cover-title",
     requestedProject
       ? `${localized(requestedProject.name)} ${language === "ko" ? "프로젝트 기록" : "Project Record"}`
-      : translations[language].portfolioTitles[type],
+      : preset
+        ? localized(preset.title)
+        : translations[language].portfolioTitles[type],
   );
   const intro = element(
     "p",
     "cover-intro",
-    requestedProject ? localized(requestedProject.summary) : translations[language].portfolioIntros[type],
+    requestedProject
+      ? localized(requestedProject.summary)
+      : preset
+        ? localized(preset.coverIntro || preset.description)
+        : translations[language].portfolioIntros[type],
   );
   const identity = element("div", "cover-identity");
   const identityLabel = element("span", "cover-small-label", translations[language].profileLabel);

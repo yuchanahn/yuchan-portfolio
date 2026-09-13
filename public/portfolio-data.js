@@ -132,6 +132,126 @@ window.PORTFOLIO_DATA = {
       tags: ["ai", "fullstack", "svelte", "go", "llm", "realtime", "mobile", "admin"],
       caseIds: ["llm-gateway", "admin-console", "realtime-character", "mobile-keyboard", "payment-consistency", "auth-evolution"],
     },
+    {
+      id: "toss-securities-fe",
+      hidden: true,
+      title: { ko: "토스증권 · Frontend Developer", en: "Toss Securities · Frontend Developer" },
+      description: {
+        ko: "모바일 브라우저 문제 해결, 실시간 UI, 운영 도구와 금융 데이터 정합성 경험을 프런트엔드 관점에서 묶었습니다.",
+        en: "A frontend-focused view of mobile browser debugging, real-time UI, operations tooling, and financial data consistency.",
+      },
+      coverIntro: {
+        ko: "React 실서비스 경험을 과장하지 않고, 브라우저 동작을 직접 실험해 해결한 경험과 SSE·WebSocket 기반 실시간 UI, 백오피스, 결제 정합성처럼 토스증권 프런트엔드 업무와 맞닿는 실제 구현을 먼저 보여줍니다.",
+        en: "This view does not overstate React production experience. It leads with browser debugging through direct experiments, real-time UI over SSE/WebSocket, back-office tooling, and payment consistency work relevant to a securities frontend.",
+      },
+      tags: ["fullstack", "fintech", "svelte", "realtime", "performance", "admin", "mobile"],
+      caseIds: ["mobile-keyboard", "realtime-character", "admin-console", "svelte-go-split", "payment-consistency", "auth-evolution"],
+    },
+    {
+      id: "lotte-ai-service",
+      hidden: true,
+      title: { ko: "롯데이노베이트 · AI Service", en: "Lotte Innovate · AI Service" },
+      description: {
+        ko: "LLM 공급자 통합, 외부 API 한도 제어, 부하 테스트와 실제 서비스 운영 경험을 AI 서비스 개발 흐름으로 구성했습니다.",
+        en: "LLM provider integration, quota control, load testing, and live service operations arranged for an AI service role.",
+      },
+      coverIntro: {
+        ko: "모델 연구 자체보다 AI 기능을 실제 서비스에 연결하고 운영한 경험에 초점을 맞췄습니다. LLM 호출 구조, 공급자 장애·한도 처리, 실시간 응답, 부하 테스트와 배포까지 이어지는 사례입니다.",
+        en: "Focused on shipping and operating AI features: LLM integration, provider failure and quota handling, streaming responses, load testing, and deployment.",
+      },
+      tags: ["fullstack", "backend", "ai", "go", "llm", "devops", "testing", "operations"],
+      caseIds: ["llm-gateway", "gemini-rate-limit", "realtime-character", "redis-k6", "deployment", "admin-console"],
+    },
+    {
+      id: "lotte-software",
+      hidden: true,
+      title: { ko: "롯데이노베이트 · Software", en: "Lotte Innovate · Software" },
+      description: {
+        ko: "결제·DB·인증·배포·운영 도구를 실제 서비스 문제 해결 순서로 구성했습니다.",
+        en: "Payments, database work, authentication, deployment, and operations tooling arranged around service problem solving.",
+      },
+      coverIntro: {
+        ko: "특정 프레임워크 나열보다 실제 서비스를 운영하며 데이터 정합성, DB 병목, 인증 구조와 배포 방식을 고친 경험을 중심으로 구성했습니다.",
+        en: "Focused on production service decisions around consistency, database bottlenecks, authentication architecture, and deployment rather than a framework checklist.",
+      },
+      tags: ["fullstack", "backend", "go", "postgresql", "redis", "testing", "operations", "admin"],
+      caseIds: ["payment-consistency", "redis-k6", "auth-evolution", "deployment", "admin-console", "quickbite"],
+    },
+    {
+      id: "lotte-ai-platform",
+      hidden: true,
+      title: { ko: "롯데이노베이트 · AI Platform", en: "Lotte Innovate · AI Platform" },
+      description: {
+        ko: "배포·LLM 게이트웨이·한도 제어·부하 테스트 중심의 플랫폼 인접 경험을 묶었습니다.",
+        en: "Platform-adjacent experience around deployment, LLM gateways, quota control, and load testing.",
+      },
+      coverIntro: {
+        ko: "MLOps·Kubernetes 경험을 있는 것처럼 보이지 않게 하고, 대신 실제로 가진 API 게이트웨이·배포·관측 가능한 부하 실험과 운영 자동화 경험을 보여줍니다.",
+        en: "Avoids implying MLOps or Kubernetes experience and instead shows real API gateway, deployment, measurable load testing, and operations tooling work.",
+      },
+      tags: ["backend", "ai", "go", "llm", "devops", "testing", "operations", "admin"],
+      caseIds: ["deployment", "llm-gateway", "gemini-rate-limit", "redis-k6", "admin-console", "auth-evolution"],
+    },
+    {
+      id: "gearsecond-platform",
+      hidden: true,
+      title: { ko: "기어세컨드 · 서버/플랫폼", en: "Gearsecond · Server/Platform" },
+      description: {
+        ko: "트래픽·결제·인증·운영 도구와 실시간 통신을 서버/플랫폼 업무 관점에서 구성했습니다.",
+        en: "Traffic, payments, authentication, operations tooling, and real-time communication for a server/platform role.",
+      },
+      coverIntro: {
+        ko: "게임 로직만 앞세우기보다 인증·결제·채팅·운영 도구와 부하 테스트까지 직접 다룬 경험을 먼저 배치했습니다. 현재 채용 조건과 맞지 않는 React·.NET 경력은 별도로 과장하지 않습니다.",
+        en: "Leads with hands-on authentication, payments, chat, operations tooling, and load testing rather than only gameplay networking, without overstating React or .NET experience.",
+      },
+      tags: ["fullstack", "backend", "game-server", "go", "redis", "payment", "realtime", "testing", "operations"],
+      caseIds: ["redis-k6", "payment-consistency", "auth-evolution", "admin-console", "realtime-character", "deployment", "p2p-input-history"],
+    },
+    {
+      id: "webzen-redand-server",
+      hidden: true,
+      title: { ko: "웹젠레드앤 · 신규 Project 서버", en: "Webzen Red& · New Project Server" },
+      description: {
+        ko: "Windows RIO/RUDP 실험부터 rollback, 월드 재시뮬레이션과 멀티플레이 상태 동기화까지 저수준 네트워크 경험을 우선 배치했습니다.",
+        en: "Low-level networking first: Windows RIO/RUDP experiments, rollback, world resimulation, and multiplayer state synchronization.",
+      },
+      coverIntro: {
+        ko: "공고의 C++·비동기 네트워크·멀티스레드 요구에 맞춰 예전 Windows RIO/RUDP 실험과 최근 rollback 연구를 함께 보여줍니다. RIO를 IOCP로 포장하지 않고 서로 다른 API라는 점도 명확히 합니다.",
+        en: "Pairs an earlier Windows RIO/RUDP experiment with newer rollback work for a C++ asynchronous networking role, while explicitly keeping RIO distinct from IOCP.",
+      },
+      tags: ["game-server", "cpp", "csharp", "redis", "realtime", "performance", "network"],
+      caseIds: ["rio-rudp-retrospective", "p2p-input-history", "p2p-rollback", "p2p-world-simulation", "nirvana-gameplay-network", "redis-k6"],
+    },
+    {
+      id: "eastgames-rts-server",
+      hidden: true,
+      title: { ko: "이스트게임즈 · 모바일 RTS 서버", en: "ESTgames · Mobile RTS Server" },
+      description: {
+        ko: "실시간 PvP에 가까운 rollback·입력 동기화·월드 계산을 먼저 보여주고, 성능·DB·운영 경험으로 이어집니다.",
+        en: "Leads with rollback, input synchronization, and world simulation relevant to real-time PvP, followed by performance and operations work.",
+      },
+      coverIntro: {
+        ko: "실시간 PvP와 서버 성능·안정성이라는 공고의 핵심에 맞춰 rollback의 상태 복원, 입력 이력, 재시뮬레이션을 먼저 배치했습니다. 뒤에는 실제 서비스 부하 테스트와 배포 경험을 붙였습니다.",
+        en: "Matches the posting's real-time PvP and server performance focus with rollback state restoration, input history, resimulation, then live-service load testing and deployment.",
+      },
+      tags: ["game-server", "csharp", "realtime", "performance", "network", "operations"],
+      caseIds: ["p2p-world-simulation", "p2p-input-history", "p2p-rollback", "rio-rudp-retrospective", "redis-k6", "deployment"],
+    },
+    {
+      id: "webzen-crevix-server",
+      hidden: true,
+      title: { ko: "웹젠크레빅스 · 게임 서버", en: "Webzen Crevix · Game Server" },
+      description: {
+        ko: "C++/C# 네트워크, 비동기 처리, rollback과 성능 검증 경험을 서버 프레임워크·콘텐츠 관점으로 구성했습니다.",
+        en: "C++/C# networking, asynchronous processing, rollback, and performance work arranged for server framework/content development.",
+      },
+      coverIntro: {
+        ko: "C/C++·C#, 프로토콜, 비동기·멀티스레드와 DB 이해를 보는 공고에 맞춰 네트워크 구현과 상태 동기화 경험을 먼저 보여주고, 마지막에 실서비스 성능 검증 경험을 연결했습니다.",
+        en: "Leads with networking and state synchronization for a role asking for C/C++, C#, protocols, async/multithreading, and database fundamentals, then connects to live-service performance testing.",
+      },
+      tags: ["game-server", "cpp", "csharp", "performance", "network", "operations"],
+      caseIds: ["rio-rudp-retrospective", "p2p-input-history", "p2p-world-simulation", "p2p-rollback", "nirvana-gameplay-network", "redis-k6"],
+    },
   ],
 
   projects: {
@@ -288,6 +408,29 @@ window.PORTFOLIO_DATA = {
       },
       links: [
         { label: { ko: "프로젝트", en: "Project" }, href: "https://github.com/yuchanahn/p2pactiongame", value: "GitHub" },
+      ],
+    },
+    ycnet: {
+      portfolioType: "game-server",
+      name: "YCNet · RIO/RUDP",
+      period: "2022–2023",
+      type: { ko: "C++ 개인 네트워크 학습", en: "C++ personal networking study" },
+      summary: {
+        ko: "Windows Registered I/O와 UDP 위에 sequence·ACK·재전송·순서 복원 로직을 직접 구성해 본 네트워크 학습 프로젝트입니다.",
+        en: "A networking study project combining Windows Registered I/O with a UDP reliability layer for sequencing, ACKs, retransmission, and ordered delivery.",
+      },
+      description: {
+        ko: "Windows의 Registered I/O(RIO)로 등록 버퍼와 completion/request queue를 구성하고, 별도 RUDP 계층에서 UDP 패킷의 sequence, ACK, RTT와 재전송을 처리했습니다. 현재 기준으로 다시 보면 생명주기·backpressure·동시성 경계에 개선할 부분이 많은 학습 코드이며, IOCP 구현으로 소개하지 않습니다.",
+        en: "Used Windows Registered I/O (RIO) with registered buffers and completion/request queues, while a separate RUDP layer handled UDP sequence numbers, ACKs, RTT, and retransmission. It is study code with clear room for improvement around lifecycle, backpressure, and concurrency, and is not presented as an IOCP implementation.",
+      },
+      contribution: {
+        ko: "RIO 송수신 큐와 등록 버퍼, endpoint별 상태 관리, 신뢰 패킷의 ACK·재전송과 순서 복원 흐름을 구현하고 서버 코드에서 연결했습니다.",
+        en: "Implemented RIO send/receive queues and registered buffers, per-endpoint state, ACK/retransmission and ordered delivery for reliable packets, and connected them in server-side code.",
+      },
+      stack: ["C++", "Windows RIO", "UDP", "RUDP", "Multithreading"],
+      links: [
+        { label: { ko: "RIO 코어", en: "RIO core" }, href: "https://github.com/yuchanahn/ycnet_core", value: "ycnet_core" },
+        { label: { ko: "RUDP 구현", en: "RUDP implementation" }, href: "https://github.com/yuchanahn/yc_framework/blob/main/packet/yc_rudp.hpp", value: "yc_rudp.hpp" },
       ],
     },
     bybitCpp: {
@@ -1202,6 +1345,37 @@ self.world = simulate_world(self.world.clone(), current_inputs, cur_tick);`,
       links: [
         { label: { ko: "시뮬레이션 코드", en: "Simulation code" }, href: "https://github.com/yuchanahn/p2pactiongame/blob/rollback/src/world.rs", value: "world.rs" },
         { label: { ko: "충돌 코드", en: "Collision code" }, href: "https://github.com/yuchanahn/p2pactiongame/blob/rollback/src/col2d.rs", value: "col2d.rs" },
+      ],
+    },
+    {
+      id: "rio-rudp-retrospective",
+      order: 419,
+      project: "ycnet",
+      category: { ko: "C++ 네트워크 회고", en: "C++ Networking Retrospective" },
+      tags: ["game-server", "cpp", "network", "realtime", "performance"],
+      title: {
+        ko: "RIO의 비동기 I/O와 RUDP의 신뢰성 책임을 분리해 구현했습니다",
+        en: "Separated asynchronous RIO transport from the RUDP reliability layer",
+      },
+      lead: {
+        ko: "Windows RIO는 등록 버퍼와 completion queue로 송수신하고, 그 위의 RUDP 코드는 sequence·ACK·재전송과 순서 복원을 맡도록 나눴습니다.",
+        en: "Windows RIO handled registered-buffer I/O and completion queues, while a separate RUDP layer handled sequence numbers, ACKs, retransmission, and ordered delivery.",
+      },
+      paragraphs: {
+        ko: [
+          "`ycnet_core`에서는 `RIORegisterBuffer`, `RIOCreateCompletionQueue`, `RIOCreateRequestQueue`, `RIOReceiveEx`와 `RIOSendEx`를 사용해 UDP 송수신 경로를 만들었습니다. 완료 결과의 request context를 다시 버퍼와 연결하고, endpoint별 패킷을 상위 계층으로 넘겼습니다.",
+          "신뢰성이 필요한 패킷은 별도 RUDP 계층에서 sequence를 붙여 send buffer에 보관하고 ACK를 받으면 완료 처리했습니다. ACK가 오지 않은 패킷은 측정한 RTT를 기준으로 재전송 후보를 골랐고, 수신 쪽에서는 연속된 sequence 구간만 상위 packet handler에 전달했습니다. 신뢰성이 필요 없는 패킷은 같은 재전송 흐름을 거치지 않게 분리했습니다.",
+          "지금 다시 보면 고정 크기 버퍼와 endpoint 상태 수명, backpressure, 여러 I/O thread와 main thread 사이의 소유권을 더 명확하게 설계했어야 합니다. 그래서 이 코드는 대규모 서버 성능을 증명하는 결과물보다, 저수준 네트워크를 직접 만들며 I/O와 전송 신뢰성의 책임을 나눠 본 과정으로 소개합니다. RIO와 IOCP는 서로 다른 Windows API이므로 IOCP 경험으로 표현하지 않습니다.",
+        ],
+        en: [
+          "`ycnet_core` uses `RIORegisterBuffer`, `RIOCreateCompletionQueue`, `RIOCreateRequestQueue`, `RIOReceiveEx`, and `RIOSendEx` to build the UDP I/O path. Completion request contexts reconnect results to buffers before packets move to the upper layer by endpoint.",
+          "Reliable packets receive sequence numbers and remain in a send buffer until ACKed. Missing ACKs become retransmission candidates using measured RTT, while the receive path advances only contiguous sequence ranges to packet handlers. Packets that do not require reliability bypass that retransmission path.",
+          "Looking back, fixed buffers, endpoint lifetime, backpressure, and ownership across I/O and main threads should have been designed more explicitly. I therefore present this as a low-level networking study in separating I/O from transport reliability, not as proof of production-scale server performance. RIO and IOCP are distinct Windows APIs, so I do not describe this as IOCP experience.",
+        ],
+      },
+      links: [
+        { label: { ko: "RIO 코어", en: "RIO core" }, href: "https://github.com/yuchanahn/ycnet_core/blob/main/ycnet_core.hpp", value: "ycnet_core.hpp" },
+        { label: { ko: "RUDP 코드", en: "RUDP code" }, href: "https://github.com/yuchanahn/yc_framework/blob/main/packet/yc_rudp.hpp", value: "yc_rudp.hpp" },
       ],
     },
     {
