@@ -631,24 +631,24 @@ window.PORTFOLIO_DATA = {
       id: "redis-k6",
       order: 50,
       project: "perochat",
-      category: { ko: "캐시·부하 테스트", en: "Caching & Load Testing" },
+      category: { ko: "성능 점검", en: "Performance Review" },
       tags: ["backend", "game-server", "go", "postgresql", "redis", "testing", "performance", "operations"],
       title: {
-        "ko": "조회와 채팅 저장의 부하 조건을 나눠 DB 병목을 확인했습니다",
-        "en": "Separated read and chat-write load conditions to identify database bottlenecks"
+        "ko": "느린 페이지를 고치면서 조회와 채팅 저장 경로까지 함께 점검했습니다",
+        "en": "A slow page led me to review both read and chat-persistence paths"
       },
       lead: {
-        "ko": "캐시 유무를 비교하는 조회 테스트와 채팅 저장 구조의 A/B 테스트를 따로 실행해, 처리량과 DB 연결 점유를 구분해서 확인했습니다.",
-        "en": "Ran separate cache comparisons and chat-persistence A/B tests to distinguish throughput from database connection pressure."
+        "ko": "처음에는 작은 썸네일에 원본 이미지가 내려와 페이지 로딩이 느렸습니다. 화면 크기에 맞춘 이미지 변환을 적용한 뒤, 비슷한 병목이 서버에도 있는지 조회와 채팅 저장 경로를 나눠 확인했습니다.",
+        "en": "The review started with slow page loading caused by full-resolution images being downloaded for small thumbnails. After resizing image delivery to match the UI, I checked the read and chat-persistence paths separately for similar bottlenecks on the server side."
       },
       paragraphs: {
         "ko": [
-          "캐릭터 목록은 Redis에 캐시하고 수정 시 관련 키를 무효화했습니다. 100 VU random-key 조회 실험에서는 no-cache와 Redis 경로의 p99가 각각 596.33ms와 239.04ms였고 HTTP 실패는 모두 0%였습니다. 별도의 과부하 실험에서는 대기 시간 없이 요청을 투입하고 응답 본문을 축약해 DB/cache 처리 한계를 확인했습니다. 약 590·1,760 RPS는 각 경로가 포화된 구간의 관측값이며, 요청 투입 누락이 발생한 수치입니다.",
+          "캐릭터 허브가 늦게 표시되어 브라우저 Network 패널을 확인했고, 작은 카드 이미지에도 업로드된 원본이 그대로 내려오고 있었습니다. 용도별 크기로 이미지를 요청하도록 수정한 뒤에는 서버 쪽도 함께 점검했습니다. 캐릭터 목록은 Redis에 캐시하고 수정 시 관련 키를 무효화했으며, 100 VU random-key 조회에서 no-cache와 Redis 경로의 p99는 각각 596.33ms와 239.04ms였습니다. HTTP 실패는 두 경우 모두 0%였습니다.",
           "채팅 저장은 외부 LLM을 mock으로 대체하고, 5,000개 가상 사용자에 10~60초 대기 시간을 둔 A/B 실험으로 비교했습니다. 메시지·세션 갱신의 DB 왕복을 줄이고 채팅 환불 원장을 사용자별로 합산한 후보에서 DB pool 최대 사용은 79/80에서 10/80으로, 측정 중 최대 DB ping은 409.32ms에서 2.14ms로 감소했습니다.",
           "다만 최종 실행의 HTTP 실패율은 1.82%였으므로 이를 5,000명 안정 수용이나 채팅 응답 2ms로 해석하지 않았습니다. 종료 후 가상 사용자 5,000명의 잔액과 원장 합계 불일치가 0건인지 확인했고, 동시 환불의 잠금과 실제 결제 원장 보존을 보강한 뒤 저장 최적화를 실제 채팅 경로에 적용했습니다."
         ],
         "en": [
-          "Character-list reads use Redis with invalidation on edits. A 100-VU random-key experiment measured p99 of 596.33ms without cache and 239.04ms with Redis, both with zero HTTP failures. A separate overload experiment removed think time and shortened response bodies to isolate DB/cache capacity. Roughly 590 and 1,760 RPS were observations in saturated runs with dropped iterations, not stable service capacity.",
+          "The character hub was slow to appear, and the browser Network panel showed that small card images were still downloading the original uploaded files. After switching to display-sized image requests, I continued the review on the server side. Character-list reads use Redis with invalidation on edits; a 100-VU random-key test measured p99 of 596.33ms without cache and 239.04ms with Redis, with zero HTTP failures in both runs.",
           "Chat persistence was compared using mocked external LLM calls, 5,000 synthetic users, and 10–60-second think times. Reducing database round trips for messages and sessions and coalescing chat-refund ledgers reduced peak pool usage from 79/80 to 10/80 and the maximum observed DB ping from 409.32ms to 2.14ms.",
           "The final run still had 1.82% HTTP failures, so it did not establish stable capacity for 5,000 users or a 2ms chat response. Credit balances matched ledger totals for all 5,000 synthetic users after the run. I strengthened concurrent-refund locking and preservation of real payment ledgers before promoting the persistence changes to the live chat route."
         ]
