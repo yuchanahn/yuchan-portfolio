@@ -212,15 +212,15 @@ window.PORTFOLIO_DATA = {
       hidden: true,
       title: { ko: "웹젠레드앤 · 신규 Project 서버", en: "Webzen Red& · New Project Server" },
       description: {
-        ko: "Windows RIO/RUDP 실험부터 rollback, 월드 재시뮬레이션과 멀티플레이 상태 동기화까지 저수준 네트워크 경험을 우선 배치했습니다.",
-        en: "Low-level networking first: Windows RIO/RUDP experiments, rollback, world resimulation, and multiplayer state synchronization.",
+        ko: "Unreal C++ 멀티플레이 상태 동기화부터 입력 동기화·rollback, Redis/DB 성능 점검까지 서버 경험을 묶었습니다.",
+        en: "Server-focused work spanning Unreal C++ multiplayer state synchronization, input synchronization, rollback, and Redis/DB performance review.",
       },
       coverIntro: {
-        ko: "공고의 C++·비동기 네트워크·멀티스레드 요구에 맞춰 예전 Windows RIO/RUDP 실험과 최근 rollback 연구를 함께 보여줍니다. RIO를 IOCP로 포장하지 않고 서로 다른 API라는 점도 명확히 합니다.",
-        en: "Pairs an earlier Windows RIO/RUDP experiment with newer rollback work for a C++ asynchronous networking role, while explicitly keeping RIO distinct from IOCP.",
+        ko: "고등학생 때 C++ 소켓·멀티스레딩·IOCP를 학습한 뒤, Unreal C++ 팀 프로젝트에서 서버가 게임 진행 상태를 판단하고 두 클라이언트에 동기화하는 코드를 맡았습니다. 이후 UDP 입력 동기화와 rollback 재시뮬레이션, 웹 서비스의 Redis/DB 성능 점검까지 이어갔습니다.",
+        en: "I started with C++ sockets, multithreading, and IOCP study, then handled server-owned gameplay state and client synchronization in an Unreal C++ team project. I later explored UDP input synchronization, rollback resimulation, and Redis/DB performance in a live web service.",
       },
       tags: ["game-server", "cpp", "csharp", "redis", "realtime", "performance", "network"],
-      caseIds: ["rio-rudp-retrospective", "p2p-input-history", "p2p-rollback", "p2p-world-simulation", "nirvana-gameplay-network", "redis-k6"],
+      caseIds: ["nirvana-gameplay-network", "nirvana-loading-ui", "p2p-input-history", "p2p-rollback", "p2p-world-simulation", "redis-k6"],
     },
     {
       id: "eastgames-rts-server",
@@ -242,15 +242,15 @@ window.PORTFOLIO_DATA = {
       hidden: true,
       title: { ko: "웹젠크레빅스 · 게임 서버", en: "Webzen Crevix · Game Server" },
       description: {
-        ko: "C++/C# 네트워크, 비동기 처리, rollback과 성능 검증 경험을 서버 프레임워크·콘텐츠 관점으로 구성했습니다.",
-        en: "C++/C# networking, asynchronous processing, rollback, and performance work arranged for server framework/content development.",
+        ko: "Unreal C++ 멀티플레이, UDP/rollback 실험, Redis/DB 성능 점검과 배포 운영을 서버 흐름으로 묶었습니다.",
+        en: "Server-focused work across Unreal C++ multiplayer, UDP/rollback experiments, Redis/DB performance review, and deployment operations.",
       },
       coverIntro: {
-        ko: "C/C++·C#, 프로토콜, 비동기·멀티스레드와 DB 이해를 보는 공고에 맞춰 네트워크 구현과 상태 동기화 경험을 먼저 보여주고, 마지막에 실서비스 성능 검증 경험을 연결했습니다.",
-        en: "Leads with networking and state synchronization for a role asking for C/C++, C#, protocols, async/multithreading, and database fundamentals, then connects to live-service performance testing.",
+        ko: "C++ 소켓·멀티스레딩·IOCP를 학습하고 Unreal C++ 멀티플레이에서 서버/클라이언트 상태 동기화를 구현했습니다. 이후 UDP 입력 동기화와 rollback, 실제 웹 서비스의 DB/Redis 부하 점검과 배포 운영까지 서버 문제를 넓혀 왔습니다.",
+        en: "I studied C++ sockets, multithreading, and IOCP, then implemented server/client state synchronization in Unreal C++ multiplayer. I later expanded into UDP input synchronization, rollback, DB/Redis load testing, and deployment operations for a live web service.",
       },
       tags: ["game-server", "cpp", "csharp", "performance", "network", "operations"],
-      caseIds: ["rio-rudp-retrospective", "p2p-input-history", "p2p-world-simulation", "p2p-rollback", "nirvana-gameplay-network", "redis-k6"],
+      caseIds: ["nirvana-gameplay-network", "p2p-input-history", "p2p-rollback", "redis-k6", "deployment", "p2p-world-simulation"],
     },
   ],
 

@@ -55,12 +55,12 @@
     },
     "webzen-redand-server": {
       description: {
-        ko: "Windows RIO/RUDP 실험부터 rollback, 월드 재시뮬레이션과 멀티플레이 상태 동기화까지 저수준 네트워크 경험을 다뤘습니다.",
-        en: "My low-level networking work spans Windows RIO/RUDP experiments, rollback, world resimulation, and multiplayer state synchronization.",
+        ko: "Unreal C++ 멀티플레이 상태 동기화부터 입력 동기화·rollback, Redis/DB 성능 점검까지 서버 경험을 묶었습니다.",
+        en: "Server-focused work spanning Unreal C++ multiplayer state synchronization, input synchronization, rollback, and Redis/DB performance review.",
       },
       coverIntro: {
-        ko: "Windows RIO 위에 UDP 신뢰 계층을 직접 구성해 본 뒤, 최근에는 입력 동기화와 rollback 재시뮬레이션을 다시 구현하며 네트워크 상태 처리 방식을 더 깊게 살펴봤습니다.",
-        en: "After building a UDP reliability layer on Windows RIO, I revisited network state handling through input synchronization and rollback resimulation.",
+        ko: "고등학생 때 C++ 소켓·멀티스레딩·IOCP를 학습한 뒤, Unreal C++ 팀 프로젝트에서 서버가 게임 진행 상태를 판단하고 두 클라이언트에 동기화하는 코드를 맡았습니다. 이후 UDP 입력 동기화와 rollback 재시뮬레이션, 웹 서비스의 Redis/DB 성능 점검까지 이어갔습니다.",
+        en: "I started with C++ sockets, multithreading, and IOCP study, then handled server-owned gameplay state and client synchronization in an Unreal C++ team project. I later explored UDP input synchronization, rollback resimulation, and Redis/DB performance in a live web service.",
       },
     },
     "eastgames-rts-server": {
@@ -75,12 +75,12 @@
     },
     "webzen-crevix-server": {
       description: {
-        ko: "C++/C# 네트워크 코드와 비동기 처리, rollback, 실서비스 성능 검증까지 직접 경험했습니다.",
-        en: "I worked directly with C++/C# networking, asynchronous processing, rollback, and live-service performance testing.",
+        ko: "Unreal C++ 멀티플레이, UDP/rollback 실험, Redis/DB 성능 점검과 배포 운영을 서버 흐름으로 묶었습니다.",
+        en: "Server-focused work across Unreal C++ multiplayer, UDP/rollback experiments, Redis/DB performance review, and deployment operations.",
       },
       coverIntro: {
-        ko: "C++ 네트워크 계층을 직접 구현하고 Unreal 프로젝트에서는 서버·클라이언트 상태 동기화를 다뤘습니다. 이후 rollback 실험과 웹 서비스 부하 테스트까지 이어가며 네트워크와 서버 성능을 계속 파고들었습니다.",
-        en: "I built C++ networking code, handled server/client state synchronization in Unreal, then continued exploring networking and server performance through rollback experiments and web-service load tests.",
+        ko: "C++ 소켓·멀티스레딩·IOCP를 학습하고 Unreal C++ 멀티플레이에서 서버/클라이언트 상태 동기화를 구현했습니다. 이후 UDP 입력 동기화와 rollback, 실제 웹 서비스의 DB/Redis 부하 점검과 배포 운영까지 서버 문제를 넓혀 왔습니다.",
+        en: "I studied C++ sockets, multithreading, and IOCP, then implemented server/client state synchronization in Unreal C++ multiplayer. I later expanded into UDP input synchronization, rollback, DB/Redis load testing, and deployment operations for a live web service.",
       },
     },
   };
