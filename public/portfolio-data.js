@@ -316,8 +316,8 @@ window.PORTFOLIO_DATA = {
         en: "A two-player Unreal Engine 5.3 action roguelike in which both players progress through stages as one team. It was developed over roughly eight months by four programmers in a 22-person capstone team.",
       },
       contribution: {
-        ko: "온라인 세션과 로비, 패킷 ID·타입 매핑, 서버·클라이언트 게임 진행 처리, 스테이지 로딩, 인벤토리·미션·부활·게임오버 UI 연결을 담당했습니다.",
-        en: "Worked on online sessions and the lobby, packet ID/type mapping, server/client gameplay flow, stage loading, and UI integration for inventory, missions, revival, and game over.",
+        ko: "온라인 세션과 로비, 패킷 ID·USTRUCT 타입 바인딩과 디스패치, 서버·클라이언트 게임 진행 처리, 스테이지 로딩, 인벤토리·미션·부활·게임오버 UI 연결을 담당했습니다.",
+        en: "Worked on online sessions and the lobby, packet ID/USTRUCT binding and dispatch, server/client gameplay flow, stage loading, and UI integration for inventory, missions, revival, and game over.",
       },
       stack: ["Unreal Engine 5.3", "C++", "EOSPlus", "Steam", "RPC", "USTRUCT"],
       image: { src: "./assets/nirvana-gameplay.png", alt: "Nirvana two-player combat gameplay" },
@@ -986,23 +986,23 @@ window.PORTFOLIO_DATA = {
       tags: ["game-client", "game-server", "cpp", "unreal", "network", "realtime"],
       featured: true,
       title: {
-        ko: "서버가 게임 진행을 판단하고 두 클라이언트에 같은 상태를 전달했습니다",
-        en: "Kept both clients aligned around server-owned gameplay decisions",
+        ko: "패킷 타입과 처리 코드를 연결해 게임 진행 메시지를 한 흐름으로 관리했습니다",
+        en: "Connected packet types to handlers and kept gameplay messages in one flow",
       },
       lead: {
-        ko: "팀에서 만든 공통 패킷 계층을 사용해 인벤토리, 체력·쉴드, 미션, 부활과 게임 종료에 필요한 패킷과 처리 코드를 확장했습니다.",
-        en: "Extended the team's shared packet layer with the messages and handlers required for inventory, health and shields, missions, revival, and game over.",
+        ko: "팀원이 만든 바이트 직렬화 기반 위에 패킷 ID와 USTRUCT 타입을 연결하는 바인딩·디스패치 구조를 만들고, 서버와 클라이언트의 게임 진행 처리까지 이어 붙였습니다.",
+        en: "On top of a teammate's byte-serialization base, I built the packet ID/USTRUCT binding and dispatch layer and connected it to server/client gameplay handling.",
       },
       paragraphs: {
         ko: [
-          "패킷을 바이트로 읽고 쓰는 직렬화 기반은 팀원이 먼저 만들었습니다. 저는 패킷 ID와 `FPac_*` USTRUCT 타입을 연결하는 매핑·바인딩 코드, 기능별 패킷 정의, 그리고 `Server.cpp`와 `Client.cpp`에서 인벤토리와 전투 보조 상태, 미션, 부활처럼 실제 게임 진행이 바뀌는 처리 코드를 작성했습니다.",
-          "클라이언트의 입력과 UI 조작은 `ANetPC`의 reliable RPC를 거쳐 서버 dispatch queue로 들어갑니다. 서버에서는 아이템을 누가 드래그 중인지 확인하고, 아이템 선택 결과와 엔티티의 체력·쉴드, 남은 몬스터 수, 영혼 게이지와 부활 여부를 판단한 뒤 필요한 클라이언트 또는 전체에 결과 패킷을 보냅니다. 클라이언트는 수신한 결과로 로컬 world 상태와 HUD를 갱신합니다.",
-          "이 방식으로 Unreal RPC가 여러 액터에 흩어지는 것을 줄이고, 인벤토리 조작부터 전투 상태와 미션 진행까지 서버 코드에서 한 흐름으로 처리했습니다.",
+          "패킷을 바이트로 읽고 쓰는 직렬화 기반은 팀원이 먼저 만들었습니다. 저는 `YC_PACKET`과 바인딩 코드를 작성해 패킷 ID를 `FPac_*` USTRUCT 타입과 처리 함수에 연결했고, 기능별 패킷 정의와 `Server.cpp`·`Client.cpp`의 실제 게임 진행 처리까지 구현했습니다.",
+          "클라이언트 입력과 UI 조작은 `ANetPC`의 reliable RPC를 거쳐 서버 dispatch queue로 들어갑니다. 서버에서는 아이템을 누가 드래그 중인지 기록해 두 플레이어의 동시 조작 충돌을 막고, 아이템 선택 결과와 체력·쉴드, 남은 몬스터 수, 영혼 게이지, 부활과 게임오버 같은 상태를 판단한 뒤 필요한 클라이언트에 결과를 전달했습니다.",
+          "당시에는 게임 진행 메시지를 한곳에서 관리하고 서버와 클라이언트의 책임을 분리하려고 이 구조를 만들었습니다. 지금 다시 보면 프로젝트 규모에 비해 추상화가 과했고 Unreal의 RPC와 Replication을 더 직접 활용하는 편이 단순했을 부분도 있습니다. 대신 직접 만든 메시지 흐름을 통해 직렬화 이후의 라우팅, 서버 권한 상태 처리와 클라이언트 반영 경계를 끝까지 다뤄볼 수 있었습니다.",
         ],
         en: [
-          "A teammate first built the byte-level serialization foundation. I wrote the mapping and binding code that connects packet IDs to `FPac_*` USTRUCT types, added feature-specific packets, and implemented gameplay handling in `Server.cpp` and `Client.cpp` for inventory, supporting combat state, missions, revival, and other run-state changes.",
-          "Client input and UI actions travel through reliable RPCs on `ANetPC` into the server dispatch queue. The server checks item-drag ownership and decides item rewards, entity health and shields, remaining monsters, soul gauge, revival, and game-over state before sending the result to one or both clients. Each client applies the response to its local world state and HUD.",
-          "This reduced RPC logic scattered across actors and kept inventory interactions, combat state, and mission progress in one server-side flow.",
+          "A teammate first built the byte-level serialization foundation. I wrote `YC_PACKET` and the binding layer that connects packet IDs to `FPac_*` USTRUCT types and handlers, then implemented the feature packets and gameplay processing in `Server.cpp` and `Client.cpp`.",
+          "Client input and UI actions travel through reliable RPCs on `ANetPC` into the server dispatch queue. The server tracks who is dragging an item to prevent conflicting two-player interactions, then decides item rewards, health and shields, remaining monsters, soul gauge, revival, and game-over state before sending the result to the relevant clients.",
+          "At the time, I introduced this layer to keep gameplay messages together and make the server/client responsibility split explicit. Looking back, it was more abstraction than the project scale required, and using Unreal RPC and Replication more directly would have been simpler in some places. The implementation still gave me hands-on experience with message routing, server-authoritative state handling, and client-side state application after serialization.",
         ],
       },
       image: { src: "./assets/nirvana-packet-flow.svg", alt: "Nirvana gameplay packet and server state flow" },
@@ -1024,12 +1024,12 @@ window.PORTFOLIO_DATA = {
       paragraphs: {
         ko: [
           "서버가 다음 레벨을 정하면 `FPac_NextLevelLoadStart`를 전송하고 두 클라이언트의 입력을 잠급니다. 클라이언트는 로딩 위젯을 생성하고 맵과 진행률이 모두 준비됐을 때 `FPac_GameLoadingEnded`를 서버로 보냅니다. 서버는 각 `PlayerController`의 `StageLoaded` 값을 세어 현재 플레이어 수와 같아진 뒤에만 완료 패킷을 방송하고 입력을 다시 엽니다.",
-          "스테이지별 몬스터 구성은 CSV와 DataTable에서 읽어 spawn queue를 만들었고, 서버가 남은 몬스터 수를 기준으로 미션과 다음 battle page를 진행하도록 연결했습니다. 레벨업 아이템 선택, 공동 인벤토리 조작, 맵 화면, 사망한 플레이어의 영혼 게이지와 부활, 두 명 모두 사망했을 때의 게임오버 화면도 같은 서버·클라이언트 흐름에서 처리했습니다.",
+          "레벨업으로 게임을 멈출 때도 같은 방식으로 두 플레이어의 상태를 따로 추적했습니다. 각 클라이언트가 인벤토리를 닫았다는 신호를 보내면 서버가 `UIState`를 갱신하고, 두 플레이어가 모두 닫은 것을 확인한 뒤에만 pause를 해제하고 다음 진행으로 넘어가도록 처리했습니다. 부활과 게임오버도 서버의 플레이어 상태를 기준으로 결정했습니다.",
           "UI는 단순히 화면을 배치하는 작업으로 끝나지 않았습니다. 로딩 중 스킬 입력이 되는 문제, 한 명이 인벤토리를 닫았을 때 다른 플레이어의 상태와 어긋나는 문제, 재실행 시 남은 상태, 사망 상태에서 UI를 열고 닫을 때의 예외처럼 네트워크와 화면 수명이 맞물린 버그를 실제 2인 플레이로 확인하며 수정했습니다.",
         ],
         en: [
           "When the server selects the next level, it sends `FPac_NextLevelLoadStart` and locks input on both clients. A client creates its loading widget and sends `FPac_GameLoadingEnded` only after the map and progress are ready. The server counts each controller's `StageLoaded` flag and broadcasts completion only when that count matches the active player count.",
-          "Stage monster composition is loaded from CSV and DataTable data into spawn queues, while the server advances missions and battle pages from the remaining-monster count. Level-up rewards, shared inventory interactions, map UI, soul-gauge revival, and game over are handled through the same server/client flow.",
+          "I used the same coordination pattern when pausing the game for level-up choices. Each client reports that its inventory is closed, the server updates that player's `UIState`, and gameplay resumes only after both players have reached the closed state. Revival and game-over decisions also use server-side player state.",
           "The UI work was not just screen layout. Two-player testing exposed input during loading, inventory-close disagreement, stale state after restarting a run, and dead-player UI edge cases that required changes across both network state and widget lifetime.",
         ],
       },
