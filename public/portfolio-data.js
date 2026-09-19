@@ -96,21 +96,21 @@ window.PORTFOLIO_DATA = {
       id: "game-service",
       title: { ko: "게임 서비스 백엔드", en: "Game Service Backend" },
       description: {
-        ko: "게임 상태·로딩 동기화와 롤백, 웹 서비스의 DB·실시간·운영을 연결한 7개 사례",
-        en: "Seven cases connecting game-state synchronization and rollback with database, streaming, and operations work",
+        ko: "게임 상태·저수준 네트워크·롤백과 웹 서비스의 DB·실시간·운영을 연결한 7개 사례",
+        en: "Seven cases connecting low-level networking, game-state synchronization, rollback, database, streaming, and operations work",
       },
       tags: ["game-server", "backend", "go", "redis", "llm", "realtime", "network", "operations"],
-      caseIds: ["nirvana-gameplay-network", "nirvana-loading-ui", "p2p-rollback", "redis-k6", "llm-gateway", "realtime-character", "deployment"],
+      caseIds: ["rio-rudp-retrospective", "nirvana-gameplay-network", "p2p-rollback", "p2p-world-simulation", "redis-k6", "realtime-character", "deployment"],
     },
     {
       id: "cpp-systems",
       title: { ko: "C++ 시스템·네트워크", en: "C++ Systems & Networking" },
       description: {
-        ko: "Unreal C++의 게임 상태·로딩·애니메이션 동기화와 거래소 API 구현 5개 사례",
-        en: "Five cases covering Unreal C++ state, loading, animation synchronization, and exchange APIs",
+        ko: "RIO/RUDP 저수준 네트워크와 Unreal C++ 상태·로딩·애니메이션 동기화, 거래소 API 구현 6개 사례",
+        en: "Six cases covering RIO/RUDP networking, Unreal C++ state, loading and animation synchronization, and exchange APIs",
       },
       tags: ["cpp", "network", "unreal", "performance", "collaboration"],
-      caseIds: ["nirvana-gameplay-network", "nirvana-loading-ui", "nirvana-animation", "nirvana-cpp", "cpp-trading-bot"],
+      caseIds: ["rio-rudp-retrospective", "nirvana-gameplay-network", "nirvana-loading-ui", "nirvana-animation", "nirvana-cpp", "cpp-trading-bot"],
     },
     {
       id: "game-client",
@@ -242,15 +242,60 @@ window.PORTFOLIO_DATA = {
       hidden: true,
       title: { ko: "웹젠크레빅스 · 게임 서버", en: "Webzen Crevix · Game Server" },
       description: {
-        ko: "Unreal C++ 멀티플레이, UDP/rollback 실험, Redis/DB 성능 점검과 배포 운영을 서버 흐름으로 묶었습니다.",
-        en: "Server-focused work across Unreal C++ multiplayer, UDP/rollback experiments, Redis/DB performance review, and deployment operations.",
+        ko: "RIO/RUDP 저수준 네트워크, Unreal C++ 멀티플레이, rollback, Redis/DB 성능 점검과 배포 운영을 서버 흐름으로 묶었습니다.",
+        en: "Server-focused work across RIO/RUDP networking, Unreal C++ multiplayer, rollback, Redis/DB performance review, and deployment operations.",
       },
       coverIntro: {
         ko: "C++ 소켓·멀티스레딩·IOCP를 학습하고 Unreal C++ 멀티플레이에서 서버/클라이언트 상태 동기화를 구현했습니다. 이후 UDP 입력 동기화와 rollback, 실제 웹 서비스의 DB/Redis 부하 점검과 배포 운영까지 서버 문제를 넓혀 왔습니다.",
         en: "I studied C++ sockets, multithreading, and IOCP, then implemented server/client state synchronization in Unreal C++ multiplayer. I later expanded into UDP input synchronization, rollback, DB/Redis load testing, and deployment operations for a live web service.",
       },
       tags: ["game-server", "cpp", "csharp", "performance", "network", "operations"],
-      caseIds: ["nirvana-gameplay-network", "p2p-input-history", "p2p-rollback", "redis-k6", "deployment", "p2p-world-simulation"],
+      caseIds: ["rio-rudp-retrospective", "nirvana-gameplay-network", "p2p-input-history", "p2p-rollback", "redis-k6", "deployment", "p2p-world-simulation"],
+    },
+    {
+      id: "tainai-ai-native",
+      hidden: true,
+      title: { ko: "타인에이아이 · AI-Native Developer", en: "TainAI · AI-Native Developer" },
+      description: {
+        ko: "AI 도구를 활용한 빠른 실험과 제품 판단, LLM 기능·운영 문제를 실제 서비스 사례로 연결했습니다.",
+        en: "Product-focused AI development across rapid experiments, LLM features, operations, and engineering judgment.",
+      },
+      coverIntro: {
+        ko: "PeroChat을 직접 만들고 운영하면서 LLM 기능, 모바일 UX, 인증·결제, 성능 문제를 반복해서 수정했습니다. 에이전트는 후보 구현과 탐색 속도를 높이는 데 사용하고, 실제 기기 검증과 구조 결정은 직접 했습니다.",
+        en: "While building and operating PeroChat, I iterated on LLM features, mobile UX, authentication, payments, and performance. I used agents to accelerate exploration and candidate implementations, while making architecture decisions and validating behavior myself.",
+      },
+      tags: ["ai", "fullstack", "svelte", "go", "llm", "realtime", "mobile", "admin", "operations"],
+      caseIds: ["llm-gateway", "admin-console", "mobile-keyboard", "payment-consistency", "redis-k6", "deployment"],
+    },
+    {
+      id: "publicai-agent-ax",
+      hidden: true,
+      title: { ko: "퍼블릭에이아이 · AI Agent / AX", en: "PublicAI · AI Agent / AX" },
+      description: {
+        ko: "LLM 게이트웨이·PromptKit·외부 API 장애 대응과 배포 운영을 AI Agent 서비스 개발 관점으로 묶었습니다.",
+        en: "AI-service work spanning an LLM gateway, PromptKit, external API failure handling, real-time UX, and deployment operations.",
+      },
+      coverIntro: {
+        ko: "LLM 호출 구조와 시스템 프롬프트를 서비스 기능으로 만들고, 공급자 한도·오류와 실시간 사용자 경험까지 운영하며 수정했습니다. 엔터프라이즈 AX 실무 경험으로 과장하지 않고 실제 구현 범위를 중심으로 보여줍니다.",
+        en: "I turned LLM routing and system-prompt management into product features, then handled provider limits, failures, and real-time user experience in operation. The portfolio stays within the scope I actually implemented.",
+      },
+      tags: ["ai", "backend", "go", "llm", "devops", "realtime", "admin"],
+      caseIds: ["llm-gateway", "admin-console", "gemini-rate-limit", "realtime-character", "deployment", "auth-evolution"],
+    },
+    {
+      id: "bunkerkids-ai-product",
+      hidden: true,
+      title: { ko: "벙커키즈 · AI Product Engineer", en: "Bunkerkids · AI Product Engineer" },
+      description: {
+        ko: "캐릭터 LLM 제품의 파이프라인·PromptKit·실시간 UX·운영 개선 경험을 중심으로 구성했습니다.",
+        en: "Character-AI product work centered on LLM pipelines, PromptKit, real-time UX, and operational improvement.",
+      },
+      coverIntro: {
+        ko: "캐릭터 채팅 서비스를 직접 운영하며 LLM 공급자 통합, 시스템 프롬프트 조립, 감정·음성 흐름, 모바일 UX와 성능 문제를 함께 다뤘습니다. RAG와 Fine-tuning을 직접 구축한 경험은 별도 보유 경험처럼 표현하지 않습니다.",
+        en: "I operated a character-chat product spanning LLM provider integration, system-prompt composition, emotion and speech flows, mobile UX, and performance. I do not present RAG or fine-tuning as experience I have not implemented directly.",
+      },
+      tags: ["ai", "fullstack", "go", "llm", "realtime", "admin", "performance", "operations"],
+      caseIds: ["llm-gateway", "admin-console", "realtime-character", "mobile-keyboard", "redis-k6", "deployment"],
     },
   ],
 
