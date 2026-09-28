@@ -169,6 +169,22 @@ h3 {
   font-weight: 750;
 }
 
+.external-links a.exam-shortcut {
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+}
+
+.external-links a.exam-shortcut:hover,
+.external-links a.exam-shortcut:focus-visible {
+  border-color: var(--text);
+  color: var(--text);
+  outline: none;
+}
+
 .external-links a:hover {
   color: var(--text);
 }
